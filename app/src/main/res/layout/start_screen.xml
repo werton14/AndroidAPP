@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.vital.myapplication.StartScreen"
-    android:background="@color/colorBase">
+    android:background="@android:color/white">
 
     <LinearLayout
         android:orientation="vertical"
@@ -24,14 +24,13 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:gravity="bottom"
-            android:layout_height="350dp">
+            android:layout_height="400dp">
 
             <Button
-                android:text="Log In"
+                android:text="@string/action_sign_in"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/log_in"
-
                 android:background="@drawable/button_background"
                 android:textColor="@android:color/background_light" />
         </LinearLayout>
@@ -43,7 +42,7 @@
             android:layout_height="60dp">
 
             <Button
-                android:text="Sign Up"
+                android:text="@string/action_sign_in_short"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sign_up"

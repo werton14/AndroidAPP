@@ -2,17 +2,17 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item  android:state_pressed="true">
         <shape>
-            <solid android:color="@color/colorPressed"></solid>
-            <corners android:radius="7dp"></corners></shape>
+            <solid android:color="@color/buttonPressed"></solid>
+            <corners android:radius="10dp"></corners></shape>
     </item>
     <item  android:state_focused="true" >
         <shape>
-            <solid android:color="@color/colorPressed"></solid>
-            <corners android:radius="7dp"></corners></shape>
+            <solid android:color="@color/buttonPressed"></solid>
+            <corners android:radius="10dp"></corners></shape>
     </item>
     <item>
        <shape>
-           <solid android:color="@color/staticbutton"></solid>
-           <corners android:radius="7dp"></corners></shape>
+           <solid android:color="@color/expbutt"></solid>
+           <corners android:radius="10dp"></corners></shape>
     </item>
 </selector>
