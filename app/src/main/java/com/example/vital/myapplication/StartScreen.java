@@ -23,5 +23,15 @@ public class StartScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button signIn = (Button) findViewById(R.id.sign_in);
+
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignupScreen.class);
+                startActivity(intent);
+            }
+        });
     }
 }
