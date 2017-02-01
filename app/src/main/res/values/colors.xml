@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#27578f</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorPressed">#11345c</color>
-    <color name="colorBase">#1b4474</color>
-    <color name="staticbutton">#245084</color>
     <color name="button">#acb2b7</color>
-    <color name="buttonPressed">#a0a4a7</color>
+    <color name="buttonPressed">#303F9F</color>
     <color name="White">#ffffff</color>
-    <color name="ActionBar">#f9f9f9</color>
-    <color name="exp">#E0E0E0</color>
-    <color name="expbutt">#9E9E9E</color>
+    <color name="exp">#3F51B5</color>
+    <color name="expbutt">#3949AB</color>
+    <color name="fon">#f5f5f5</color>
 </resources>
