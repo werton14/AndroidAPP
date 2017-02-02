@@ -73,7 +73,7 @@
             android:text="@string/action_sign_in_short"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
+            android:id="@+id/sing_in"
             android:textColor="@android:color/white"
             android:background="@drawable/button_background" />
 
