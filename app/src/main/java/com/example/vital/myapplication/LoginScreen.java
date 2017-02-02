@@ -16,7 +16,7 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Button singIn = (Button) findViewById(R.id.sing_in);
+        Button singIn = (Button) findViewById(R.id.log_in);
 
         singIn.setOnClickListener(new View.OnClickListener() {
             @Override
