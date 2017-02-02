@@ -16,5 +16,15 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        Button singIn = (Button) findViewById(R.id.sing_in);
+
+        singIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Choose_screen.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
