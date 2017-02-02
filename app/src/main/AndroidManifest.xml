@@ -12,7 +12,8 @@
         android:label="@string/Space"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StartScreen"
+        <activity
+            android:name=".StartScreen"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,10 +42,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StartScreen" />
-
-
-
         </activity>
+        <activity
+            android:name=".Choose_screen"
+            android:label="@string/title_activity_choose_screen"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
