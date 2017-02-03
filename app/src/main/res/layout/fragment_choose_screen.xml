@@ -8,9 +8,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.vital.myapplication.Choose_screen$PlaceholderFragment">
 
-    <TextView
-        android:id="@+id/section_label"
+    <Button
+        android:text="Log out"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button2" />
 </RelativeLayout>
