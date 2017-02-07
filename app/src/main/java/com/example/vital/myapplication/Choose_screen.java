@@ -77,11 +77,11 @@ public class Choose_screen extends AppCompatActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_choose_screen, container, false);
             return rootView;
         }
+
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -93,13 +93,19 @@ public class Choose_screen extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
 
-            return PlaceholderFragment.newInstance(position + 1);
+            switch(position){
+                case 0: return PlaceholderFragment.newInstance(position );
+                case 1 : return  FuckinnTutorial.newInstance(position);
+                // default: return MyFragment.newInstance();
+/* It is better to use default so that it always returns a fragment and no problems would ever occur */
+            }
+            return null;
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
     }

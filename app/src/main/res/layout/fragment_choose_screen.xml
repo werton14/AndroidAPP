@@ -9,7 +9,7 @@
     tools:context="com.example.vital.myapplication.Choose_screen$PlaceholderFragment">
 
     <Button
-        android:text="Log out"
+        android:text="@string/action_log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
