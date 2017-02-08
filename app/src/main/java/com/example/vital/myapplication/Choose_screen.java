@@ -94,12 +94,13 @@ public class Choose_screen extends AppCompatActivity {
         public Fragment getItem(int position) {
 
             switch(position){
-                case 0: return PlaceholderFragment.newInstance(position );
+                case 0: return PlaceholderFragment.newInstance(position);
                 case 1 : return  FuckinnTutorial.newInstance(position);
+                default : return PlaceholderFragment.newInstance(position);
                 // default: return MyFragment.newInstance();
 /* It is better to use default so that it always returns a fragment and no problems would ever occur */
             }
-            return null;
+            // return null;
         }
 
         @Override
