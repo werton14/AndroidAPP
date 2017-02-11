@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.Window;
 import android.widget.TextView;
 
 public class Choose_screen extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class Choose_screen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.choose_screen);
 
         // Create the adapter that will return a fragment for each of the three

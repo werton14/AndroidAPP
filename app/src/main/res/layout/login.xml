@@ -28,7 +28,8 @@
             android:hint="@string/prompt_email"
             android:textColorHint="#bbbbbb"
             android:inputType="textEmailAddress"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:fontFamily="sans-serif-smallcaps" />
 
         <EditText
             android:id="@+id/Password"
@@ -42,7 +43,8 @@
             android:layout_marginBottom="6dp"
             android:inputType="textPassword"
             android:gravity="top"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-smallcaps" />
 
         <Button
             android:id="@+id/log_in"

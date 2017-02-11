@@ -32,7 +32,8 @@
             android:textColorHint="#bbbbbb"
             android:inputType="text"
             android:maxLines="1"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-smallcaps" />
 
         <EditText
             android:id="@+id/email"
@@ -43,7 +44,8 @@
             android:hint="@string/prompt_email"
             android:textColorHint="#bbbbbb"
             android:padding="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-smallcaps" />
 
         <EditText
             android:layout_width="match_parent"
@@ -55,7 +57,8 @@
             android:hint="@string/prompt_password"
             android:textColorHint="#bbbbbb"
             android:id="@+id/password"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-smallcaps" />
 
         <EditText
             android:layout_width="match_parent"
@@ -67,7 +70,8 @@
             android:hint="@string/prompt_repeat_password"
             android:textColorHint="#bbbbbb"
             android:id="@+id/repeat_password"
-            android:layout_marginBottom="6dp" />
+            android:layout_marginBottom="6dp"
+            android:fontFamily="sans-serif-smallcaps" />
 
         <Button
             android:text="@string/action_sign_in_short"
