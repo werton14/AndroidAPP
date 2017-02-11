@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 
 /**
@@ -14,6 +17,18 @@ import android.view.ViewGroup;
 public class CameraFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.first_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_choose_screen, container, false);
+
+        Button logOut = (Button) rootView.findViewById(R.id.log_out);
+
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
+
+
+        return  rootView;
     }
 }
