@@ -28,4 +28,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="CentralPage" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/dark</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

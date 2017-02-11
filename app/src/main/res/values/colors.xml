@@ -7,4 +7,5 @@
     <color name="fon">#f5f5f5</color>
     <color name="scroll_page">#FFB300</color>
     <color name="photo_page">#e91e63</color>
+    <color name="dark">#000000</color>
 </resources>
