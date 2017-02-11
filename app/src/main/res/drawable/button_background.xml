@@ -12,7 +12,7 @@
     </item>
     <item>
        <shape>
-           <solid android:color="@color/expbutt"></solid>
+           <solid android:color="@color/NoPressedButton"></solid>
            <corners android:radius="10dp"></corners></shape>
     </item>
 </selector>

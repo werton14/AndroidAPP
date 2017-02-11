@@ -1,9 +1,8 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/exp</item>
-        <item name="colorPrimaryDark">@color/exp</item>
-        <item name="colorAccent">@color/button</item>
+        <item name="colorPrimary">@color/BasicColor</item>
+        <item name="colorPrimaryDark">@color/BasicColor</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,7 +12,13 @@
     </style>
 
     <style name="AppTheme.New" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimaryDark">@color/exp</item>
+        <item name="colorPrimaryDark">@color/BasicColor</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ScrollPage" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/scroll_page</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
