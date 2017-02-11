@@ -12,7 +12,7 @@
         android:text="@string/action_log_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/log_out"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/button2" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
