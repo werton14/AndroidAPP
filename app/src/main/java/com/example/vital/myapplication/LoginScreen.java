@@ -83,7 +83,7 @@ public class LoginScreen extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
         });
     }
