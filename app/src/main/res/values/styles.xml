@@ -22,4 +22,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="CameraPage" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/photo_page</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>
