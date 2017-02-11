@@ -4,11 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
@@ -39,17 +47,22 @@ public class LoginScreen extends AppCompatActivity {
         };
 
         final Button signIn = (Button) findViewById(R.id.log_in);
-        final EditText email = (EditText) findViewById(R.id.Email);
-        final EditText password = (EditText) findViewById(R.id.Password);
+        final EditText editEmail = (EditText) findViewById(R.id.Email);
+        final EditText editPassword = (EditText) findViewById(R.id.Password);
 
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signInWithEmailAndPassword(email.getText().toString(), password.getText().toString());
+                if(TextUtils.isEmpty(editEmail.getText().toString())){
+                    editEmail.setError("This field cannot be empty!");
+                }if(TextUtils.isEmpty(editPassword.getText().toString())){
+                    editPassword.setError("This field cannot be empty!");
+                }if(!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())){
+                    signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
+                }
             }
         });
-
     }
 
     @Override
@@ -66,7 +79,12 @@ public class LoginScreen extends AppCompatActivity {
         }
     }
 
-    private void signInWithEmailAndPassword(String email, String password){
-        mAuth.signInWithEmailAndPassword(email, password);
+    private void signInWithEmailAndPassword(final String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        })
     }
 }
