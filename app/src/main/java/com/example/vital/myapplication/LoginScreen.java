@@ -84,7 +84,7 @@ public class LoginScreen extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
 
-            }
-        })
+        }
+        });
     }
 }

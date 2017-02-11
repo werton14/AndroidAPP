@@ -48,5 +48,6 @@
             android:label="@string/title_activity_choose_screen"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        
     </application>
 </manifest>
