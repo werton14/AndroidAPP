@@ -6,4 +6,9 @@
     android:weightSum="1"
     android:background="@color/scroll_page">
 
+    <Button
+        android:text="Button"
+        android:layout_width="139dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2" />
 </LinearLayout>
