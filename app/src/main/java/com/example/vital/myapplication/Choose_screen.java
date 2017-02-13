@@ -25,4 +25,6 @@ public class Choose_screen extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
+
+
 }

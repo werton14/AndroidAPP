@@ -47,9 +47,11 @@
             android:name=".Choose_screen"
             android:label="@string/title_activity_choose_screen"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity android:name=".MainPage"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:label="@string/Space"
+            android:theme="@style/AppTheme.New">
         </activity>
         
     </application>

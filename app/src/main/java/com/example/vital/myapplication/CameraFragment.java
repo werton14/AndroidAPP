@@ -10,13 +10,10 @@ import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-/**
- * Created by qwert on 11.02.2017.
- */
-
 public class CameraFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_choose_screen, container, false);
 
         Button logOut = (Button) rootView.findViewById(R.id.log_out);

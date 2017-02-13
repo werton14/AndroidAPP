@@ -15,7 +15,7 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.first_fragment, container, false);
-        Button tempButton = (Button) rootView.findViewById(R.id.button_2);
+        Button tempButton = (Button) rootView.findViewById(R.id.button2);
 
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,5 +26,7 @@ public class FirstFragment extends Fragment {
         });
         return  rootView;
     }
+
+
 }
 
