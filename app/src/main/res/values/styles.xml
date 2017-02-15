@@ -5,11 +5,6 @@
         <item name="colorPrimaryDark">@color/BasicColor</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="AppTheme.New" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimaryDark">@color/BasicColor</item>
         <item name="windowActionBar">false</item>
@@ -20,6 +15,8 @@
         <item name="colorPrimaryDark">@color/scroll_page</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="actionBarTheme">@style/ScrollPage</item>
+        <item name="actionBarStyle">@style/ScrollPage</item>
     </style>
 
     <style name="CameraPage" parent="Theme.AppCompat.Light.DarkActionBar">
