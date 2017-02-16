@@ -12,7 +12,7 @@ public class ActivityScroll extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scroll_and_bottomnavigation_page);
+        setContentView(R.layout.activityscroll);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setCustomView(R.layout.toolbar);

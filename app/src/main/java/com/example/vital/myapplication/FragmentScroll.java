@@ -21,7 +21,7 @@ public class FragmentScroll extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
-        return inflater.inflate(R.layout.scroll_fragment, container, false);
+        return inflater.inflate(R.layout.fragmentscroll, container, false);
     }
 
 
