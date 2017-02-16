@@ -3,7 +3,7 @@ package com.example.vital.myapplication;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class NicknameActivity extends AppCompatActivity {
+public class ActivityNickname extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

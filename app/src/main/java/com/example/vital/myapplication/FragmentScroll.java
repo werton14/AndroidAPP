@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  * Created by qwert on 12.02.2017.
  */
 
-public class SecondFragment extends Fragment {
+public class FragmentScroll extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class SecondFragment extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
-        return inflater.inflate(R.layout.second_fragment, container, false);
+        return inflater.inflate(R.layout.scroll_fragment, container, false);
     }
 
 

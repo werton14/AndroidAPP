@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 
 
-public class MainPage extends AppCompatActivity {
+public class ActivityScroll extends AppCompatActivity {
 
 
     @Override

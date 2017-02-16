@@ -17,9 +17,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0 : return  new SecondFragment();
-            case 1 : return  new FirstFragment();
-            case 2 : return  new CameraFragment();
+            case 0 : return  new FragmentScroll();
+            case 1 : return  new FragmentChoose();
+            case 2 : return  new FragmentCamera();
         }
         return  null;
     }

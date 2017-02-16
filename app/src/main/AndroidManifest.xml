@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
         <activity
-            android:name=".StartScreen"
+            android:name=".ActivityStart"
             android:theme="@style/AppTheme.New">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,13 +21,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginScreen"
+            android:name=".ActivityLogin"
             android:label="@string/action_sign_in"
-            android:parentActivityName=".StartScreen"
+            android:parentActivityName=".ActivityStart"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StartScreen" />
+                android:value=".ActivityStart" />
             <intent-filter>
                 <action android:name="android.intent.action.RUN" />
 
@@ -35,29 +35,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignupScreen"
+            android:name=".ActivitySignUp"
             android:label="@string/action_sign_in_short"
-            android:parentActivityName=".StartScreen"
+            android:parentActivityName=".ActivityStart"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StartScreen" />
+                android:value=".ActivityStart" />
         </activity>
         <activity
-            android:name=".Choose_screen"
+            android:name=".ActivityChoose"
             android:label="@string/title_activity_choose_screen"
             android:theme="@style/AppTheme.New"></activity>
         <activity
-            android:name=".MainPage"
+            android:name=".ActivityScroll"
             android:label="@string/Space"
             android:theme="@style/AppTheme.New"></activity>
-        <activity android:name=".NicknameActivity"
+        <activity android:name=".ActivityNickname"
             android:theme="@style/AppTheme"
             android:label="@string/action_sign_in_short"
-            android:parentActivityName=".SignupScreen">
+            android:parentActivityName=".ActivitySignUp">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SignupScreen" />
+                android:value=".ActivitySignUp" />
         </activity>
     </application>
 

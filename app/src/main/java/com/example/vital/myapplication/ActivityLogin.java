@@ -5,25 +5,20 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by vital on 11.12.2016.
  */
 
-public class LoginScreen extends AppCompatActivity {
+public class ActivityLogin extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -40,7 +35,7 @@ public class LoginScreen extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
-                    Intent intent = new Intent(getApplicationContext(), Choose_screen.class);
+                    Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
                     startActivity(intent);
                 }
             }

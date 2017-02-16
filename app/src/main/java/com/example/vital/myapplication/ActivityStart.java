@@ -5,13 +5,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class StartScreen extends AppCompatActivity {
+public class ActivityStart extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -29,7 +28,7 @@ public class StartScreen extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
-                    Intent intent = new Intent(getApplicationContext(), Choose_screen.class);
+                    Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
                     startActivity(intent);
                 }
             }
@@ -41,7 +40,7 @@ public class StartScreen extends AppCompatActivity {
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
+                Intent intent = new Intent(getApplicationContext(), ActivityLogin.class);
                 startActivity(intent);
             }
         });
@@ -51,7 +50,7 @@ public class StartScreen extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignupScreen.class);
+                Intent intent = new Intent(getApplicationContext(), ActivitySignUp.class);
                 startActivity(intent);
             }
         });
