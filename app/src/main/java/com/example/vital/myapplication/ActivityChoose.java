@@ -36,6 +36,14 @@ public class ActivityChoose extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
+
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                mViewPager.setCurrentItem(1);
+            }
+        };
         onPageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -44,16 +52,15 @@ public class ActivityChoose extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+
                 if(position == 2) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, GET_PHOTO_REQUEST);
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mViewPager.setCurrentItem(1);
-                        }
-                    }, 1000);
+                    handler.postDelayed(runnable, 1000);
+                }if(position == 0){
+                    Intent intent = new Intent(getApplicationContext(), ActivityScroll.class);
+                    startActivity(intent);
+                    handler.postDelayed(runnable, 1000);
                 }
             }
 
