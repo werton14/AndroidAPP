@@ -29,9 +29,8 @@
             android:layout_width="150dp"
             android:layout_height="150dp">
 
-
             <ImageButton
-                app:srcCompat="@mipmap/new_photo"
+                app:srcCompat="@mipmap/alpha2"
                 android:id="@+id/imageButton"
                 android:background="@null"
                 android:scaleType="fitCenter"
