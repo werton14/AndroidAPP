@@ -30,7 +30,7 @@
 
 
             <ImageButton
-                app:srcCompat="@mipmap/final"
+                app:srcCompat="@mipmap/new_photo"
                 android:id="@+id/imageButton"
                 android:background="@null"
                 android:scaleType="fitCenter"
@@ -54,7 +54,7 @@
                 android:padding="10dp"
                 android:textColorHint="#bbbbbb"
                 android:fontFamily="sans-serif-smallcaps"
-                android:id="@+id/editText"
+                android:id="@+id/nickname"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp" />
 
@@ -63,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
                 android:text="@string/End"
-                android:textColor="@color/White" />
+                android:textColor="@color/White"
+                android:id="@+id/finish" />
         </LinearLayout>
 
     </LinearLayout>
