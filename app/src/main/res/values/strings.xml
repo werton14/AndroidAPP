@@ -10,7 +10,7 @@
     <string name="Nickname">Nickname</string>
     <string name="Firstname">First name</string>
     <string name="Secondname">Second name</string>
-    <string name="Space"></string>
+    <string name="Space"> </string>
     <string name="Next">Next</string>
     <string name="Imago">Imago</string>
     <string name="action_sign_in_short">Sign in</string>
