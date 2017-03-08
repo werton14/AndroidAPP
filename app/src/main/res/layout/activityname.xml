@@ -31,7 +31,7 @@
 
             <ImageButton
                 app:srcCompat="@mipmap/alpha2"
-                android:id="@+id/imageButton"
+                android:id="@+id/choose_image_from_gallery"
                 android:background="@null"
                 android:scaleType="fitCenter"
                 android:layout_width="150dp"
