@@ -32,7 +32,7 @@
             <ImageButton
                 app:srcCompat="@mipmap/alpha2"
                 android:id="@+id/choose_image_from_gallery"
-                android:background="@null"
+                android:background="@drawable/edittext_bottom_bg"
                 android:scaleType="fitCenter"
                 android:layout_width="150dp"
                 android:layout_height="150dp" />
