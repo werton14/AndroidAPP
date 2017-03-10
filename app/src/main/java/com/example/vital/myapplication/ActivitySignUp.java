@@ -19,7 +19,6 @@ public class ActivitySignUp extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
-    private EditText editNickname;
     private EditText editEmail;
     private EditText editPassword;
     private EditText editPasswordRepeat;

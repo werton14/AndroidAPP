@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true">
         <activity
-            android:name=".ActivityStart"
+            android:name=".ActivityNickname"
             android:theme="@style/AppTheme.New">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,7 +51,7 @@
             android:name=".ActivityScroll"
             android:label="@string/Space"
             android:theme="@style/AppTheme.New"></activity>
-        <activity android:name=".ActivityNickname"
+        <activity android:name=".ActivityStart"
             android:theme="@style/AppTheme"
             android:label="@string/action_sign_in_short"
             android:parentActivityName=".ActivitySignUp">
