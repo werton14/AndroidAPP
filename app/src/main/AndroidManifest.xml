@@ -13,7 +13,7 @@
         android:supportsRtl="true">
         <activity
             android:name=".ActivityNickname"
-            android:theme="@style/AppTheme.New">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,6 +63,10 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".ActivityPrototypeScroll"
+            android:label="@string/Space"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
