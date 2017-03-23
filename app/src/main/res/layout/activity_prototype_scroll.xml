@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_prototype_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/without_margin"
+    android:paddingLeft="@dimen/without_margin"
+    android:paddingRight="@dimen/without_margin"
+    android:paddingTop="@dimen/without_margin"
+    tools:context="com.example.vital.myapplication.ActivityPrototypeScroll"
+    android:background="@color/fon">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:id="@+id/Parentlayout"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bottom_bg"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin">
+
+            <ImageView
+                app:srcCompat="@drawable/ic_user_image_with_black_background"
+                android:id="@+id/imageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/textView"
+                android:layout_weight="1"
+                android:text="mr_nagibator2008"
+                android:fontFamily="cursive"
+                android:typeface="normal"
+                android:textSize="30sp"
+                android:textAlignment="viewStart"
+                android:textColor="@color/dark"
+                android:layout_marginTop="7dp"
+                android:textStyle="normal|bold"
+                android:layout_marginLeft="7dp"
+                android:layout_height="36dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                app:srcCompat="@drawable/ic_picture"
+                android:id="@+id/imageView2"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="320dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin">
+
+            <ImageButton
+                app:srcCompat="@drawable/ic_heart_sketch"
+                android:id="@+id/like"
+                android:background="@color/fon"
+                android:scaleType="fitCenter"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:text="322"
+                android:layout_width="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="7dp"
+                android:fontFamily="casual" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
