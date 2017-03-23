@@ -22,7 +22,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:background="@drawable/edittext_bottom_bg"
+
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
