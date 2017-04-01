@@ -1,12 +1,20 @@
 package com.example.vital.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +26,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.yalantis.ucrop.UCrop;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -45,7 +54,6 @@ public class ActivityNickname extends AppCompatActivity {
 
         image = null;
         firebaseStorage = FirebaseStorage.getInstance();
-
         chooseImageFromGalleryButton = (ImageButton) findViewById(R.id.choose_image_from_gallery);
         chooseImageFromGalleryButton.setOnClickListener(getGalleryButtonOnClickListener());
 
@@ -57,11 +65,11 @@ public class ActivityNickname extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == PHOTO_FROM_GALLERY_REQUEST && resultCode == RESULT_OK) {
             Uri selectedImage = data.getData();
-            chooseImageFromGalleryButton.setImageURI(selectedImage);
             cropPic(selectedImage);
-        }if(requestCode == UCrop.REQUEST_CROP && requestCode == RESULT_OK){
-            Uri selectedImage = UCrop.getOutput(data);
-            savePic(selectedImage);
+        }if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            Uri croppedImage = result.getUri();
+            savePic(croppedImage);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -77,11 +85,26 @@ public class ActivityNickname extends AppCompatActivity {
     }
 
     private void cropPic(Uri selectedImage){
-        UCrop.Options options = new UCrop.Options();
-        options.setCircleDimmedLayer(true);
-        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
-        Uri whereWrite = null;
-        UCrop.of(selectedImage, whereWrite).start(ActivityNickname.this);
+        CropImage.activity(selectedImage).setGuidelines(CropImageView.Guidelines.ON).setCropShape(CropImageView.CropShape.OVAL).setAspectRatio(1, 1).start(this);
+    }
+
+    public Bitmap getCroppedBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
+                bitmap.getWidth() / 2, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
     }
 
     private void savePic(Uri selectedImage){
@@ -93,8 +116,10 @@ public class ActivityNickname extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        img = getCroppedBitmap(img);
+        chooseImageFromGalleryButton.setImageBitmap(img);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        img.compress(Bitmap.CompressFormat.PNG, 100, baos);
         image = baos.toByteArray();
     }
 
@@ -103,7 +128,7 @@ public class ActivityNickname extends AppCompatActivity {
         return  uploadTask;
     }
 
-    private boolean fieldIsComplete(){
+    private boolean fieldsIsComplete(){
         return firstNameEdit.getText().toString().trim().length() > 3 &&
                 secondNameEdit.getText().toString().trim().length() > 3;
     }
@@ -112,9 +137,9 @@ public class ActivityNickname extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StorageReference reference = firebaseStorage.getReference().child("userProfileImage").child("work.jpg");
+                StorageReference reference = firebaseStorage.getReference().child("userProfileImage").child("work.png");
                 UploadTask uploadPic = uploadPic(reference);
-                if (uploadPic.isSuccessful() && fieldIsComplete()) {
+                if (uploadPic.isSuccessful() && fieldsIsComplete()) {
                     UserProfileChangeRequest.Builder userProfileChangeRequest = new UserProfileChangeRequest.Builder();
                     userProfileChangeRequest.setDisplayName(getNickName());
                     userProfileChangeRequest.setPhotoUri(uploadPic.getResult().getDownloadUrl());

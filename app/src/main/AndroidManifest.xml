@@ -13,7 +13,6 @@
         android:supportsRtl="true">
         <activity
             android:name=".ActivityNickname"
-            android:label="@string/Space"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +28,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivityStart" />
-
             <intent-filter>
                 <action android:name="android.intent.action.RUN" />
 
@@ -48,16 +46,15 @@
         <activity
             android:name=".ActivityChoose"
             android:label="@string/title_activity_choose_screen"
-            android:theme="@style/AppTheme.New" />
+            android:theme="@style/AppTheme.New"></activity>
         <activity
             android:name=".ActivityScroll"
             android:label="@string/Space"
-            android:theme="@style/AppTheme.New" />
-        <activity
-            android:name=".ActivityStart"
+            android:theme="@style/AppTheme.New"></activity>
+        <activity android:name=".ActivityStart"
+            android:theme="@style/AppTheme"
             android:label="@string/action_sign_in_short"
-            android:parentActivityName=".ActivitySignUp"
-            android:theme="@style/AppTheme.New">
+            android:parentActivityName=".ActivitySignUp">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivitySignUp" />
@@ -65,16 +62,11 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ActivityPrototypeScroll"
             android:label="@string/Space"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ActivityPersonalDate"
-            android:theme="@style/AppTheme.New"
-            android:label="@string/Space">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
