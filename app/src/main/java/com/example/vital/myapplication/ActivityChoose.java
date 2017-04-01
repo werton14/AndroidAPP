@@ -3,6 +3,7 @@ package com.example.vital.myapplication;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -23,8 +24,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 public class ActivityChoose extends AppCompatActivity {
@@ -36,6 +40,7 @@ public class ActivityChoose extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private byte image[];
     private String fileName;
+    private Uri fileForNewPhoto;
 
     static final int GET_PHOTO_REQUEST = 1;
 
@@ -77,7 +82,7 @@ public class ActivityChoose extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GET_PHOTO_REQUEST && resultCode == RESULT_OK){
-            savePic((Bitmap) data.getExtras().get("data"));
+            savePic(fileForNewPhoto);
             uploadPic();
         }
 
@@ -108,6 +113,8 @@ public class ActivityChoose extends AppCompatActivity {
 
                 if (position == 2) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    fileForNewPhoto = Uri.fromFile(getOutputMediaFile());
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fileForNewPhoto);
                     startActivityForResult(intent, GET_PHOTO_REQUEST);
                     handler.postDelayed(runnable, 1000);
                 }
@@ -148,15 +155,39 @@ public class ActivityChoose extends AppCompatActivity {
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 DatabaseReference savePicList = FirebaseDatabase.getInstance().getReference().child("image").push();
                 savePicList.child("userId").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                savePicList.child("photoStorageId").setValue(fileName);
                 DatabaseReference savePicId = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                savePicId.child("photoId").setValue(savePicId.getKey());
+                savePicId.child("photoId").setValue(savePicList.getKey());
             }
         });
     }
 
-    private void savePic(Bitmap img){
+    private void savePic(Uri selectedImage){
+        Bitmap img = null;
+        try {
+            img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         image = baos.toByteArray();
+    }
+
+    private static File getOutputMediaFile(){
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "CameraDemo");
+
+        if (!mediaStorageDir.exists()){
+            if (!mediaStorageDir.mkdirs()){
+                return null;
+            }
+        }
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_"+ timeStamp + ".jpg");
     }
 }
