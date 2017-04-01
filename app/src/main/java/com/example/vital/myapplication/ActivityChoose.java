@@ -1,15 +1,31 @@
 package com.example.vital.myapplication;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.UUID;
 
 public class ActivityChoose extends AppCompatActivity {
 
@@ -18,6 +34,8 @@ public class ActivityChoose extends AppCompatActivity {
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseAuth mAuth;
+    private byte image[];
+    private String fileName;
 
     static final int GET_PHOTO_REQUEST = 1;
 
@@ -36,6 +54,7 @@ public class ActivityChoose extends AppCompatActivity {
         onPageChangeListener = this.getOnPageListener();
         mAuth = FirebaseAuth.getInstance();
         authStateListener = this.getAuthStateListener();
+        fileName = UUID.randomUUID().toString() + ".jpg";
     }
 
     @Override
@@ -57,6 +76,19 @@ public class ActivityChoose extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GET_PHOTO_REQUEST && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+            Log.w("Hi", uri.toString());
+            //savePic(data.getData());
+            //uploadPic();
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        moveTaskToBack(true);
     }
 
     private ViewPager.OnPageChangeListener getOnPageListener() {
@@ -95,6 +127,7 @@ public class ActivityChoose extends AppCompatActivity {
         };
     }
 
+
     private FirebaseAuth.AuthStateListener getAuthStateListener(){
         return new FirebaseAuth.AuthStateListener() {
 
@@ -107,5 +140,33 @@ public class ActivityChoose extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    void uploadPic(){
+        StorageReference reference = FirebaseStorage.getInstance().getReference().child("image").child(fileName);
+        UploadTask uploadTask = reference.putBytes(image);
+        uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                DatabaseReference savePicList = FirebaseDatabase.getInstance().getReference().child("image").push();
+                savePicList.child("userId").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                DatabaseReference savePicId = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                savePicId.child("photoId").setValue(savePicId.getKey());
+            }
+        });
+    }
+
+    private void savePic(Uri selectedImage){
+        Bitmap img = null;
+        try {
+            img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        image = baos.toByteArray();
     }
 }

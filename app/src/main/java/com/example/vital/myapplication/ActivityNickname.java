@@ -1,6 +1,5 @@
 package com.example.vital.myapplication;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,21 +7,23 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -32,16 +33,22 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.UUID;
 
 public class ActivityNickname extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage firebaseStorage;
-    private FirebaseUser firebaseUser;
     private byte image [];
     private EditText firstNameEdit;
     private EditText secondNameEdit;
     private ImageButton chooseImageFromGalleryButton;
+    private DatabaseReference uploadUrlReference;
+    private DatabaseReference saveUrl;
+    private DatabaseReference usernameReference;
+    private DatabaseReference usernameListReference;
+    private String fileName;
+
 
     final private int PHOTO_FROM_GALLERY_REQUEST = 233;
 
@@ -50,12 +57,17 @@ public class ActivityNickname extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityname);
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
 
+        fileName = UUID.randomUUID().toString() + ".png";
+        uploadUrlReference = FirebaseDatabase.getInstance().getReference().child("userProfilePhotoUrl").push();
+        saveUrl = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("profilePhotoUrl");
+        usernameReference = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("username");
+        usernameListReference = FirebaseDatabase.getInstance().getReference().child("usernames");
         image = null;
         firebaseStorage = FirebaseStorage.getInstance();
         chooseImageFromGalleryButton = (ImageButton) findViewById(R.id.choose_image_from_gallery);
         chooseImageFromGalleryButton.setOnClickListener(getGalleryButtonOnClickListener());
+        firstNameEdit = (EditText) findViewById(R.id.firstname);
 
         Button finish = (Button) findViewById(R.id.finish);
         finish.setOnClickListener(getFinishButtonOnClickListener());
@@ -137,14 +149,22 @@ public class ActivityNickname extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StorageReference reference = firebaseStorage.getReference().child("userProfileImage").child("work.png");
-                UploadTask uploadPic = uploadPic(reference);
-                if (uploadPic.isSuccessful() && fieldsIsComplete()) {
-                    UserProfileChangeRequest.Builder userProfileChangeRequest = new UserProfileChangeRequest.Builder();
-                    userProfileChangeRequest.setDisplayName(getNickName());
-                    userProfileChangeRequest.setPhotoUri(uploadPic.getResult().getDownloadUrl());
-                    firebaseUser.updateProfile(userProfileChangeRequest.build());
-                }
+
+                StorageReference reference = firebaseStorage.getReference().child("userProfileImage").child(fileName);
+                final UploadTask uploadPic = uploadPic(reference);
+                uploadPic.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            uploadUrlReference.setValue(fileName);
+                            saveUrl.setValue(uploadUrlReference.getKey());
+                            usernameReference.setValue(firstNameEdit.getText().toString());
+                            usernameListReference.child(firstNameEdit.getText().toString()).setValue(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                            Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
             }
         };
     }
