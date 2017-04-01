@@ -79,7 +79,7 @@
             android:layout_marginBottom="10dp">
 
             <ImageButton
-                app:srcCompat="@drawable/ic_heart_sketch"
+                app:srcCompat="@drawable/ic_heart_sketchblack"
                 android:id="@+id/like"
                 android:background="@color/fon"
                 android:scaleType="fitCenter"
@@ -94,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:layout_marginLeft="7dp"
-                android:fontFamily="casual" />
+                android:fontFamily="casual"
+                android:textColor="@color/dark" />
 
         </LinearLayout>
 

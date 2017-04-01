@@ -12,6 +12,7 @@
     <string name="Next">Next</string>
     <string name="Publications">Publications</string>
     <string name="Commend">Commends</string>
+    <string name="Like">Likes</string>
     <string name="Imago">Imago</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
