@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/Parentlayout"
         android:layout_width="match_parent"
         android:layout_alignParentTop="true"
@@ -30,11 +30,13 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin">
 
-            <ImageView
-                app:srcCompat="@drawable/ic_user_image_with_black_background"
-                android:id="@+id/imageView"
+            <ImageButton
+
                 android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/ic_user_image_with_black_background"
+                android:background="@color/fon"
+                android:scaleType="fitCenter" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,9 +64,9 @@
                 app:srcCompat="@drawable/ic_picture"
                 android:id="@+id/imageView2"
                 android:layout_weight="1"
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="320dp" />
+                android:layout_height="320dp"
+                android:cropToPadding="false" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,7 +75,8 @@
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_marginTop="10dp"
-            android:paddingLeft="@dimen/activity_horizontal_margin">
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="10dp">
 
             <ImageButton
                 app:srcCompat="@drawable/ic_heart_sketch"
@@ -95,6 +98,10 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
 
+    </LinearLayout>
 </RelativeLayout>
