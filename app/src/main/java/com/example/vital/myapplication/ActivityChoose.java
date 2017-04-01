@@ -77,10 +77,8 @@ public class ActivityChoose extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GET_PHOTO_REQUEST && resultCode == RESULT_OK){
-            Uri uri = data.getData();
-            Log.w("Hi", uri.toString());
-            //savePic(data.getData());
-            //uploadPic();
+            savePic((Bitmap) data.getExtras().get("data"));
+            uploadPic();
         }
 
     }
@@ -156,15 +154,7 @@ public class ActivityChoose extends AppCompatActivity {
         });
     }
 
-    private void savePic(Uri selectedImage){
-        Bitmap img = null;
-        try {
-            img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void savePic(Bitmap img){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         image = baos.toByteArray();

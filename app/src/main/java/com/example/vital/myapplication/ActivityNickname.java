@@ -90,10 +90,8 @@ public class ActivityNickname extends AppCompatActivity {
         firstNameEdit = (EditText) findViewById(R.id.firstname);
         String firstName = firstNameEdit.getText().toString().trim();
 
-        secondNameEdit = (EditText) findViewById(R.id.secondname);
-        String secondName = secondNameEdit.getText().toString().trim();
 
-        return firstName + ' ' + secondName;
+        return firstName;
     }
 
     private void cropPic(Uri selectedImage){
