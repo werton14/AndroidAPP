@@ -36,11 +36,14 @@ public class ActivityChoose extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener onPageChangeListener;
+    private Uri fileForNewPhoto;
+
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseAuth mAuth;
-    private byte image[];
-    private String fileName;
-    private Uri fileForNewPhoto;
+    private DatabaseReference savePicList;
+    DatabaseReference savePicId;
+    private String storageFileName;
+    private String userId;
 
     static final int GET_PHOTO_REQUEST = 1;
 
@@ -57,9 +60,8 @@ public class ActivityChoose extends AppCompatActivity {
         mViewPager.setCurrentItem(1);
 
         onPageChangeListener = this.getOnPageListener();
-        mAuth = FirebaseAuth.getInstance();
-        authStateListener = this.getAuthStateListener();
-        fileName = UUID.randomUUID().toString() + ".jpg";
+
+        initFirebaseComponent();
     }
 
     @Override
@@ -82,10 +84,8 @@ public class ActivityChoose extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == GET_PHOTO_REQUEST && resultCode == RESULT_OK){
-            savePic(fileForNewPhoto);
-            uploadPic();
+            uploadPic(fileForNewPhoto);
         }
-
     }
 
     @Override
@@ -132,7 +132,6 @@ public class ActivityChoose extends AppCompatActivity {
         };
     }
 
-
     private FirebaseAuth.AuthStateListener getAuthStateListener(){
         return new FirebaseAuth.AuthStateListener() {
 
@@ -147,22 +146,7 @@ public class ActivityChoose extends AppCompatActivity {
         };
     }
 
-    void uploadPic(){
-        StorageReference reference = FirebaseStorage.getInstance().getReference().child("image").child(fileName);
-        UploadTask uploadTask = reference.putBytes(image);
-        uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                DatabaseReference savePicList = FirebaseDatabase.getInstance().getReference().child("image").push();
-                savePicList.child("userId").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                savePicList.child("photoStorageId").setValue(fileName);
-                DatabaseReference savePicId = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                savePicId.child("photoId").setValue(savePicList.getKey());
-            }
-        });
-    }
-
-    private void savePic(Uri selectedImage){
+    void uploadPic(Uri selectedImage){
         Bitmap img = null;
         try {
             img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
@@ -173,7 +157,28 @@ public class ActivityChoose extends AppCompatActivity {
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        image = baos.toByteArray();
+        byte image[] = baos.toByteArray();
+
+        StorageReference reference = FirebaseStorage.getInstance().getReference().child("image").child(storageFileName);
+        UploadTask uploadTask = reference.putBytes(image);
+        uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                savePicList.child("userId").setValue(userId);
+                savePicList.child("photoStorageId").setValue(storageFileName);
+                savePicList.child("likesCount").setValue(0);
+                savePicId.setValue(savePicList.getKey());
+            }
+        });
+    }
+
+    private void initFirebaseComponent(){
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        storageFileName = UUID.randomUUID().toString() + ".jpg";
+        mAuth = FirebaseAuth.getInstance();
+        authStateListener = getAuthStateListener();
+        savePicList = FirebaseDatabase.getInstance().getReference().child("image").push();
+        savePicId = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("photoId");
     }
 
     private static File getOutputMediaFile(){

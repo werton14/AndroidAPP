@@ -7,14 +7,17 @@
     <include android:id="@+id/toolbar"
         layout="@layout/toolbar"></include>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <com.example.vital.myapplication.InteractiveScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollview">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></LinearLayout>
-        </ScrollView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollLayout"></LinearLayout>
+    </com.example.vital.myapplication.InteractiveScrollView>
+
 </LinearLayout>
 

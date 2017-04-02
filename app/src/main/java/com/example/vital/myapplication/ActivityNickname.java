@@ -1,5 +1,6 @@
 package com.example.vital.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -139,6 +140,7 @@ public class ActivityNickname extends AppCompatActivity {
     public void onFinishButtonClick(View view){
         if (uploadProfileImage != null && uploadProfileImage.isSuccessful() && nickNamefieldIsComplete()) {
             uploadUrlReference.setValue(storageFileName);
+            final Activity activity = this;
             usernameReference.setValue(getNickName()).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -146,6 +148,7 @@ public class ActivityNickname extends AppCompatActivity {
                         usernameListReference.child(getNickName()).setValue(userId);
                         Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
                         startActivity(intent);
+                        activity.finish();
                     }else{
                         nickNameEdit.setError("A user with this name already exist!");
                     }
