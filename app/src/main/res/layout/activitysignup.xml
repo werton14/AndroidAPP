@@ -77,8 +77,8 @@
             android:gravity="right"
             android:text="this is init sentence"
             android:textSize="20sp"
-            app:colorSpace="150dp"
-            app:colorSpeed="4dp"/>
+            app:colorSpace="100dp"
+            app:colorSpeed="5dp"/>
 
     </LinearLayout>
 

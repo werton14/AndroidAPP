@@ -34,7 +34,7 @@
 
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@drawable/ic_user_image_with_black_background"
+                app:srcCompat="@mipmap/photo"
                 android:background="@color/fon"
                 android:scaleType="fitCenter" />
 
@@ -61,12 +61,12 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                app:srcCompat="@drawable/ic_picture"
                 android:id="@+id/imageView2"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="320dp"
-                android:cropToPadding="false" />
+                android:cropToPadding="false"
+                android:background="@color/backgroungforpicture" />
         </LinearLayout>
 
         <LinearLayout
