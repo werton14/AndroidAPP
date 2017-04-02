@@ -31,6 +31,7 @@
 
             <ImageButton
                 app:srcCompat="@drawable/ic_user"
+                android:onClick="onChooseImageFromGalleryButtonClick"
                 android:id="@+id/choose_image_from_gallery"
                 android:background="@drawable/edittext_bottom_bg"
                 android:scaleType="fitCenter"
@@ -54,11 +55,12 @@
                 android:padding="10dp"
                 android:textColorHint="#bbbbbb"
                 android:fontFamily="sans-serif-smallcaps"
-                android:id="@+id/firstname"
+                android:id="@+id/nicknameEdit"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="15dp" />
 
             <Button
+                android:onClick="onFinishButtonClick"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"

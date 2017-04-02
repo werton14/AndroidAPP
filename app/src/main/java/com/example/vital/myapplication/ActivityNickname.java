@@ -14,14 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,20 +33,21 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.UUID;
 
+
+
 public class ActivityNickname extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseStorage firebaseStorage;
-    private byte image [];
-    private EditText firstNameEdit;
-    private EditText secondNameEdit;
+    private EditText nickNameEdit;
     private ImageButton chooseImageFromGalleryButton;
+
+    private StorageReference storageReference;
     private DatabaseReference uploadUrlReference;
     private DatabaseReference saveUrl;
     private DatabaseReference usernameReference;
     private DatabaseReference usernameListReference;
-    private String fileName;
-
+    private UploadTask uploadProfileImage;
+    private String userId;
+    private String storageFileName;
 
     final private int PHOTO_FROM_GALLERY_REQUEST = 233;
 
@@ -56,45 +55,41 @@ public class ActivityNickname extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityname);
-        firebaseAuth = FirebaseAuth.getInstance();
 
-        fileName = UUID.randomUUID().toString() + ".png";
-        uploadUrlReference = FirebaseDatabase.getInstance().getReference().child("userProfilePhotoUrl").push();
-        saveUrl = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("profilePhotoUrl");
-        usernameReference = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("username");
-        usernameListReference = FirebaseDatabase.getInstance().getReference().child("usernames");
-        image = null;
-        firebaseStorage = FirebaseStorage.getInstance();
+        nickNameEdit = (EditText) findViewById(R.id.nicknameEdit);
         chooseImageFromGalleryButton = (ImageButton) findViewById(R.id.choose_image_from_gallery);
-        chooseImageFromGalleryButton.setOnClickListener(getGalleryButtonOnClickListener());
-        firstNameEdit = (EditText) findViewById(R.id.firstname);
-
-        Button finish = (Button) findViewById(R.id.finish);
-        finish.setOnClickListener(getFinishButtonOnClickListener());
+        initFirebaseComponent();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == PHOTO_FROM_GALLERY_REQUEST && resultCode == RESULT_OK) {
             Uri selectedImage = data.getData();
-            cropPic(selectedImage);
+            startCropActivity(selectedImage);
         }if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             Uri croppedImage = result.getUri();
-            savePic(croppedImage);
+            uploadProfileImage = uploadPic(getImageBA(croppedImage));
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private String getNickName(){
-        firstNameEdit = (EditText) findViewById(R.id.firstname);
-        String firstName = firstNameEdit.getText().toString().trim();
-
-
-        return firstName;
+    private void initFirebaseComponent(){
+        uploadUrlReference = FirebaseDatabase.getInstance().getReference().child("userProfilePhotoUrl").push();
+        saveUrl = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("profilePhotoUrl");
+        usernameReference = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("username");
+        usernameListReference = FirebaseDatabase.getInstance().getReference().child("usernames");
+        storageReference = FirebaseStorage.getInstance().getReference();
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        storageFileName = UUID.randomUUID().toString() + ".png";
+        uploadProfileImage = null;
     }
 
-    private void cropPic(Uri selectedImage){
+    private String getNickName(){
+         return nickNameEdit.getText().toString().trim();
+    }
+
+    private void startCropActivity(Uri selectedImage){
         CropImage.activity(selectedImage).setGuidelines(CropImageView.Guidelines.ON).setCropShape(CropImageView.CropShape.OVAL).setAspectRatio(1, 1).start(this);
     }
 
@@ -117,7 +112,7 @@ public class ActivityNickname extends AppCompatActivity {
         return output;
     }
 
-    private void savePic(Uri selectedImage){
+    private byte[] getImageBA(Uri selectedImage){
         Bitmap img = null;
         try {
             img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
@@ -130,51 +125,42 @@ public class ActivityNickname extends AppCompatActivity {
         chooseImageFromGalleryButton.setImageBitmap(img);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        image = baos.toByteArray();
+        return baos.toByteArray();
     }
 
-    private UploadTask uploadPic(StorageReference reference){
-        UploadTask uploadTask = reference.putBytes(image);
+    private UploadTask uploadPic(byte[] imageBA){
+        StorageReference reference = storageReference.child("userProfileImage").child(storageFileName);
+        UploadTask uploadTask = reference.putBytes(imageBA);
         return  uploadTask;
     }
 
-    private boolean fieldsIsComplete(){
-        return firstNameEdit.getText().toString().trim().length() > 3 &&
-                secondNameEdit.getText().toString().trim().length() > 3;
+    private boolean nickNamefieldIsComplete(){
+        return getNickName().trim().length() > 3;
     }
 
-    private View.OnClickListener getFinishButtonOnClickListener(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                StorageReference reference = firebaseStorage.getReference().child("userProfileImage").child(fileName);
-                final UploadTask uploadPic = uploadPic(reference);
-                uploadPic.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            uploadUrlReference.setValue(fileName);
-                            saveUrl.setValue(uploadUrlReference.getKey());
-                            usernameReference.setValue(firstNameEdit.getText().toString());
-                            usernameListReference.child(firstNameEdit.getText().toString()).setValue(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                            Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
-                            startActivity(intent);
-                        }
+    public void onFinishButtonClick(View view){
+        if (uploadProfileImage != null && uploadProfileImage.isSuccessful() && nickNamefieldIsComplete()) {
+            uploadUrlReference.setValue(storageFileName);
+            saveUrl.setValue(uploadUrlReference.getKey());
+            usernameReference.setValue(getNickName()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        usernameListReference.child(getNickName()).setValue(userId);
+                        Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
+                        startActivity(intent);
+                    }else{
+                        nickNameEdit.setError("A user with this name already exist!");
                     }
-                });
-            }
-        };
+                }
+            });
+
+        }
     }
 
-    private View.OnClickListener getGalleryButtonOnClickListener(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, PHOTO_FROM_GALLERY_REQUEST);
-            }
-        };
+    public void onChooseImageFromGalleryButtonClick(View view){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, PHOTO_FROM_GALLERY_REQUEST);
     }
 }

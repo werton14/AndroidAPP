@@ -61,8 +61,7 @@
             android:name=".ActivityNickname"
             android:label="@string/action_sign_in_short"
             android:parentActivityName=".ActivitySignUp"
-            android:theme="@style/AppTheme"
-            android:noHistory="true">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivitySignUp" />
