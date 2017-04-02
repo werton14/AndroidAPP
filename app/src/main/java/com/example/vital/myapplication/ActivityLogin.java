@@ -23,41 +23,20 @@ public class ActivityLogin extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
+    private EditText editEmail;
+    private EditText editPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitylogin);
 
+        editEmail = (EditText) findViewById(R.id.Email);
+        editPassword = (EditText) findViewById(R.id.Password);
+
         mAuth = FirebaseAuth.getInstance();
-        authStateListener = new FirebaseAuth.AuthStateListener(){
+        authStateListener = getAuthStateListener();
 
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null){
-                    Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
-                    startActivity(intent);
-                }
-            }
-        };
-
-        final Button signIn = (Button) findViewById(R.id.log_in);
-        final EditText editEmail = (EditText) findViewById(R.id.Email);
-        final EditText editPassword = (EditText) findViewById(R.id.Password);
-
-
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(TextUtils.isEmpty(editEmail.getText().toString())){
-                    editEmail.setError("This field cannot be empty!");
-                }if(TextUtils.isEmpty(editPassword.getText().toString())){
-                    editPassword.setError("This field cannot be empty!");
-                }if(!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())){
-                    signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
-                }
-            }
-        });
     }
 
     @Override
@@ -81,5 +60,29 @@ public class ActivityLogin extends AppCompatActivity {
                 Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
         });
+    }
+
+     private FirebaseAuth.AuthStateListener getAuthStateListener(){
+         return new FirebaseAuth.AuthStateListener(){
+
+             @Override
+             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                 if(user != null){
+                     Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
+                     startActivity(intent);
+                 }
+             }
+         };
+     }
+
+     public void onLoginButtonClick(View view){
+        if(TextUtils.isEmpty(editEmail.getText().toString())){
+            editEmail.setError("This field cannot be empty!");
+        }if(TextUtils.isEmpty(editPassword.getText().toString())){
+            editPassword.setError("This field cannot be empty!");
+        }if(!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())){
+            signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
+        }
     }
 }

@@ -47,6 +47,7 @@
             android:fontFamily="sans-serif-smallcaps" />
 
         <Button
+            android:onClick="onLoginButtonClick"
             android:id="@+id/log_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -62,6 +62,7 @@
             android:fontFamily="sans-serif-smallcaps" />
 
         <Button
+            android:onClick="onSignUpButtonClick"
             android:text="@string/Next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

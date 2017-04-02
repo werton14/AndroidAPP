@@ -15,45 +15,13 @@ public class ActivityStart extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitystart);
 
         mAuth = FirebaseAuth.getInstance();
-        authStateListener = new FirebaseAuth.AuthStateListener(){
-
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null){
-                    Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
-                    startActivity(intent);
-                }
-            }
-        };
-
-
-        Button logIn = (Button) findViewById(R.id.log_in);
-
-        logIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ActivityLogin.class);
-                startActivity(intent);
-            }
-        });
-
-        Button signIn = (Button) findViewById(R.id.sign_in);
-
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ActivitySignUp.class);
-                startActivity(intent);
-            }
-        });
+        authStateListener = getAuthStateListener();
     }
 
     @Override
@@ -74,5 +42,28 @@ public class ActivityStart extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         moveTaskToBack(true);
+    }
+
+    private FirebaseAuth.AuthStateListener getAuthStateListener(){
+        return new FirebaseAuth.AuthStateListener(){
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if(user != null){
+                    Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
+                    startActivity(intent);
+                }
+            }
+        };
+    }
+
+    public void onLogInButtonClick(View view){
+        Intent intent = new Intent(getApplicationContext(), ActivityLogin.class);
+        startActivity(intent);
+    }
+
+    public void onSignInButtonClick(View view){
+        Intent intent = new Intent(getApplicationContext(), ActivitySignUp.class);
+        startActivity(intent);
     }
 }

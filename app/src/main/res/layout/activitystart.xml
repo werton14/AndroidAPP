@@ -27,6 +27,7 @@
             android:layout_height="400dp">
 
             <Button
+                android:onClick="onLogInButtonClick"
                 android:text="@string/action_sign_in"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,6 +43,7 @@
             android:layout_height="60dp">
 
             <Button
+                android:onClick="onSignInButtonClick"
                 android:text="@string/action_sign_in_short"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
