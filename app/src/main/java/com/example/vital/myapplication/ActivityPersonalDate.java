@@ -36,7 +36,7 @@ public class ActivityPersonalDate extends AppCompatActivity {
         AnimatedColorSpan span = new AnimatedColorSpan(this);
 
         final SpannableString spannableString = new SpannableString(text);
-        String substring = getString(R.string.app_name).toLowerCase();
+        String substring = getString(R.string.animated_rainbow_span).toLowerCase();
         int start = text.toLowerCase().indexOf(substring);
         int end = start + substring.length();
         spannableString.setSpan(span, start, end, 0);
