@@ -34,7 +34,7 @@
 
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@mipmap/photo"
+                app:srcCompat="@drawable/photo"
                 android:background="@color/fon"
                 android:scaleType="fitCenter" />
 
