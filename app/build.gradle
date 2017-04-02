@@ -34,6 +34,10 @@ dependencies {
     compile 'com.google.firebase:firebase-storage:10.0.1'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
     testCompile 'junit:junit:4.12'
+    String htextview_version = "0.1.1"
+
+    compile "com.hanks:htextview-base:$htextview_version"
+    compile "com.hanks:htextview-rainbow:$htextview_version"
 }
 
 repositories {
