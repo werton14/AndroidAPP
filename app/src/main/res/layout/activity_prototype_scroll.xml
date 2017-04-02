@@ -34,7 +34,7 @@
 
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@drawable/ic_user_image_with_black_background"
+                app:srcCompat="@mipmap/lul"
                 android:background="@color/fon"
                 android:scaleType="fitCenter" />
 
