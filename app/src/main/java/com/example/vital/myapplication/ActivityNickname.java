@@ -42,7 +42,6 @@ public class ActivityNickname extends AppCompatActivity {
 
     private StorageReference storageReference;
     private DatabaseReference uploadUrlReference;
-    private DatabaseReference saveUrl;
     private DatabaseReference usernameReference;
     private DatabaseReference usernameListReference;
     private UploadTask uploadProfileImage;
@@ -75,14 +74,13 @@ public class ActivityNickname extends AppCompatActivity {
     }
 
     private void initFirebaseComponent(){
-        uploadUrlReference = FirebaseDatabase.getInstance().getReference().child("userProfilePhotoUrl").push();
-        saveUrl = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("profilePhotoUrl");
-        usernameReference = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("username");
-        usernameListReference = FirebaseDatabase.getInstance().getReference().child("usernames");
-        storageReference = FirebaseStorage.getInstance().getReference();
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         storageFileName = UUID.randomUUID().toString() + ".png";
         uploadProfileImage = null;
+        uploadUrlReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("profilePhotoUrl");
+        usernameReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("username");
+        usernameListReference = FirebaseDatabase.getInstance().getReference().child("usernames");
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     private String getNickName(){
@@ -141,7 +139,6 @@ public class ActivityNickname extends AppCompatActivity {
     public void onFinishButtonClick(View view){
         if (uploadProfileImage != null && uploadProfileImage.isSuccessful() && nickNamefieldIsComplete()) {
             uploadUrlReference.setValue(storageFileName);
-            saveUrl.setValue(uploadUrlReference.getKey());
             usernameReference.setValue(getNickName()).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
