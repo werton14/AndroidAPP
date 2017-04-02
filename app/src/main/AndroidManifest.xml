@@ -57,9 +57,6 @@
             android:name=".ActivityScroll"
             android:label="@string/Space"
             android:theme="@style/AppTheme.New" />
-        <activity android:name=".ActivityPersonalDate">                                 <!--sdfsdf-->
-
-        </activity>
         <activity
             android:name=".ActivityNickname"
             android:label="@string/action_sign_in_short"
