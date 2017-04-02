@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 
 
-public class ActivityPersonalDate extends AppCompatActivity {
+public class ActivityPersonalDate extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

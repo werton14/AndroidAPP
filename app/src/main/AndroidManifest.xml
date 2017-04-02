@@ -17,11 +17,7 @@
         <activity
             android:name=".ActivityStart"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ActivityLogin"
@@ -58,7 +54,11 @@
             android:label="@string/Space"
             android:theme="@style/AppTheme.New" />
         <activity android:name=".ActivityPersonalDate">                                 <!--sdfsdf-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ActivityNickname"
