@@ -30,28 +30,28 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin">
 
-            <ImageButton
+                    <ImageButton
 
-                android:layout_height="50dp"
-                app:srcCompat="@drawable/circle"
-                android:background="@color/fon"
-                android:scaleType="fitCenter"
-                android:layout_width="50dp" />
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/circle"
+                        android:background="@color/fon"
+                        android:scaleType="fitEnd"
+                        android:layout_width="50dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/nicknameonscroll"
-                android:layout_weight="1"
-                android:text="mr_nagibator2008"
-                android:fontFamily="cursive"
-                android:typeface="normal"
-                android:textSize="30sp"
-                android:textAlignment="viewStart"
-                android:textColor="@color/dark"
-                android:layout_marginTop="7dp"
-                android:textStyle="normal|bold"
-                android:layout_marginLeft="7dp"
-                android:layout_height="36dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/nicknameonscroll"
+                        android:layout_weight="1"
+                        android:text="mr_nagibator2008"
+                        android:fontFamily="cursive"
+                        android:typeface="normal"
+                        android:textSize="30sp"
+                        android:textColor="@color/BasicColor"
+                        android:layout_marginTop="7dp"
+                        android:textStyle="normal|bold"
+                        android:layout_marginLeft="7dp"
+                        android:layout_height="36dp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -67,7 +67,7 @@
                 android:layout_height="320dp"
                 android:cropToPadding="false"
                 android:background="@color/backgroungforpicture"
-                android:scaleType="matrix" />
+                android:scaleType="fitXY" />
         </LinearLayout>
 
         <LinearLayout
@@ -96,14 +96,14 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginLeft="7dp"
                 android:fontFamily="casual"
-                android:textColor="@color/dark" />
+                android:textColor="@color/BasicColor" />
 
         </LinearLayout>
 
-        <View
+       <!-- <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_height="1dp"                                     Пока не нравится
+            android:background="@android:color/darker_gray"/>-->
 
     </LinearLayout>
 </RelativeLayout>
