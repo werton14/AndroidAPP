@@ -30,15 +30,15 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin">
 
-                    <ImageButton
+            <ImageButton
 
-                        android:layout_height="50dp"
-                        app:srcCompat="@drawable/circle"
-                        android:background="@color/fon"
-                        android:scaleType="fitEnd"
-                        android:layout_width="50dp" />
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/circle"
+                android:background="@color/fon"
+                android:scaleType="fitEnd"
+                android:layout_width="50dp" />
 
-                    <TextView
+            <TextView
                         android:layout_width="wrap_content"
                         android:id="@+id/nicknameonscroll"
                         android:layout_weight="1"
@@ -77,10 +77,11 @@
             android:weightSum="1"
             android:layout_marginTop="10dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:paddingRight="@dimen/activity_horizontal_margin">
 
             <ImageButton
-                app:srcCompat="@drawable/ic_heart_sketchblack"
+                app:srcCompat="@drawable/like"
                 android:id="@+id/like"
                 android:background="@color/fon"
                 android:scaleType="fitCenter"
@@ -97,6 +98,15 @@
                 android:layout_marginLeft="7dp"
                 android:fontFamily="casual"
                 android:textColor="@color/BasicColor" />
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:srcCompat="@mipmap/arrow"
+                android:id="@+id/imageButton2"
+                android:layout_weight="1"
+                android:background="@color/fon"
+                android:scaleType="fitCenter" />
 
         </LinearLayout>
 
