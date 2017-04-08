@@ -22,8 +22,8 @@
                     android:layout_width="match_parent"
                     app:bb_tabXmlResource="@xml/bottom_navigationn"
                     android:layout_alignParentBottom="true"
-                    android:layout_height="50dp"
-                    />
+                    app:bb_inActiveTabColor="@color/BasicColor"
+                    android:layout_height="56dp" />
 
 </RelativeLayout>
 
