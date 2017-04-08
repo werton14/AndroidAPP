@@ -30,7 +30,7 @@
             android:layout_height="150dp">
 
             <ImageButton
-                app:srcCompat="@drawable/user"
+                app:srcCompat="@drawable/useer"
                 android:onClick="onChooseImageFromGalleryButtonClick"
                 android:id="@+id/choose_image_from_gallery"
                 android:background="@drawable/edittext_bottom_bg"
