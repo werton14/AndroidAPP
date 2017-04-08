@@ -2,15 +2,17 @@
 <tabs>
     <tab
         id="@+id/tab_home"
-        icon="@drawable/ic_home"/>
-    <!--title="Home"-->
+        icon="@drawable/ic_home"
+        title="Home"/>
+
     <tab
 
         id="@+id/tab_leaders"
-        icon="@drawable/ic_star"/>
-        <!--title="Favorites"-->
+        icon="@drawable/ic_star"
+        title="Favorites"/>
+
     <tab
         id="@+id/tab_personaldata"
         icon="@drawable/ic_imagge"
-        />
+        title="Personal"/>
 </tabs>
