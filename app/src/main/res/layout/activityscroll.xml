@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include android:id="@+id/toolbar"
-        layout="@layout/toolbar"></include>
+            <include android:id="@+id/toolbar"
+                layout="@layout/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></include>
 
-    <com.example.vital.myapplication.InteractiveScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollview">
+            <FrameLayout
+                android:id="@+id/contentContainer"
+                android:layout_width="match_parent"
+                android:layout_above="@+id/bottomBar"
+                android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scrollLayout"></LinearLayout>
-    </com.example.vital.myapplication.InteractiveScrollView>
+                <com.roughike.bottombar.BottomBar
+                    android:id="@+id/bottomBar"
+                    android:layout_width="match_parent"
+                    app:bb_tabXmlResource="@xml/bottom_navigationn"
+                    android:layout_alignParentBottom="true"
+                    android:layout_height="50dp" />
 
-</LinearLayout>
+</RelativeLayout>
 

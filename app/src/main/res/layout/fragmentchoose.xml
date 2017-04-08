@@ -16,4 +16,5 @@
         android:id="@+id/log_out"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

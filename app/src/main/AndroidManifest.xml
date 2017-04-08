@@ -5,8 +5,8 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -26,9 +26,9 @@
         <activity
             android:name=".ActivityLogin"
             android:label="@string/action_sign_in"
+            android:noHistory="true"
             android:parentActivityName=".ActivityStart"
-            android:theme="@style/AppTheme"
-            android:noHistory="true">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivityStart" />
@@ -42,9 +42,9 @@
         <activity
             android:name=".ActivitySignUp"
             android:label="@string/action_sign_in_short"
+            android:noHistory="true"
             android:parentActivityName=".ActivityStart"
-            android:theme="@style/AppTheme"
-            android:noHistory="true">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivityStart" />
@@ -66,8 +66,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ActivitySignUp" />
         </activity>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".ActivityLeaders"
+            android:theme="@style/AppTheme.New">
+        </activity>
     </application>
 
 </manifest>

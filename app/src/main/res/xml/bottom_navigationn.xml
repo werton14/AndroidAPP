@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/ic_home"/>
+    <!--title="Home"-->
+    <tab
+
+        id="@+id/tab_leaders"
+        icon="@drawable/ic_star"/>
+        <!--title="Favorites"-->
+    <tab
+        id="@+id/tab_personaldata"
+        icon="@drawable/ic_imagge"
+        />
+</tabs>
