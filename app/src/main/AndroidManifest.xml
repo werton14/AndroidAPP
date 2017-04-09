@@ -54,7 +54,7 @@
             android:label="@string/title_activity_choose_screen"
             android:theme="@style/AppTheme.New" />
         <activity
-            android:name=".ActivityScroll"
+            android:name=".ActivityContainerUserFragments"
             android:label="@string/Space"
             android:theme="@style/AppTheme.New" />
         <activity

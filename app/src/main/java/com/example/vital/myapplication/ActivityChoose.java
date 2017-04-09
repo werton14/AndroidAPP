@@ -119,7 +119,7 @@ public class ActivityChoose extends AppCompatActivity {
                     handler.postDelayed(runnable, 1000);
                 }
                 if (position == 0) {
-                    Intent intent = new Intent(getApplicationContext(), ActivityScroll.class);
+                    Intent intent = new Intent(getApplicationContext(), ActivityContainerUserFragments.class);
                     startActivity(intent);
                     handler.postDelayed(runnable, 1000);
                 }

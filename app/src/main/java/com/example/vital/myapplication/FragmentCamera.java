@@ -20,7 +20,7 @@ public class FragmentCamera extends Fragment {
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ActivityScroll.class);
+                Intent intent = new Intent(getContext(), ActivityContainerUserFragments.class);
                 startActivity(intent);
             }
         });
