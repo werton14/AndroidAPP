@@ -40,17 +40,18 @@
                     android:layout_height="30dp" />
 
                 <TextView
-                            android:layout_width="wrap_content"
-                            android:id="@+id/userNickname"
-                            android:layout_weight="1"
-                            android:text="default"
-                    android:typeface="normal"
-                            android:textSize="14sp"
-                            android:textColor="@color/BasicColor"
-                    android:layout_marginLeft="7dp"
-                            android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:id="@+id/userNickname"
+                    android:layout_weight="1"
+                    android:text="default"
+                    android:typeface="serif"
+                    android:textSize="14sp"
+                    android:textColor="@color/BasicColor"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp" />                     <!--просит android studio-->
 
                     <ImageButton
                         android:layout_height="30dp"
@@ -102,11 +103,12 @@
                 android:id="@+id/likeTextView"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
                 android:textColor="@color/BasicColor"
-                android:typeface="normal"
+                android:typeface="serif"
                 android:textSize="14sp"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp" />
 
             <ImageButton
                 android:layout_width="30dp"
