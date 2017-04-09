@@ -44,10 +44,12 @@ public class FragmentPrototypeScroll extends Fragment {
     private String photoStorageId;
     private Uri mainImageDownloadUri;
 
+
     private DatabaseReference imageViewsReference;
     private DatabaseReference imageReference;
-    private StorageReference mainImageStorageReference;
+    private DatabaseReference userReference;
     private View view;
+    private StorageReference mainImageStorageReference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +82,7 @@ public class FragmentPrototypeScroll extends Fragment {
                     photoId = dataSnapshot.getChildren().iterator().next().getKey();
                     iterateImageViewCounter();
                     getMainPhoto();
+                    setUserNickname();
                 }
             }
 
@@ -131,4 +134,64 @@ public class FragmentPrototypeScroll extends Fragment {
             }
         });
     }
+
+    private void setUserNickname(){
+        imageReference.child(photoId).child("username").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String userNickname = dataSnapshot.getValue(String.class);
+                userNicknameTextView.setText(userNickname);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getUserReference(){
+        imageReference.child()
+        userReference = imageReference.child()
+    }
+
+    private void initFBComponents(){
+        DatabaseReference DBReference = FirebaseDatabase.getInstance().getReference();
+        viewsDBReference = DBReference.child("views");
+        viewsDBReference.orderByValue().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                viewsDBReference = dataSnapshot.getChildren().iterator().next().getRef();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("On viewsDBReference", databaseError.getMessage());
+            }
+        });
+        imageReference = DBReference.child("image").child(view.get)
+    }
+
+    private DatabaseReference getImageIdDBReference(){
+        DatabaseReference viewsReference = FirebaseDatabase.getInstance().getReference().child("views");
+        DatabaseReference resultReference;
+        viewsReference.orderByValue().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String imageId = dataSnapshot.getChildren().iterator().next().getKey();
+                setDBReference(resultReference, FirebaseDatabase.getInstance().getReference().child("image").child(imageId));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return null;
+    }
+
+    private void setDBReference(DatabaseReference out, DatabaseReference in){
+        out = in;
+    }
+
 }
