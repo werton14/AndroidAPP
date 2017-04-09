@@ -1,7 +1,10 @@
 package com.example.vital.myapplication;
 
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +24,13 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
 
 public class FragmentPrototypeScroll extends Fragment {
 
@@ -31,14 +42,17 @@ public class FragmentPrototypeScroll extends Fragment {
     private ImageButton downloadPicture;
     private String photoId;
     private String photoStorageId;
+    private Uri mainImageDownloadUri;
 
     private DatabaseReference imageViewsReference;
     private DatabaseReference imageReference;
+    private StorageReference mainImageStorageReference;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_prototype_scroll, container, false);
+        view = inflater.inflate(R.layout.activity_prototype_scroll, container, false);
 
         userProfileImageButton = (ImageButton) view.findViewById(R.id.userProfilePicture);
         userNicknameTextView = (TextView) view.findViewById(R.id.userNickname);
@@ -49,6 +63,7 @@ public class FragmentPrototypeScroll extends Fragment {
 
         imageViewsReference = FirebaseDatabase.getInstance().getReference().child("views");
         imageReference = FirebaseDatabase.getInstance().getReference().child("image");
+        mainImageStorageReference = FirebaseStorage.getInstance().getReference().child("image");
 
         photoId = null;
         photoStorageId = null;
@@ -64,6 +79,7 @@ public class FragmentPrototypeScroll extends Fragment {
                 if(photoId == null) {
                     photoId = dataSnapshot.getChildren().iterator().next().getKey();
                     iterateImageViewCounter();
+                    getMainPhoto();
                 }
             }
 
@@ -90,14 +106,13 @@ public class FragmentPrototypeScroll extends Fragment {
         });
     }
 
-    private void setMainPhoto(){
-        imageReference = imageReference.child(photoId);
-        imageReference.child("photoStorageId").addValueEventListener(new ValueEventListener() {
+    private void getMainPhoto(){
+        imageReference.child(photoId).child("photoStorageId").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(photoStorageId == null){
                     photoStorageId = dataSnapshot.getValue(String.class);
-                    Log.w("Tag", photoStorageId);
+                    getMainPhotoFromStorage();
                 }
             }
 
@@ -108,4 +123,12 @@ public class FragmentPrototypeScroll extends Fragment {
         });
     }
 
+    private void getMainPhotoFromStorage() {
+        mainImageStorageReference.child(photoStorageId).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(view.getContext()).load(uri).resize(view.getWidth(), view.getHeight()- 100).into(currentImage);
+            }
+        });
+    }
 }
