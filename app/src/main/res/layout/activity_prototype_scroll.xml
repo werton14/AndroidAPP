@@ -36,11 +36,12 @@
                 app:srcCompat="@drawable/circle"
                 android:background="@color/fon"
                 android:scaleType="fitEnd"
-                android:layout_width="50dp" />
+                android:layout_width="50dp"
+                android:id="@+id/userProfilePicture" />
 
             <TextView
                         android:layout_width="wrap_content"
-                        android:id="@+id/nicknameonscroll"
+                        android:id="@+id/userNickname"
                         android:layout_weight="1"
                         android:text="mr_nagibator2008"
                         android:fontFamily="cursive"
@@ -61,7 +62,7 @@
             android:layout_marginTop="10dp">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/currentPhoto"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="320dp"
@@ -82,7 +83,7 @@
 
             <ImageButton
                 app:srcCompat="@drawable/like"
-                android:id="@+id/like"
+                android:id="@+id/likeImageButton"
                 android:background="@color/fon"
                 android:scaleType="fitCenter"
                 android:layout_width="30dp"
@@ -91,7 +92,7 @@
             <TextView
                 android:text="322"
                 android:layout_width="wrap_content"
-                android:id="@+id/textView2"
+                android:id="@+id/likeTextView"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -103,7 +104,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:srcCompat="@drawable/ic_arrow"
-                android:id="@+id/imageButton2"
+                android:id="@+id/downloadImageButton"
                 android:layout_weight="1"
                 android:background="@color/fon"
                 android:scaleType="fitCenter" />

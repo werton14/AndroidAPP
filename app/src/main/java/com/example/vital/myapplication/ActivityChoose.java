@@ -41,7 +41,8 @@ public class ActivityChoose extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseAuth mAuth;
     private DatabaseReference savePicList;
-    DatabaseReference savePicId;
+    private DatabaseReference savePicId;
+    private DatabaseReference imageViewsReference;
     private String storageFileName;
     private String userId;
 
@@ -168,6 +169,8 @@ public class ActivityChoose extends AppCompatActivity {
                 savePicList.child("photoStorageId").setValue(storageFileName);
                 savePicList.child("likesCount").setValue(0);
                 savePicId.setValue(savePicList.getKey());
+                long t = 0;
+                imageViewsReference.child(savePicList.getKey()).setValue(t);
             }
         });
     }
@@ -179,6 +182,7 @@ public class ActivityChoose extends AppCompatActivity {
         authStateListener = getAuthStateListener();
         savePicList = FirebaseDatabase.getInstance().getReference().child("image").push();
         savePicId = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("photoId");
+        imageViewsReference = FirebaseDatabase.getInstance().getReference().child("views");
     }
 
     private static File getOutputMediaFile(){
