@@ -72,7 +72,7 @@
             <ImageView
                 android:id="@+id/currentPhoto"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="320dp"
                 android:cropToPadding="false"
                 android:background="@color/backgroungforpicture"

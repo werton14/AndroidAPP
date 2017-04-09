@@ -47,6 +47,7 @@
             android:textColorHint="#bbbbbb"
             android:id="@+id/password"
             android:layout_marginBottom="10dp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif-smallcaps" />
 
         <EditText
@@ -69,7 +70,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/sing_in"
             android:textColor="@android:color/white"
-            android:background="@drawable/button_background" />
+            android:background="@drawable/button_background"
+            android:textSize="14sp" />
 
         <com.hanks.htextview.rainbow.RainbowTextView
             android:layout_width="120dp"
