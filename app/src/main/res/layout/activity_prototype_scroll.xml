@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/Parentlayout"
         android:layout_width="match_parent"
+        android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -26,32 +27,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bottom_bg"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin">
+            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin">
 
-            <ImageButton
+                <ImageButton
 
-                android:layout_height="50dp"
-                app:srcCompat="@drawable/circle"
-                android:background="@color/fon"
-                android:scaleType="fitEnd"
-                android:layout_width="50dp"
-                android:id="@+id/userProfilePicture" />
+                    app:srcCompat="@drawable/circle"
+                    android:background="@color/fon"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/userProfilePicture"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
 
-            <TextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/userNickname"
-                        android:layout_weight="1"
-                        android:text="mr_nagibator2008"
-                        android:fontFamily="cursive"
-                        android:typeface="normal"
-                        android:textSize="30sp"
-                        android:textColor="@color/BasicColor"
-                        android:layout_marginTop="7dp"
-                        android:textStyle="normal|bold"
-                        android:layout_marginLeft="7dp"
-                        android:layout_height="36dp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:id="@+id/userNickname"
+                    android:layout_weight="1"
+                    android:text="default"
+                    android:typeface="serif"
+                    android:textSize="14sp"
+                    android:textColor="@color/BasicColor"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAllCaps="false"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp" />                     <!--просит android studio-->
+
+                    <ImageButton
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/ic_social_button"
+                        android:id="@+id/imageButton2"
+                        android:background="@color/fon"
+                        android:scaleType="fitCenter"
+                        android:layout_width="30dp" />
 
         </LinearLayout>
 
@@ -65,10 +73,10 @@
                 android:id="@+id/currentPhoto"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
+                android:layout_height="320dp"
                 android:cropToPadding="false"
                 android:background="@color/backgroungforpicture"
-                android:scaleType="fitXY"
-                android:layout_height="500dp" />
+                android:scaleType="fitCenter" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,10 +103,12 @@
                 android:id="@+id/likeTextView"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:layout_marginLeft="7dp"
-                android:fontFamily="casual"
-                android:textColor="@color/BasicColor" />
+                android:textColor="@color/BasicColor"
+                android:typeface="serif"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp" />
 
             <ImageButton
                 android:layout_width="30dp"
