@@ -65,7 +65,7 @@
                     android:layout_weight="1"
                     android:fontFamily="cursive"
                     android:textSize="35sp"
-                    android:textColor="@color/dark"
+                    android:textColor="@color/BasicColor"
                     android:textAllCaps="false"
                     android:text="Mr_nagibator2008" />
 
