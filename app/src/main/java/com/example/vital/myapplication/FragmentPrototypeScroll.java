@@ -151,11 +151,11 @@ public class FragmentPrototypeScroll extends Fragment {
     }
 
     private void getUserReference(){
-        imageReference.child()
-        userReference = imageReference.child()
+        imageReference.child("rtytry");
+        userReference = imageReference.child("yty");
     }
 
-    private void initFBComponents(){
+   /* private void initFBComponents(){
         DatabaseReference DBReference = FirebaseDatabase.getInstance().getReference();
         viewsDBReference = DBReference.child("views");
         viewsDBReference.orderByValue().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -169,8 +169,8 @@ public class FragmentPrototypeScroll extends Fragment {
                 Log.w("On viewsDBReference", databaseError.getMessage());
             }
         });
-        imageReference = DBReference.child("image").child(view.get)
-    }
+        imageReference = DBReference.child("image").child(view.get);
+    }*/
 
     private DatabaseReference getImageIdDBReference(){
         DatabaseReference viewsReference = FirebaseDatabase.getInstance().getReference().child("views");
@@ -179,7 +179,7 @@ public class FragmentPrototypeScroll extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String imageId = dataSnapshot.getChildren().iterator().next().getKey();
-                setDBReference(resultReference, FirebaseDatabase.getInstance().getReference().child("image").child(imageId));
+               /* setDBReference(resultReference, FirebaseDatabase.getInstance().getReference().child("image").child(imageId));*/
             }
 
             @Override

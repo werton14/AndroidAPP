@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/without_margin"
     android:paddingTop="@dimen/without_margin"
     tools:context="com.example.vital.myapplication.ActivityPersonalDate"
-    android:background="@color/fon">
+    android:background="@color/fornewbackground">
 
     <LinearLayout
         android:orientation="vertical"
@@ -33,16 +33,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.01"
             android:layout_width="match_parent"
-            android:gravity="center_horizontal">
+            android:gravity="left"
+            android:paddingTop="@dimen/activity_vertical_margin">
 
             <ImageButton
                 app:srcCompat="@drawable/ic_man"
                 android:id="@+id/imageButton"
-                android:scaleType="fitCenter"
+                android:scaleType="fitStart"
                 android:background="@color/fon"
                 android:layout_weight="0.11"
-                android:layout_height="200dp"
-                android:layout_width="200dp" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
 
         <LinearLayout
@@ -50,8 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.01"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center_horizontal">
 
             <LinearLayout
@@ -64,7 +65,7 @@
                     android:id="@+id/nickname"
                     android:layout_weight="1"
                     android:fontFamily="cursive"
-                    android:textSize="35sp"
+                    android:textSize="18sp"
                     android:textColor="@color/BasicColor"
                     android:textAllCaps="false"
                     android:text="Mr_nagibator2008" />
@@ -76,26 +77,28 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginBottom="15dp" />
+            android:background="@color/forview"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:weightSum="2">                      <!--baselineAligned для размещения обьектов на одной линии-->
+            android:weightSum="3">                      <!--baselineAligned для размещения обьектов на одной линии-->
 
             <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                android:gravity="center_horizontal">
+                        android:gravity="center_horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:text="15"
@@ -104,16 +107,17 @@
                         android:textSize="18sp"
                         android:typeface="serif"
                         android:layout_width="wrap_content"
-                        android:id="@+id/quantity_publications" />
+                        android:id="@+id/quantity_publications"
+                        android:layout_gravity="center_horizontal" />
 
                     <TextView
                         android:text="@string/Publications"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/publications"
                         android:layout_weight="1"
                         android:textColor="@color/BasicColor"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:typeface="serif"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp" />
@@ -121,7 +125,53 @@
                 </LinearLayout>
 
                 </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/forview"
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/quantity_likes"
+                        android:text="18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/BasicColor"
+                        android:textSize="18sp"
+                        android:typeface="serif"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TextView
+                        android:id="@+id/Likes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:textColor="@color/BasicColor"
+                        android:text="@string/Like"
+                        android:typeface="serif"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/forview"
+                />
             <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -131,7 +181,8 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:text="18"
@@ -140,14 +191,15 @@
                         android:id="@+id/quantity_commends"
                         android:textColor="@color/BasicColor"
                         android:textSize="18sp"
-                        android:typeface="serif" />
+                        android:typeface="serif"
+                        android:layout_gravity="center_horizontal" />
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/commends"
                         android:layout_weight="1"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:textColor="@color/BasicColor"
                         android:text="@string/Commend"
                         android:typeface="serif"
@@ -160,7 +212,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="40dp"
@@ -189,6 +241,27 @@
                     android:paddingEnd="5dp" />
 
             </LinearLayout>
+
+        </LinearLayout>-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/forview"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@color/backgroungforpicture"
+                android:id="@+id/imageButton7"
+                android:layout_weight="0.01"
+                android:background="@color/backgroungforpicture" />
 
         </LinearLayout>
 
