@@ -1,12 +1,14 @@
 package com.example.vital.myapplication;
 
 import android.net.Uri;
+import android.os.Looper;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -27,13 +29,12 @@ public class ImageData {
     private DatabaseReference userIdDBReference;
     private StorageReference profileImageSReference;
 
-
-
     ImageData(){
 
         DBReference = FirebaseDatabase.getInstance().getReference();
         SReference = FirebaseStorage.getInstance().getReference();
 
+        getImageId();
         imageIdDBReference = DBReference.child("image").child(getImageId());
         likeCountDBReference = imageIdDBReference.child("likesCount");
         userIdDBReference = DBReference.child("users").child(getUserId());
@@ -43,16 +44,14 @@ public class ImageData {
 
     }
 
-    private String getImageId(){
-        final Exchanger<String> res = new Exchanger<>();
-        DBReference.child("views").orderByValue().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+    private String getImageId() {
+        final String res[] = new String[1];
+        res[0] = null;
+        Query query = DBReference.child("views").orderByValue().limitToFirst(1);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    res.exchange(dataSnapshot.getChildren().iterator().next().getRef().getKey());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                res[0] = dataSnapshot.getChildren().iterator().next().getRef().getKey();
             }
 
             @Override
@@ -60,14 +59,8 @@ public class ImageData {
 
             }
         });
-
-        try {
-            return res.exchange(null);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        while (res[0] == null);
+        return res[0];
     }
 
     private String getImageFileName(){
@@ -83,48 +76,36 @@ public class ImageData {
     }
 
     private String getDataFromDB(DatabaseReference reference){
-        final Exchanger<String> res = new Exchanger<>();
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                try {
-                    res.exchange(dataSnapshot.getValue(String.class));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        final String[] res = new String[1];
+        res[0] = null;
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    res[0] = dataSnapshot.getValue(String.class);
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-        try {
-            return res.exchange(null);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                }
+            });
+        while (true) {
+            if(res != null) return res[0];
         }
-        return null;
     }
 
     private Uri getUriFromStorage(StorageReference reference){
-        final Exchanger<Uri> res = new Exchanger<>();
+        final Uri res[] = new Uri[1];
+        res[0] = null;
         reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                try {
-                    res.exchange(uri);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                res[0] = uri;
             }
         });
-        try {
-            return res.exchange(null);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (true) {
+            if(res != null) return res[0];
         }
-        return null;
     }
 
     public String getNickname(){

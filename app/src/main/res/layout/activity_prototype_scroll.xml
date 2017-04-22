@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/without_margin"
     android:paddingRight="@dimen/without_margin"
     android:paddingTop="@dimen/without_margin"
-    tools:context="com.example.vital.myapplication.ActivityPrototypeScroll"
+    tools:context="com.example.vital.myapplication.FragmentPrototypeScroll"
     android:background="@color/fon">
 
     <LinearLayout
@@ -55,7 +55,7 @@
 
                     <ImageButton
                         android:layout_height="30dp"
-                        app:srcCompat="@drawable/ic_social_button"
+                        app:srcCompat="@drawable/ic_home"
                         android:id="@+id/imageButton2"
                         android:background="@color/fon"
                         android:scaleType="fitCenter"

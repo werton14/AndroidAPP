@@ -40,16 +40,8 @@ public class FragmentPrototypeScroll extends Fragment {
     private ImageButton likeImageButton;
     private TextView likeTextView;
     private ImageButton downloadPicture;
-    private String photoId;
-    private String photoStorageId;
-    private Uri mainImageDownloadUri;
-
-
-    private DatabaseReference imageViewsReference;
-    private DatabaseReference imageReference;
-    private DatabaseReference userReference;
     private View view;
-    private StorageReference mainImageStorageReference;
+    private ImageData imageData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,136 +54,14 @@ public class FragmentPrototypeScroll extends Fragment {
         likeImageButton = (ImageButton) view.findViewById(R.id.likeImageButton);
         likeTextView = (TextView) view.findViewById(R.id.likeTextView);
         downloadPicture = (ImageButton) view.findViewById(R.id.downloadImageButton);
+        imageData = new ImageData();
 
-        imageViewsReference = FirebaseDatabase.getInstance().getReference().child("views");
-        imageReference = FirebaseDatabase.getInstance().getReference().child("image");
-        mainImageStorageReference = FirebaseStorage.getInstance().getReference().child("image");
+        Picasso.with(getContext()).load(imageData.getImageUri()).resize(view.getWidth(),view.getHeight() -100).into(currentImage);
+        Picasso.with(getContext()).load(imageData.getProfileImageUri()).into(userProfileImageButton);
+        userNicknameTextView.setText(imageData.getNickname());
 
-        photoId = null;
-        photoStorageId = null;
-        getImage();
 
         return view;
-    }
-
-    private void getImage(){
-        imageViewsReference.orderByValue().limitToFirst(1).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(photoId == null) {
-                    photoId = dataSnapshot.getChildren().iterator().next().getKey();
-                    iterateImageViewCounter();
-                    getMainPhoto();
-                    setUserNickname();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void iterateImageViewCounter(){
-        imageViewsReference.child(photoId).runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                long v = mutableData.getValue(long.class);
-                mutableData.setValue(++v);
-                return Transaction.success(mutableData);
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
-            }
-        });
-    }
-
-    private void getMainPhoto(){
-        imageReference.child(photoId).child("photoStorageId").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(photoStorageId == null){
-                    photoStorageId = dataSnapshot.getValue(String.class);
-                    getMainPhotoFromStorage();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void getMainPhotoFromStorage() {
-        mainImageStorageReference.child(photoStorageId).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(view.getContext()).load(uri).resize(view.getWidth(), view.getHeight()- 100).into(currentImage);
-            }
-        });
-    }
-
-    private void setUserNickname(){
-        imageReference.child(photoId).child("username").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String userNickname = dataSnapshot.getValue(String.class);
-                userNicknameTextView.setText(userNickname);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void getUserReference(){
-        imageReference.child()
-        userReference = imageReference.child()
-    }
-
-    private void initFBComponents(){
-        DatabaseReference DBReference = FirebaseDatabase.getInstance().getReference();
-        viewsDBReference = DBReference.child("views");
-        viewsDBReference.orderByValue().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                viewsDBReference = dataSnapshot.getChildren().iterator().next().getRef();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("On viewsDBReference", databaseError.getMessage());
-            }
-        });
-        imageReference = DBReference.child("image").child(view.get)
-    }
-
-    private DatabaseReference getImageIdDBReference(){
-        DatabaseReference viewsReference = FirebaseDatabase.getInstance().getReference().child("views");
-        DatabaseReference resultReference;
-        viewsReference.orderByValue().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String imageId = dataSnapshot.getChildren().iterator().next().getKey();
-                setDBReference(resultReference, FirebaseDatabase.getInstance().getReference().child("image").child(imageId));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        return null;
-    }
-
-    private void setDBReference(DatabaseReference out, DatabaseReference in){
-        out = in;
     }
 
 }
