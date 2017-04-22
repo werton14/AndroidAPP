@@ -78,9 +78,9 @@ public class ActivityLogin extends AppCompatActivity {
      public void onLoginButtonClick(View view){
         if(TextUtils.isEmpty(editEmail.getText().toString())){
             editEmail.setError("This field cannot be empty!");
-        }if(TextUtils.isEmpty(editPassword.getText().toString())){
+        }else if(TextUtils.isEmpty(editPassword.getText().toString())){
             editPassword.setError("This field cannot be empty!");
-        }if(!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())){
+        }else if(!TextUtils.isEmpty(editEmail.getText().toString()) && !TextUtils.isEmpty(editPassword.getText().toString())){
             signInWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
         }
     }
