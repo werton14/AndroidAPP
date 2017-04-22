@@ -33,15 +33,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.01"
             android:layout_width="match_parent"
-            android:gravity="left"
             android:paddingTop="@dimen/activity_vertical_margin">
 
             <ImageButton
                 app:srcCompat="@drawable/ic_man"
                 android:id="@+id/imageButton"
-                android:scaleType="fitStart"
-                android:background="@color/fon"
-                android:layout_weight="0.11"
+                android:scaleType="fitCenter"
+                android:background="@color/fornewbackground"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal" />
@@ -50,27 +48,20 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_weight="0.01"
-            android:layout_marginBottom="5dp"
-            android:gravity="center_horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            android:gravity="center_horizontal"
+            android:layout_height="25dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/nickname"
-                    android:layout_weight="1"
                     android:fontFamily="cursive"
                     android:textSize="18sp"
                     android:textColor="@color/BasicColor"
                     android:textAllCaps="false"
-                    android:text="Mr_nagibator2008" />
-
-            </LinearLayout>
+                    android:text="@string/Nickname"
+                    android:gravity="center_horizontal" />
 
         </LinearLayout>
 
@@ -89,19 +80,14 @@
             android:weightSum="3">                      <!--baselineAligned для размещения обьектов на одной линии-->
 
             <LinearLayout
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
                     <TextView
-                        android:text="15"
+                        android:text="@string/quantity"
                         android:layout_height="wrap_content"
                         android:textColor="@color/BasicColor"
                         android:textSize="18sp"
@@ -115,14 +101,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/publications"
-                        android:layout_weight="1"
                         android:textColor="@color/BasicColor"
                         android:textSize="14sp"
                         android:typeface="serif"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp" />
-
-                </LinearLayout>
 
                 </LinearLayout>
             <View
@@ -131,20 +114,15 @@
                 android:background="@color/forview"
                 />
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
                     <TextView
                         android:id="@+id/quantity_likes"
-                        android:text="18"
+                        android:text="@string/quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/BasicColor"
@@ -156,15 +134,12 @@
                         android:id="@+id/Likes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:textSize="14sp"
                         android:textColor="@color/BasicColor"
                         android:text="@string/Like"
                         android:typeface="serif"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp" />
-
-                </LinearLayout>
 
             </LinearLayout>
             <View
@@ -173,19 +148,14 @@
                 android:background="@color/forview"
                 />
             <LinearLayout
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                android:gravity="center_horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                        android:gravity="center_horizontal">
 
                     <TextView
-                        android:text="18"
+                        android:text="@string/quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/quantity_commends"
@@ -198,15 +168,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/commends"
-                        android:layout_weight="1"
                         android:textSize="14sp"
                         android:textColor="@color/BasicColor"
                         android:text="@string/Commend"
                         android:typeface="serif"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -256,7 +223,7 @@
             android:layout_marginTop="10dp">
 
             <ImageButton
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 app:srcCompat="@color/backgroungforpicture"
                 android:id="@+id/imageButton7"
