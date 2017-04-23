@@ -44,6 +44,7 @@ public class SignInActivity extends AppCompatActivity {
          Task<AuthResult> authResultTask = firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString());
          authResultTask.addOnFailureListener(makeOnFailureListener());
          authResultTask.addOnSuccessListener(makeOnSuccessListener());
+         logng
     }
 
     private void toChooseActivity(){
