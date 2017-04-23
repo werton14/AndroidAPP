@@ -1,4 +1,4 @@
-package com.example.vital.myapplication;
+package com.example.vital.myapplication.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.vital.myapplication.R;
+import com.example.vital.myapplication.activities.ChooseActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +38,7 @@ import java.util.UUID;
 
 
 
-public class ActivityNickname extends AppCompatActivity {
+public class NicknameActivity extends AppCompatActivity {
 
     private EditText nickNameEdit;
     private ImageButton chooseImageFromGalleryButton;
@@ -146,7 +148,7 @@ public class ActivityNickname extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
                         usernameListReference.child(getNickName()).setValue(userId);
-                        Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
+                        Intent intent = new Intent(getApplicationContext(), ChooseActivity.class);
                         startActivity(intent);
                         activity.finish();
                     }else{

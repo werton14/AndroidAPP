@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.vital.myapplication.ActivityStart"
+    tools:context="com.example.vital.myapplication.activities.StartActivity"
     android:background="@drawable/background_gradient">
 
         <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_height="400dp">
 
             <Button
-                android:onClick="onLogInButtonClick"
+                android:onClick="onToSignInButtonClick"
                 android:text="@string/action_sign_in"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_height="460dp">
 
             <Button
-                android:onClick="onSignInButtonClick"
+                android:onClick="onToSignUpButtonClick"
                 android:text="@string/action_sign_in_short"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

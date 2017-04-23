@@ -1,4 +1,4 @@
-package com.example.vital.myapplication;
+package com.example.vital.myapplication.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,9 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 
+import com.example.vital.myapplication.R;
+import com.example.vital.myapplication.SectionsPagerAdapter;
+import com.example.vital.myapplication.activities.StartActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public class ActivityChoose extends AppCompatActivity {
+public class ChooseActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -120,7 +122,7 @@ public class ActivityChoose extends AppCompatActivity {
                     handler.postDelayed(runnable, 1000);
                 }
                 if (position == 0) {
-                    Intent intent = new Intent(getApplicationContext(), ActivityContainerUserFragments.class);
+                    Intent intent = new Intent(getApplicationContext(), ContainerUserFragmentsActivity.class);
                     startActivity(intent);
                     handler.postDelayed(runnable, 1000);
                 }
@@ -140,7 +142,7 @@ public class ActivityChoose extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user == null) {
-                    Intent intent = new Intent(getApplicationContext(), ActivityStart.class);
+                    Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                     startActivity(intent);
                 }
             }

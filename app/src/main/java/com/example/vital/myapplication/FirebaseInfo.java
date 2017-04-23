@@ -1,6 +1,7 @@
 package com.example.vital.myapplication;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,8 +45,8 @@ public class FirebaseInfo {
     private StorageReference profileImagesSReference;
 
     private FirebaseInfo(){
-        isSignedIn = false;
         firebaseAuth = FirebaseAuth.getInstance();
+        isSignedIn = firebaseAuth.getCurrentUser() != null;
         firebaseAuth.addAuthStateListener(makeAuthStateListener());
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -127,6 +128,10 @@ public class FirebaseInfo {
 
     public boolean isSignedIn() {
         return isSignedIn;
+    }
+
+    public FirebaseAuth getFirebaseAuth() {
+        return firebaseAuth;
     }
 
     private FirebaseAuth.AuthStateListener makeAuthStateListener(){

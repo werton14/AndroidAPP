@@ -1,11 +1,15 @@
-package com.example.vital.myapplication;
+package com.example.vital.myapplication.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
-public class ActivityStart extends AppCompatActivity {
+import com.example.vital.myapplication.FirebaseInfo;
+import com.example.vital.myapplication.R;
+
+public class StartActivity extends AppCompatActivity {
 
     FirebaseInfo firebaseInfo;
 
@@ -25,26 +29,26 @@ public class ActivityStart extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
-    public void onLogInButtonClick(View view){
+    public void onToSignInButtonClick(View view){
         toSignInActivity();
     }
 
-    public void onSignInButtonClick(View view){
+    public void onToSignUpButtonClick(View view){
         toSignUpActivity();
     }
 
     private void toSignInActivity(){
-        Intent intent = new Intent(getApplicationContext(), ActivityLogin.class);
+        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
         startActivity(intent);
     }
 
     private void toSignUpActivity(){
-        Intent intent = new Intent(getApplicationContext(), ActivitySignUp.class);
+        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
     }
 
     private void toChooseActivity(){
-        Intent intent = new Intent(getApplicationContext(), ActivityChoose.class);
+        Intent intent = new Intent(getApplicationContext(), ChooseActivity.class);
         startActivity(intent);
     }
 

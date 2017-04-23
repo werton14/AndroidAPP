@@ -1,4 +1,4 @@
-package com.example.vital.myapplication;
+package com.example.vital.myapplication.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,11 +10,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.vital.myapplication.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class ActivitySignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -53,7 +54,7 @@ public class ActivitySignUp extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
-                    Intent intent = new Intent(getApplicationContext(), ActivityNickname.class);
+                    Intent intent = new Intent(getApplicationContext(), NicknameActivity.class);
                     startActivity(intent);
                 }
             }

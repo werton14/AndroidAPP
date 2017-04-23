@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.firebase.storage.FirebaseStorage;
+
 /**
  * Created by qwert on 4/9/2017.
  */

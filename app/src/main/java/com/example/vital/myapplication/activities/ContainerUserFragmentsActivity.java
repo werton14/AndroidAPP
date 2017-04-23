@@ -1,4 +1,4 @@
-package com.example.vital.myapplication;
+package com.example.vital.myapplication.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -20,13 +20,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.example.vital.myapplication.FragmentLeaders;
+import com.example.vital.myapplication.FragmentPersonalDate;
+import com.example.vital.myapplication.FragmentScrollView;
+import com.example.vital.myapplication.R;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import static com.example.vital.myapplication.R.id.tab_home;
 
 
-public class ActivityContainerUserFragments extends AppCompatActivity {
+public class ContainerUserFragmentsActivity extends AppCompatActivity {
 
     private BottomBar bottomBar;
     private FrameLayout frameLayout;

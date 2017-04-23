@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.vital.myapplication.activities.ContainerUserFragmentsActivity;
+
 
 public class FragmentCamera extends Fragment {
 
@@ -20,7 +22,7 @@ public class FragmentCamera extends Fragment {
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ActivityContainerUserFragments.class);
+                Intent intent = new Intent(getContext(), ContainerUserFragmentsActivity.class);
                 startActivity(intent);
             }
         });
