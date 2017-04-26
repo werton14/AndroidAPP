@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Exchanger;
 
 /**
@@ -45,6 +46,7 @@ public class ImageData {
     }
 
     private String getImageId() {
+        final CountDownLatch latch = new CountDownLatch(1);
         final String res[] = new String[1];
         res[0] = null;
         Query query = DBReference.child("views").orderByValue().limitToFirst(1);
@@ -52,6 +54,7 @@ public class ImageData {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 res[0] = dataSnapshot.getChildren().iterator().next().getRef().getKey();
+                latch.countDown();
             }
 
             @Override
@@ -59,8 +62,13 @@ public class ImageData {
 
             }
         });
-        while (res[0] == null);
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return res[0];
+
     }
 
     private String getImageFileName(){
@@ -76,12 +84,13 @@ public class ImageData {
     }
 
     private String getDataFromDB(DatabaseReference reference){
+        final CountDownLatch latch = new CountDownLatch(1);
         final String[] res = new String[1];
-        res[0] = null;
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     res[0] = dataSnapshot.getValue(String.class);
+                    latch.countDown();
                 }
 
                 @Override
@@ -89,23 +98,30 @@ public class ImageData {
 
                 }
             });
-        while (true) {
-            if(res != null) return res[0];
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        return res[0];
     }
 
     private Uri getUriFromStorage(StorageReference reference){
+        final CountDownLatch latch = new CountDownLatch(1);
         final Uri res[] = new Uri[1];
-        res[0] = null;
         reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 res[0] = uri;
+                latch.countDown();
             }
         });
-        while (true) {
-            if(res != null) return res[0];
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        return res[0];
     }
 
     public String getNickname(){

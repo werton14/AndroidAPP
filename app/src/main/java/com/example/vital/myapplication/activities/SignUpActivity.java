@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.vital.myapplication.R;
@@ -17,24 +18,21 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseAuth firebaseAuth;
 
     private EditText editEmail;
     private EditText editPassword;
-    private EditText editPasswordRepeat;
+    private ImageButton chooseProfileImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activitysignup);
+        setContentView(R.layout.activityname);
 
         editEmail = (EditText) findViewById(R.id.email);
         editPassword = (EditText) findViewById(R.id.password);
-        editPasswordRepeat = (EditText) findViewById(R.id.repeat_password);
+        chooseProfileImageButton = (ImageButton) findViewById(R.id.choose_image_from_gallery);
 
-        mAuth = FirebaseAuth.getInstance();
-        authStateListener = getAuthStateListener();
     }
 
     private void createUserWithEmailAndPassword(String email, String password){
@@ -75,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public void onSignUpButtonClick(View view){
+    public void onFinishButtonClick(View view){
         if (TextUtils.isEmpty(editEmail.getText().toString())) {
             editEmail.setError("This field cannot be empty!");
         }

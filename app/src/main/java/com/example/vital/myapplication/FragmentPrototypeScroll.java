@@ -60,7 +60,6 @@ public class FragmentPrototypeScroll extends Fragment {
         Picasso.with(getContext()).load(imageData.getProfileImageUri()).into(userProfileImageButton);
         userNicknameTextView.setText(imageData.getNickname());
 
-
         return view;
     }
 

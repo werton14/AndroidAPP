@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -28,7 +29,6 @@ public class SignInActivity extends AppCompatActivity {
     private EditText password;
     private FirebaseAuth firebaseAuth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +37,17 @@ public class SignInActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email_edit_text_on_signIn);
         password = (EditText) findViewById(R.id.password_edit_text_on_signIn);
         firebaseAuth = FirebaseInfo.getInstance().getFirebaseAuth();
-
     }
 
-     public void onSignInButtonClick(View view){
-         Task<AuthResult> authResultTask = firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString());
-         authResultTask.addOnFailureListener(makeOnFailureListener());
-         authResultTask.addOnSuccessListener(makeOnSuccessListener());
+    public void onSignInButtonClick(View view){
+         if(isEmailCompleted() && isPasswordCompleted()) {
+             Task<AuthResult> authResultTask = firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString());
+             authResultTask.addOnFailureListener(makeOnFailureListener());
+             authResultTask.addOnSuccessListener(makeOnSuccessListener());
+         }else {
+             if(!isEmailCompleted()) email.setError("This field cannot be empty!");
+             if(!isPasswordCompleted()) password.setError("This field cannot be empty!");
+         }
     }
 
     private void toChooseActivity(){
@@ -78,5 +82,14 @@ public class SignInActivity extends AppCompatActivity {
                 toChooseActivity();
             }
         };
+    }
+
+    private boolean isEmailCompleted(){
+        return !TextUtils.isEmpty(email.getText().toString());
+
+    }
+
+    private boolean isPasswordCompleted(){
+        return !TextUtils.isEmpty(password.getText().toString());
     }
 }
