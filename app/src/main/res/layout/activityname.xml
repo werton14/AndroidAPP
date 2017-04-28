@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.vital.myapplication.activities.NicknameActivity"
+    tools:context="com.example.vital.myapplication.activities.SignUpActivity"
     android:background="@color/fon">
     <!--TODO переделать layout-->
     <LinearLayout
@@ -28,7 +28,7 @@
 
             <ImageButton
                 app:srcCompat="@drawable/useer"
-                android:onClick="onChooseImageFromGalleryButtonClick"
+                android:onClick="onChooseProfileImageButtonClick"
                 android:id="@+id/choose_image_from_gallery"
                 android:background="@drawable/edittext_bottom_bg"
                 android:scaleType="fitCenter"
@@ -57,7 +57,7 @@
                 android:textColorHint="#bbbbbb" />
 
             <EditText
-                android:id="@+id/email_editt_text"
+                android:id="@+id/email_edit_text_on_signUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -69,7 +69,7 @@
                 android:textColorHint="#bbbbbb" />
 
             <EditText
-                android:id="@+id/password_edit_text"
+                android:id="@+id/password_edit_text_on_signUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"

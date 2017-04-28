@@ -42,7 +42,6 @@
         <activity
             android:name=".activities.SignUpActivity"
             android:label="@string/action_sign_in_short"
-            android:noHistory="true"
             android:parentActivityName=".activities.StartActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -57,15 +56,6 @@
             android:name=".activities.ContainerUserFragmentsActivity"
             android:label="@string/Space"
             android:theme="@style/AppTheme.New" />
-        <activity
-            android:name=".activities.NicknameActivity"
-            android:label="@string/action_sign_in_short"
-            android:parentActivityName=".activities.SignUpActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.SignUpActivity" />
-        </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
