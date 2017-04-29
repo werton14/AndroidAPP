@@ -13,34 +13,35 @@
     android:background="@color/fon">
     <!--TODO переделать layout-->
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageButton
-                app:srcCompat="@drawable/useer"
-                android:onClick="onChooseProfileImageButtonClick"
                 android:id="@+id/choose_image_from_gallery"
-                android:background="@drawable/edittext_bottom_bg"
-                android:scaleType="fitCenter"
                 android:layout_width="120dp"
-                android:layout_height="120dp" />
+                android:layout_height="120dp"
+                android:background="@color/fon"
+                android:onClick="onChooseProfileImageButtonClick"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/useer" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/nickname_edit_text"
@@ -56,40 +57,14 @@
                 android:padding="10dp"
                 android:textColorHint="#bbbbbb" />
 
-            <EditText
-                android:id="@+id/email_edit_text_on_signUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/edittext_default_bg"
-                android:fontFamily="sans-serif-smallcaps"
-                android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress"
-                android:padding="10dp"
-                android:textColorHint="#bbbbbb" />
-
-            <EditText
-                android:id="@+id/password_edit_text_on_signUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/edittext_default_bg"
-                android:fontFamily="sans-serif-smallcaps"
-                android:hint="@string/prompt_password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:padding="10dp"
-                android:textColorHint="#bbbbbb"
-                android:textSize="18sp" />
-
             <Button
-                android:onClick="onFinishButtonClick"
+                android:id="@+id/finish"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
+                android:onClick="onFinishButtonClick"
                 android:text="@string/End"
-                android:textColor="@color/White"
-                android:id="@+id/finish" />
+                android:textColor="@color/White" />
         </LinearLayout>
 
     </LinearLayout>
