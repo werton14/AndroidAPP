@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -45,6 +46,8 @@ public class FirebaseInfo {
     private StorageReference storageReference;
     private StorageReference imagesSReference;
     private StorageReference profileImagesSReference;
+
+    private String currentUserId;
 
     private FirebaseInfo(){
         firebaseAuth = FirebaseAuth.getInstance();
@@ -159,15 +162,21 @@ public class FirebaseInfo {
         };
     }
 
+    public String getCurrentUserId() {
+        return currentUserId;
+    }
+
     private void updateFirebaseInfoForCurrentUser(){
         if(isSignedIn){
             currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            currentUserId = currentUser.getUid();
             currentUserDbReference = usersDbReference.child(currentUser.getUid());
             currentUserProfileImageDbReference = currentUserDbReference.child(PROFILE_IMAGE_DATABASE_KEY);
             currentUserNicknameDbReference = currentUserDbReference.child(NICKNAME_DATABASE_KEY);
             currentUserCompetitiveImageDbReference = currentUserDbReference.child(COMPETITIVE_IMAGE_DATABASE_KEY);
         }else{
             currentUser = null;
+            currentUserId = null;
             currentUserDbReference = null;
             currentUserProfileImageDbReference = null;
             currentUserNicknameDbReference = null;

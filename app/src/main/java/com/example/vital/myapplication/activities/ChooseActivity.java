@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -12,15 +13,20 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
 import com.example.vital.myapplication.SectionsPagerAdapter;
 import com.example.vital.myapplication.activities.StartActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,13 +46,10 @@ public class ChooseActivity extends AppCompatActivity {
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private Uri fileForNewPhoto;
 
-    private FirebaseAuth.AuthStateListener authStateListener;
-    private FirebaseAuth mAuth;
-    private DatabaseReference savePicList;
-    private DatabaseReference savePicId;
-    private DatabaseReference imageViewsReference;
-    private String storageFileName;
-    private String userId;
+    private FirebaseInfo firebaseInfo;
+    private StorageReference competitiveImageSReference;
+    private String competitiveImageFileName;
+
 
     static final int GET_PHOTO_REQUEST = 1;
 
@@ -56,6 +59,8 @@ public class ChooseActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activitychoose);
 
+        firebaseInfo = FirebaseInfo.getInstance();
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -63,25 +68,23 @@ public class ChooseActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(1);
 
         onPageChangeListener = this.getOnPageListener();
+        mViewPager.addOnPageChangeListener(onPageChangeListener);
 
-        initFirebaseComponent();
+        firebaseInfo.getCurrentUserCompetitiveImageDbReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                competitiveImageFileName = dataSnapshot.getValue(String.class);
+                competitiveImageSReference = firebaseInfo.getImagesSReference().child(competitiveImageFileName);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mViewPager.setOnPageChangeListener(onPageChangeListener);
-        mAuth.addAuthStateListener(authStateListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mViewPager.removeOnPageChangeListener(onPageChangeListener);
-        if (authStateListener != null) {
-            mAuth.removeAuthStateListener(authStateListener);
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -117,6 +120,7 @@ public class ChooseActivity extends AppCompatActivity {
                 if (position == 2) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     fileForNewPhoto = Uri.fromFile(getOutputMediaFile());
+                    //intent.setType("image/*");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileForNewPhoto);
                     startActivityForResult(intent, GET_PHOTO_REQUEST);
                     handler.postDelayed(runnable, 1000);
@@ -135,19 +139,7 @@ public class ChooseActivity extends AppCompatActivity {
         };
     }
 
-    private FirebaseAuth.AuthStateListener getAuthStateListener(){
-        return new FirebaseAuth.AuthStateListener() {
 
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-                    startActivity(intent);
-                }
-            }
-        };
-    }
 
     void uploadPic(Uri selectedImage){
         Bitmap img = null;
@@ -160,32 +152,20 @@ public class ChooseActivity extends AppCompatActivity {
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte image[] = baos.toByteArray();
+        final byte image[] = baos.toByteArray();
 
-        StorageReference reference = FirebaseStorage.getInstance().getReference().child("image").child(storageFileName);
-        UploadTask uploadTask = reference.putBytes(image);
-        uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        competitiveImageSReference.putBytes(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                savePicList.child("userId").setValue(userId);
-                savePicList.child("photoStorageId").setValue(storageFileName);
-                savePicList.child("likesCount").setValue(0);
-                savePicId.setValue(savePicList.getKey());
-                long t = 0;
-                imageViewsReference.child(savePicList.getKey()).setValue(t);
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                DatabaseReference imageDbReference = firebaseInfo.getImagesDbReference().push();
+                imageDbReference.child("userId").setValue(firebaseInfo.getCurrentUserId());
+                imageDbReference.child("imageFileName").setValue(competitiveImageFileName);
+                DatabaseReference viewsDbReference = firebaseInfo.getViewsDbReference();
+                viewsDbReference.child(imageDbReference.getKey()).setValue(0L);
             }
         });
     }
 
-    private void initFirebaseComponent(){
-        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        storageFileName = UUID.randomUUID().toString() + ".jpg";
-        mAuth = FirebaseAuth.getInstance();
-        authStateListener = getAuthStateListener();
-        savePicList = FirebaseDatabase.getInstance().getReference().child("image").push();
-        savePicId = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("photoId");
-        imageViewsReference = FirebaseDatabase.getInstance().getReference().child("views");
-    }
 
     private static File getOutputMediaFile(){
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
