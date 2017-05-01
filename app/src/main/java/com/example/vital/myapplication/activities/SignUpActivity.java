@@ -38,87 +38,31 @@ import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText editNickname;
     private EditText editEmail;
     private EditText editPassword;
-    private ImageButton chooseProfileImageButton;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseInfo firebaseInfo;
     private DatabaseReference profileImageDbReference;
     private StorageReference profileImageSReference;
     private DatabaseReference nicknameDbReference;
-
-    private Uri localProfileImageUri;
-
-    final private int PHOTO_FROM_GALLERY_REQUEST = 233;
+    private String nickname;
+    private byte []profileImageBA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activityname);
-
-        localProfileImageUri = null;
+        setContentView(R.layout.activitysignup);
 
         firebaseInfo = FirebaseInfo.getInstance();
         firebaseAuth = firebaseInfo.getFirebaseAuth();
 
-        editNickname = (EditText) findViewById(R.id.nickname_edit_text);
+        nickname = getIntent().getStringExtra("nickname");
+        profileImageBA = getIntent().getByteArrayExtra("imageBA");
+
         editEmail = (EditText) findViewById(R.id.email_edit_text_on_signUp);
         editPassword = (EditText) findViewById(R.id.password_edit_text_on_signUp);
-        chooseProfileImageButton = (ImageButton) findViewById(R.id.choose_image_from_gallery);
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == PHOTO_FROM_GALLERY_REQUEST && resultCode == RESULT_OK) {
-            Uri selectedImage = data.getData();
-            startCropActivity(selectedImage);
-        }if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            localProfileImageUri = result.getUri();
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void startCropActivity(Uri selectedImage){
-        CropImage.activity(selectedImage).setGuidelines(CropImageView.Guidelines.ON).setCropShape(CropImageView.CropShape.OVAL).setAspectRatio(1, 1).start(this);
-    }
-
-    public Bitmap getCroppedBitmap(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-                bitmap.getWidth() / 2, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return output;
-    }
-
-    private byte[] getImageBA(Uri selectedImage){
-        Bitmap img = null;
-        try {
-            img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        img = getCroppedBitmap(img);
-        chooseProfileImageButton.setImageBitmap(img);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        return baos.toByteArray();
     }
 
     private UploadTask uploadPic(byte[] imageBA){
@@ -137,7 +81,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object o) {
                 updateUserData();
-                if(localProfileImageUri != null) uploadPic(getImageBA(localProfileImageUri));
+                if(profileImageBA != null) uploadPic(profileImageBA);
                 updateUserNickname();
 
             }
@@ -168,34 +112,14 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void updateUserNickname(){
-        if(nicknameIsComplete()) {
-            final String nickname = editNickname.getText().toString().trim();
-            nicknameDbReference.setValue(nickname).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        DatabaseReference reference = firebaseInfo.getNicknamesDbReference();
-                        reference.child(nickname).setValue(firebaseInfo.getCurrentUser().getUid());
-                        toChooseActivity();
-                    } else {
-                        editNickname.setError("A user with this name already exist!");
-                    }
-                }
-            });
-        }
+        nicknameDbReference.setValue(nickname).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                toChooseActivity();
+            }
+        });
     }
 
-    private boolean nicknameIsComplete(){
-        String nickname = editNickname.getText().toString().trim();
-        if(nickname.length() < 3){
-            editNickname.setError("Nickname < 3");
-            return false;
-        }else if(nickname.length() > 12){
-            editNickname.setError("Nickname > 12");
-            return false;
-        }
-        return true;
-    }
 
     private void toChooseActivity(){
         Intent intent = new Intent(getApplicationContext(), ChooseActivity.class);
@@ -206,16 +130,7 @@ public class SignUpActivity extends AppCompatActivity {
         if(!firebaseInfo.isSignedIn()) {
             createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
         }else {
-            if(localProfileImageUri != null) uploadPic(getImageBA(localProfileImageUri));
             updateUserNickname();
         }
-
     }
-
-    public void onChooseProfileImageButtonClick(View view){
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, PHOTO_FROM_GALLERY_REQUEST);
-    }
-
 }

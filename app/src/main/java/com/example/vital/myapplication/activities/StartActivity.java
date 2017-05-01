@@ -34,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
     }
 
     public void onToSignUpButtonClick(View view){
-        toSignUpActivity();
+        toSignUp();
     }
 
     private void toSignInActivity(){
@@ -42,8 +42,8 @@ public class StartActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void toSignUpActivity(){
-        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+    private void toSignUp(){
+        Intent intent = new Intent(getApplicationContext(), NicknameActivity.class);
         startActivity(intent);
     }
 

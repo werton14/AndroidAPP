@@ -156,7 +156,8 @@ public class FragmentPrototypeScroll extends Fragment {
         profileImageSReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(view.getContext()).load(uri).resize(30, 30).into(userProfileImageButton);
+                Picasso.with(view.getContext()).load(uri).resize(userProfileImageButton.getWidth(),
+                        userProfileImageButton.getHeight()).into(userProfileImageButton);
             }
         });
     }

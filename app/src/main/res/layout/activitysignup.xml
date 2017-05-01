@@ -25,7 +25,7 @@
         <!--TODO изменить actionBar на градиент-->
         <!--TODO переделать регистрацию-->
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/email_edit_text_on_signUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -37,7 +37,7 @@
             android:textColorHint="#bbbbbb" />
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/password_edit_text_on_signUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -51,11 +51,11 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/sing_in"
+            android:id="@+id/finish_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_background"
-            android:onClick="onSignUpButtonClick"
+            android:onClick="onFinishButtonClick"
             android:text="@string/Next"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
