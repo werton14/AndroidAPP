@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
+import com.example.vital.myapplication.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +27,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -42,10 +45,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText editPassword;
 
     private FirebaseAuth firebaseAuth;
-    private FirebaseInfo firebaseInfo;
-    private DatabaseReference profileImageDbReference;
     private StorageReference profileImageSReference;
-    private DatabaseReference nicknameDbReference;
     private String nickname;
     private byte []profileImageBA;
 
@@ -54,9 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitysignup);
 
-        firebaseInfo = FirebaseInfo.getInstance();
-        firebaseAuth = firebaseInfo.getFirebaseAuth();
-
+        firebaseAuth = FirebaseAuth.getInstance();
         nickname = getIntent().getStringExtra("nickname");
         profileImageBA = getIntent().getByteArrayExtra("imageBA");
 
@@ -82,7 +80,6 @@ public class SignUpActivity extends AppCompatActivity {
             public void onSuccess(Object o) {
                 updateUserData();
                 if(profileImageBA != null) uploadPic(profileImageBA);
-                updateUserNickname();
 
             }
         };
@@ -97,29 +94,23 @@ public class SignUpActivity extends AppCompatActivity {
         };
     }
 
-    private void updateUserData(){
+    private void updateUserData() {
         String profileImageFileName = UUID.randomUUID().toString() + ".png";
         String competitiveImageFileName = UUID.randomUUID().toString() + ".jpg";
+        profileImageSReference = FirebaseStorage.getInstance().getReference().child("profileImages").child(profileImageFileName);
 
-        profileImageDbReference = firebaseInfo.getCurrentUserProfileImageDbReference();
-        nicknameDbReference = firebaseInfo.getCurrentUserNicknameDbReference();
-        DatabaseReference competitiveImageDbReference = firebaseInfo.getCurrentUserCompetitiveImageDbReference();
-
-        profileImageSReference = firebaseInfo.getProfileImagesSReference().child(profileImageFileName);
-
-        profileImageDbReference.setValue(profileImageFileName);
-        competitiveImageDbReference.setValue(competitiveImageFileName);
-    }
-
-    private void updateUserNickname(){
-        nicknameDbReference.setValue(nickname).addOnSuccessListener(new OnSuccessListener<Void>() {
+        DatabaseReference userDbReference = FirebaseDatabase.getInstance().getReference().child("users");
+        User user = new User(nickname, profileImageFileName, competitiveImageFileName);
+        final String userId = firebaseAuth.getCurrentUser().getUid();
+        userDbReference.child(userId).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                DatabaseReference nicknamesDbReference = FirebaseDatabase.getInstance().getReference().child("nicknames");
+                nicknamesDbReference.child(nickname).setValue(userId);
                 toChooseActivity();
             }
         });
     }
-
 
     private void toChooseActivity(){
         Intent intent = new Intent(getApplicationContext(), ChooseActivity.class);
@@ -127,10 +118,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void onFinishButtonClick(View view){
-        if(!firebaseInfo.isSignedIn()) {
-            createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
-        }else {
-            updateUserNickname();
-        }
+        createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
     }
 }

@@ -16,6 +16,7 @@ import android.view.Window;
 import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
 import com.example.vital.myapplication.SectionsPagerAdapter;
+import com.example.vital.myapplication.User;
 import com.example.vital.myapplication.activities.StartActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -70,11 +71,11 @@ public class ChooseActivity extends AppCompatActivity {
         onPageChangeListener = this.getOnPageListener();
         mViewPager.addOnPageChangeListener(onPageChangeListener);
 
-        firebaseInfo.getCurrentUserCompetitiveImageDbReference().addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseInfo.getCurrentUserDbReference().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                competitiveImageFileName = dataSnapshot.getValue(String.class);
-                competitiveImageSReference = firebaseInfo.getImagesSReference().child(competitiveImageFileName);
+                User user = dataSnapshot.getValue(User.class);
+                competitiveImageSReference = firebaseInfo.getImagesSReference().child(user.getCompetitiveImageFileName());
             }
 
             @Override
@@ -82,7 +83,6 @@ public class ChooseActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
 
@@ -150,16 +150,18 @@ public class ChooseActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        final int width = img.getWidth();
+        final int height = img.getHeight();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        final byte image[] = baos.toByteArray();
+        final byte imageBA[] = baos.toByteArray();
 
-        competitiveImageSReference.putBytes(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        competitiveImageSReference.putBytes(imageBA).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 DatabaseReference imageDbReference = firebaseInfo.getImagesDbReference().push();
-                imageDbReference.child("userId").setValue(firebaseInfo.getCurrentUserId());
-                imageDbReference.child("imageFileName").setValue(competitiveImageFileName);
+                Image image = new Image(firebaseInfo.getCurrentUserId(), width, height);
+                imageDbReference.setValue(image);
                 DatabaseReference viewsDbReference = firebaseInfo.getViewsDbReference();
                 viewsDbReference.child(imageDbReference.getKey()).setValue(0L);
             }
