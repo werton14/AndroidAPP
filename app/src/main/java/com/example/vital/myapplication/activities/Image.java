@@ -14,6 +14,13 @@ public class Image {
     private int width;
     private int height;
 
+    public Image(){
+        userId = null;
+        likeCount = -1L;
+        width = -1;
+        height = -1;
+    }
+
     public Image(String userId, int width, int height){
         this.userId = userId;
         this.likeCount = 0L;

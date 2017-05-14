@@ -26,7 +26,7 @@ public class FirebaseInfo {
     private final String NICKNAME_DATABASE_KEY = "nickname";
     private final String COMPETITIVE_IMAGE_DATABASE_KEY = "competitiveImage";
     private final String IMAGES_STORAGE_KEY = "images";
-    private final String PROFILE_IMAGE_STORAGE_KEY = "profileImage";
+    private final String PROFILE_IMAGE_STORAGE_KEY = "profileImages";
 
     private boolean isSignedIn;
 

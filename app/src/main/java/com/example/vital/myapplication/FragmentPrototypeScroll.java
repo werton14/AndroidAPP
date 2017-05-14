@@ -2,6 +2,7 @@ package com.example.vital.myapplication;
 
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -15,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.vital.myapplication.activities.Image;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
@@ -32,6 +35,7 @@ import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class FragmentPrototypeScroll extends Fragment {
 
@@ -43,18 +47,22 @@ public class FragmentPrototypeScroll extends Fragment {
     private ImageButton downloadPicture;
     private View view;
 
+    private Image image;
+
+    private User user;
+
+    private ViewIsReadyListener viewIsReadyListener;
     private FirebaseInfo firebaseInfo;
-    private DatabaseReference userDbReference;
+
     private DatabaseReference imageDbReference;
     private DatabaseReference imageViewsDbReference;
-    private StorageReference imageSReference;
-    private StorageReference profileImageSReference;
-    private String nickname;
+    private FragmentPrototypeScroll nextFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.activity_prototype_scroll, container, false);
+
 
         userProfileImageButton = (ImageButton) view.findViewById(R.id.userProfilePicture);
         userNicknameTextView = (TextView) view.findViewById(R.id.userNickname);
@@ -64,38 +72,30 @@ public class FragmentPrototypeScroll extends Fragment {
         downloadPicture = (ImageButton) view.findViewById(R.id.downloadImageButton);
         firebaseInfo = FirebaseInfo.getInstance();
 
-        findImage();
 
         return view;
     }
 
-    private void findImage(){
-        firebaseInfo.getViewsDbReference().orderByValue().limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void findImage(){
+        firebaseInfo.getViewsDbReference().orderByChild("time").limitToFirst(2).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                imageViewsDbReference = dataSnapshot.getChildren().iterator().next().getRef();
+                Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                DataSnapshot firstSnapshot = iterator.next();
+                DataSnapshot secondSnapshot = iterator.next();
+                DataSnapshot d;
+                if(firstSnapshot.child("view").getValue(long.class) < secondSnapshot.child("view").getValue(long.class)){
+                    d = firstSnapshot;
+                }else if(firstSnapshot.child("view").getValue(long.class) > secondSnapshot.child("view").getValue(long.class)){
+                    d = secondSnapshot;
+                }else{
+                    d = firstSnapshot;
+                }
+                imageViewsDbReference = d.getRef();
+                iterateImageViews();
                 String str = imageViewsDbReference.getKey();
                 imageDbReference = firebaseInfo.getImagesDbReference().child(str);
-                getUser();
                 getImage();
-                iterateImageView();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void getUser(){
-        imageDbReference.child("userId").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String str = dataSnapshot.getValue(String.class);
-                userDbReference = firebaseInfo.getUsersDbReference().child(str);
-                getUserProfileImage();
-                getNickname();
             }
 
             @Override
@@ -106,11 +106,29 @@ public class FragmentPrototypeScroll extends Fragment {
     }
 
     private void getImage(){
-        imageDbReference.child("imageFileName").addListenerForSingleValueEvent(new ValueEventListener() {
+        imageDbReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String str = dataSnapshot.getValue(String.class);
-                imageSReference = firebaseInfo.getImagesSReference().child(str);
+                image = dataSnapshot.getValue(Image.class);
+                getUser();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getUser(){
+        firebaseInfo.getUsersDbReference().child(image.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+                setNickname();
+                setImageHeight();
+                setLikeCount();
+                setProfileImage();
                 setImage();
             }
 
@@ -121,77 +139,52 @@ public class FragmentPrototypeScroll extends Fragment {
         });
     }
 
-    private void getUserProfileImage(){
-        userDbReference.child("profileImage").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String str = dataSnapshot.getValue(String.class);
-                profileImageSReference = firebaseInfo.getProfileImagesSReference().child(str);
-                setProfileImage();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    private void setNickname(){
+        userNicknameTextView.setText(user.getNickname());
     }
 
-    private void getNickname(){
-        userDbReference.child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                nickname = dataSnapshot.getValue(String.class);
-                setNickname();
-            }
+    private void setImageHeight(){
+        float p = (float) image.getHeight() / image.getWidth();
+        int h = (int)(p * currentImage.getWidth());
+        currentImage.setMinimumHeight(h);
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    private void setLikeCount(){
+        likeTextView.setText(String.valueOf(image.getLikeCount()));
     }
 
     private void setProfileImage(){
-        profileImageSReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+/*
                 Picasso.with(view.getContext()).load(uri).resize(userProfileImageButton.getWidth(),
                         userProfileImageButton.getHeight()).into(userProfileImageButton);
+*/
             }
         });
-    }
-
-    private void setNickname(){
-        userNicknameTextView.setText(nickname);
     }
 
     private void setImage(){
-        imageSReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        firebaseInfo.getImagesSReference().child(user.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(view.getContext()).load(uri).transform(new Transformation() {
-                    @Override
-                    public Bitmap transform(Bitmap source) {
-                        int sWidth = source.getWidth(), sHeight = source.getHeight();
-                        float p = (float) sHeight / sWidth;
-                        int h = (int)(p * currentImage.getWidth());
-                        Bitmap res = Bitmap.createScaledBitmap(source, currentImage.getWidth(), h, false);
-                        source.recycle();
-                        return res;
-                    }
-
-                    @Override
-                    public String key() {
-                        return "scaledImage()";
-                    }
-                }).into(currentImage);
+/*
+                Picasso.with(view.getContext()).load(uri)
+                        .resize(currentImage.getWidth(), currentImage.getHeight()).into(currentImage);
+*/
             }
         });
     }
 
-    private void iterateImageView(){
-        imageViewsDbReference.runTransaction(new Transaction.Handler() {
+    private void iterateImageViews(){
+        imageViewsDbReference.child("time").setValue(ServerValue.TIMESTAMP).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                viewIsReadyListener.OnViewIsReady();
+            }
+        });
+        imageViewsDbReference.child("view").runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
                 long viewsCount = (long) mutableData.getValue();
@@ -205,6 +198,18 @@ public class FragmentPrototypeScroll extends Fragment {
 
             }
         });
+    }
+
+    public void addViewIsReadyListener(ViewIsReadyListener viewIsReadyListener) {
+        this.viewIsReadyListener = viewIsReadyListener;
+    }
+
+    public void setNextFragment(FragmentPrototypeScroll nextFragment) {
+        this.nextFragment = nextFragment;
+    }
+
+    public interface ViewIsReadyListener{
+        public void OnViewIsReady();
     }
 
 }

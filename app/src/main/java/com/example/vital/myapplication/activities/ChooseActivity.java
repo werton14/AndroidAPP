@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -163,7 +164,8 @@ public class ChooseActivity extends AppCompatActivity {
                 Image image = new Image(firebaseInfo.getCurrentUserId(), width, height);
                 imageDbReference.setValue(image);
                 DatabaseReference viewsDbReference = firebaseInfo.getViewsDbReference();
-                viewsDbReference.child(imageDbReference.getKey()).setValue(0L);
+                viewsDbReference.child(imageDbReference.getKey()).child("view").setValue(0L);
+                viewsDbReference.child(imageDbReference.getKey()).child("time").setValue(ServerValue.TIMESTAMP);
             }
         });
     }
