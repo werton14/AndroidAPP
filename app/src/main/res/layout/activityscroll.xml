@@ -6,17 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></include>
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
 
     <FrameLayout
                 android:id="@+id/contentContainer"
                 android:layout_width="match_parent"
                 android:layout_above="@+id/bottomBar"
                 android:layout_height="match_parent"
-        android:layout_marginTop="56dp" />
+                android:layout_marginTop="56dp" />
 
     <com.roughike.bottombar.BottomBar
                     android:id="@+id/bottomBar"
@@ -25,8 +24,9 @@
                     android:layout_alignParentBottom="true"
                     app:bb_activeTabColor="@color/BasicColor"
                     app:bb_inActiveTabColor="@color/dark"
+                    app:bb_badgeBackgroundColor="@color/BasicColor"
                     app:bb_behavior="iconsOnly"
-        android:layout_height="40dp" />
+                    android:layout_height="40dp" />
 
 </RelativeLayout>
 

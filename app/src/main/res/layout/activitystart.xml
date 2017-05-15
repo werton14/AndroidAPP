@@ -35,7 +35,7 @@
 
             <Button
                 android:onClick="onToSignUpButtonClick"
-                android:text="@string/action_sign_in_short"
+                android:text="@string/action_sign_up_short"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sign_in"

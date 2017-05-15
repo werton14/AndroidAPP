@@ -11,5 +11,6 @@
     <color name="prototypebackround">#C6C5C5</color>
     <color name="forview">#d6d8e1</color>
     <color name="fornewbackground">#f3f5f9</color>
+    <color name="foredittext_default">#FAFAFA</color>
     <color name="backgroungforpicture">#e0e0e0</color>
 </resources>

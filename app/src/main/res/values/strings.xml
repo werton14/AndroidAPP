@@ -6,7 +6,7 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_repeat_password">Confirm Password</string>
-    <string name="action_sign_in">Log In</string>
+    <string name="action_sign_in">Sign in</string>
     <string name="Nickname">Nickname</string>
     <string name="Space"> </string>
     <string name="Next">Next</string>
@@ -15,7 +15,7 @@
     <string name="Like">Likes</string>
     <string name="Imago">Imago</string>
     <string name="Leaders">Leaders</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_up_short">Sign up</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>

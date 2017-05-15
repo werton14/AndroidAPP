@@ -10,56 +10,57 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.vital.myapplication.activities.SignUpActivity"
-    android:background="@color/fon">
+    android:background="@color/White">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:weightSum="1"
-        tools:ignore="UselessParent">
-        <!--TODO изменить actionBar на градиент-->
-        <!--TODO переделать регистрацию-->
-        <EditText
-            android:id="@+id/email_edit_text_on_signUp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edittext_default_bg"
-            android:fontFamily="sans-serif-smallcaps"
-            android:hint="@string/prompt_email"
-            android:inputType="textEmailAddress"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
             android:padding="10dp"
-            android:textColorHint="#bbbbbb" />
+            android:weightSum="1"
+            tools:ignore="UselessParent">
+            <!--TODO изменить actionBar на градиент-->
+            <!--TODO переделать регистрацию-->
 
-        <EditText
-            android:id="@+id/password_edit_text_on_signUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/edittext_default_bg"
-            android:fontFamily="sans-serif-smallcaps"
-            android:hint="@string/prompt_password"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:padding="10dp"
-            android:textColorHint="#bbbbbb"
-            android:textSize="18sp" />
+            <EditText
+                android:id="@+id/email_edit_text_on_signUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edittext_default_bg"
+                android:fontFamily="sans-serif-smallcaps"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColorHint="#bbbbbb" />
 
-        <Button
-            android:id="@+id/finish_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:onClick="onFinishButtonClick"
-            android:text="@string/Next"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            <EditText
+                android:id="@+id/password_edit_text_on_signUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edittext_default_bg"
+                android:fontFamily="sans-serif-smallcaps"
+                android:hint="@string/prompt_password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textColorHint="#bbbbbb"
+                android:textSize="18sp" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/sing_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:onClick="onSignUpButtonClick"
+                android:text="@string/Next"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
 </RelativeLayout>
