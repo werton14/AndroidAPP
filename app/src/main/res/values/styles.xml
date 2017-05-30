@@ -1,8 +1,8 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/BasicColor</item>
-        <item name="colorPrimaryDark">@color/BasicColor</item>
+        <item name="colorPrimary">@drawable/background_gradient</item>
+        <item name="colorPrimaryDark">@drawable/background_gradient</item>
     </style>
 
     <style name="AppTheme.New" parent="Theme.AppCompat.Light">
