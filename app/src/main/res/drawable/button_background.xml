@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item  android:state_pressed="true">
-        <shape>
-            <solid android:color="@color/buttonPressed"></solid>
+        <shape
+            android:shape="rectangle">
+            <gradient
+                android:startColor="#5C6BC0"
+                android:endColor="#303F9F"></gradient>
             <corners android:radius="3dp"></corners></shape>
     </item>
     <item  android:state_focused="true" >
-        <shape>
-            <solid android:color="@color/buttonPressed"></solid>
-            <corners android:radius="3dp"></corners></shape>
+        <shape
+            android:shape="rectangle">
+            <gradient
+                android:startColor="#5C6BC0"
+                android:endColor="#303F9F"></gradient>
+            <corners android:radius="3dp"></corners></shape>                  <!--#5C6BC0 либо так startcolor либо #303F9F-->
     </item>
     <item>
        <shape
@@ -16,6 +22,6 @@
            <gradient
                android:startColor="#303F9F"
                android:endColor="#5C6BC0"></gradient>
-           <corners android:radius="3dp"></corners></shape>
+           <corners android:radius="3dp"></corners></shape>                  <!--#303F9F либо так startcolor либо #283593-->
     </item>
 </selector>

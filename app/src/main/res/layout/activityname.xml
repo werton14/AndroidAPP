@@ -5,12 +5,12 @@
     android:id="@+id/activity_nickname"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/White"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.vital.myapplication.activities.SignUpActivity"
-    android:background="@color/fon">
+    tools:context="com.example.vital.myapplication.activities.SignUpActivity">
     <!--TODO переделать layout-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                 android:id="@+id/choose_image_from_gallery"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:background="@color/fon"
+                android:background="@color/White"
                 android:onClick="onChooseProfileImageButtonClick"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/useer" />
