@@ -24,8 +24,8 @@ import java.util.zip.Inflater;
 public class FragmentScrollView extends Fragment {
 
     private RecyclerView recyclerView;
-
-    LinearLayoutManager linearLayoutManager;
+    private ImageDownloader imageDownloader;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -34,28 +34,30 @@ public class FragmentScrollView extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         final List<Image> images = new ArrayList<Image>();
-        images.add(new Image());
-        images.add(new Image());
-        images.add(new Image());
-        images.add(new Image());
-        images.add(new Image());
-        images.add(new Image());
-        images.add(new Image());
-        images.add(new Image());
         final List<User> users = new ArrayList<User>();
-        users.add(new User());
-        users.add(new User());
-        users.add(new User());
         final ImageAdapter imageAdapter = new ImageAdapter(images, users);
         recyclerView.setAdapter(imageAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        imageDownloader = new ImageDownloader();
+        imageDownloader.findImage();
+        imageDownloader.findImage();
+        imageDownloader.findImage();
+        imageDownloader.findImage();
+        imageDownloader.findImage();
+        imageDownloader.setOnDataDownloadedListener(new ImageDownloader.OnDataDownloadedListener() {
+            @Override
+            public void onDataDownloaded(Image image, User user) {
+                images.add(image);
+                users.add(user);
+                int prevSize = imageAdapter.getItemCount();
+                imageAdapter.notifyItemRangeInserted(prevSize, images.size() - 1);
+            }
+        });
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                int prevSize = imageAdapter.getItemCount();
-                images.add(new Image());
-                imageAdapter.notifyItemRangeInserted(prevSize, images.size() - 1);
+                imageDownloader.findImage();
             }
         });
 
