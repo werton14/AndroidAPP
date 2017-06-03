@@ -1,14 +1,9 @@
 package com.example.vital.myapplication;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,20 +16,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 
 public class FragmentPrototypeScroll extends Fragment {
@@ -51,8 +37,7 @@ public class FragmentPrototypeScroll extends Fragment {
 
     private User user;
 
-    private ViewIsReadyListener viewIsReadyListener;
-    private FirebaseInfo firebaseInfo;
+
 
     private DatabaseReference imageDbReference;
     private DatabaseReference imageViewsDbReference;
@@ -61,20 +46,21 @@ public class FragmentPrototypeScroll extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_prototype_scroll, container, false);
+        view = inflater.inflate(R.layout.image, container, false);
 
 
-        userProfileImageButton = (ImageButton) view.findViewById(R.id.userProfilePicture);
+       /* userProfileImageButton = (ImageButton) view.findViewById(R.id.userProfilePicture);
         userNicknameTextView = (TextView) view.findViewById(R.id.userNickname);
         currentImage = (ImageView) view.findViewById(R.id.currentPhoto);
         likeImageButton = (ImageButton) view.findViewById(R.id.likeImageButton);
         likeTextView = (TextView) view.findViewById(R.id.likeTextView);
         downloadPicture = (ImageButton) view.findViewById(R.id.downloadImageButton);
         firebaseInfo = FirebaseInfo.getInstance();
-
+*/
 
         return view;
     }
+/*
 
     public void findImage(){
         firebaseInfo.getViewsDbReference().orderByChild("time").limitToFirst(2).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -157,10 +143,12 @@ public class FragmentPrototypeScroll extends Fragment {
         firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+*/
 /*
                 Picasso.with(view.getContext()).load(uri).resize(userProfileImageButton.getWidth(),
                         userProfileImageButton.getHeight()).into(userProfileImageButton);
-*/
+*//*
+
             }
         });
     }
@@ -169,10 +157,12 @@ public class FragmentPrototypeScroll extends Fragment {
         firebaseInfo.getImagesSReference().child(user.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+*/
 /*
                 Picasso.with(view.getContext()).load(uri)
                         .resize(currentImage.getWidth(), currentImage.getHeight()).into(currentImage);
-*/
+*//*
+
             }
         });
     }
@@ -211,5 +201,6 @@ public class FragmentPrototypeScroll extends Fragment {
     public interface ViewIsReadyListener{
         public void OnViewIsReady();
     }
+*/
 
 }

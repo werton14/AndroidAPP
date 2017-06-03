@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.vital.myapplication.activities.Image;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.Inflater;
 
 /**
@@ -21,65 +24,46 @@ import java.util.zip.Inflater;
 public class FragmentScrollView extends Fragment {
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter<RecyclerView.ViewHolder> holderAdapter;
-//    private LinearLayout scrollLayout;
-    private FragmentPrototypeScroll previous;
+
     LinearLayoutManager linearLayoutManager;
-    private boolean hasNext;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmentscrollview, container, false);
-//        scrollLayout = (LinearLayout) view.findViewById(R.id.scrollLayout);
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        final List<Image> images = new ArrayList<Image>();
+        images.add(new Image());
+        images.add(new Image());
+        images.add(new Image());
+        images.add(new Image());
+        images.add(new Image());
+        images.add(new Image());
+        images.add(new Image());
+        images.add(new Image());
+        final List<User> users = new ArrayList<User>();
+        users.add(new User());
+        users.add(new User());
+        users.add(new User());
+        final ImageAdapter imageAdapter = new ImageAdapter(images, users);
+        recyclerView.setAdapter(imageAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
-            public void onLoadMore(int current_page) {
-                addNewPhoto(inflater);
+            public void onLoadMore(int page, int totalItemsCount) {
+                int prevSize = imageAdapter.getItemCount();
+                images.add(new Image());
+                imageAdapter.notifyItemRangeInserted(prevSize, images.size() - 1);
             }
         });
 
 
-        addNewAlonePhoto(inflater);
-        addNewPhoto(inflater);
-        addNewPhoto(inflater);
-        addNewPhoto(inflater);
 
 
         return view;
     }
 
 
-    private void addNewPhoto(final LayoutInflater inflater){
-        if(hasNext) {
-            final FragmentPrototypeScroll fps = new FragmentPrototypeScroll();
-            fps.addViewIsReadyListener(new FragmentPrototypeScroll.ViewIsReadyListener() {
-                @Override
-                public void OnViewIsReady() {
-                    hasNext = false;
-                }
-            });
-            linearLayoutManager.addView(fps.onCreateView(inflater, null, null));
-            previous.addViewIsReadyListener(new FragmentPrototypeScroll.ViewIsReadyListener() {
-                @Override
-                public void OnViewIsReady() {
-                    FragmentPrototypeScroll fg = fps;
-                    fg.findImage();
-                }
-            });
-            previous = fps;
-        }else{
-            addNewAlonePhoto(inflater);
-        }
-    }
-
-    private void addNewAlonePhoto(LayoutInflater inflater){
-        previous = new FragmentPrototypeScroll();
-        recyclerView.addView(previous.onCreateView(inflater, null, null));
-        previous.findImage();
-        hasNext = true;
-    }
 }
