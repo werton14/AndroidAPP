@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vital.myapplication.activities.Image;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -41,7 +42,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Image image = mImage.get(position);
+        User user = mUser.get(position);
 
+        ImageButton profileImageButton = holder.profileImageButton;
+        Picasso.with(holder)
     }
 
     @Override
