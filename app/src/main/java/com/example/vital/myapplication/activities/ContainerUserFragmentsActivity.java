@@ -51,16 +51,16 @@ public class ContainerUserFragmentsActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 switch(tabId){
-                    case R.id.tab_home : frameLayout.addView(new FragmentScrollView().onCreateView(getLayoutInflater(), null, null));
+                    case R.id.tab_home : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentScrollView());
                         break;
-                    case R.id.tab_leaders : frameLayout.addView(new FragmentLeaders().onCreateView(getLayoutInflater(), null, null));
-                        break;
-                    case R.id.tab_personaldata : frameLayout.addView(new FragmentPersonalDate().onCreateView(getLayoutInflater(), null, null));
+                    case R.id.tab_leaders : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,new FragmentLeaders());
+                    break;
+                    case R.id.tab_personaldata : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentPersonalDate());
                         break;
                 }
             }
         });
-    }
+    }/*frameLayout.addView(new FragmentScrollView().onCreateView(getLayoutInflater(), null, null));*/
 
 }
 
