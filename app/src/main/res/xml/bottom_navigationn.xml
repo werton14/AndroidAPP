@@ -3,11 +3,15 @@
     <tab
         id="@+id/tab_home"
         icon="@drawable/ic_home"
-        title="Home"/>
+        title="Home"
+        inActiveColor="#00FF00"
+        activeColor="#FF0000"
+        />
     <tab
         id="@+id/tab_leaders"
         icon="@drawable/ic_star"
-        title="Favorites" />
+        title="Favorites"
+        barcolorwhenselected = "#FF0000"/>
     <tab
         id="@+id/tab_personaldata"
         icon="@drawable/ic_imagge"

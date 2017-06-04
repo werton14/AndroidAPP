@@ -22,7 +22,6 @@
                     android:layout_width="match_parent"
                     app:bb_tabXmlResource="@xml/bottom_navigationn"
                     android:layout_alignParentBottom="true"
-                    app:bb_activeTabColor="@color/BasicColor"
                     app:bb_inActiveTabColor="@color/dark"
                     app:bb_badgeBackgroundColor="@color/BasicColor"
                     app:bb_behavior="iconsOnly"
