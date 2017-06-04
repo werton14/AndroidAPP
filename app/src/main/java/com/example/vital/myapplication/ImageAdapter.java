@@ -1,7 +1,9 @@
 package com.example.vital.myapplication;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vital.myapplication.activities.Image;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,15 +25,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
 
     private List<Image> mImage;
     private List<User> mUser;
+    private Context context;
 
-    public ImageAdapter(List<Image> images, List<User> users){
+    public ImageAdapter(Context context, List<Image> images, List<User> users){
         this.mImage = images;
         this.mUser = users;
+        this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View imageView = inflater.inflate(R.layout.image, parent, false);
@@ -42,11 +46,36 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.w("BindViewHolder", String.valueOf(position));
         Image image = mImage.get(position);
         User user = mUser.get(position);
+        FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
 
-        ImageButton profileImageButton = holder.profileImageButton;
-        Picasso.with(holder)
+        final ImageButton profileImageButton = holder.profileImageButton;
+        firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(context).load(uri)
+                        .resize(profileImageButton.getWidth(), profileImageButton.getHeight()).into(profileImageButton);
+            }
+        });
+
+        final ImageView competitiveImageView = holder.competitiveImageView;
+        final int curentHeight = (competitiveImageView.getWidth() * image.getHeight()) / image.getWidth();
+        competitiveImageView.setMinimumHeight(curentHeight);
+        firebaseInfo.getImagesSReference().child(user.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(context).load(uri)
+                        .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).into(competitiveImageView);
+            }
+        });
+
+        TextView nicknameTextView = holder.nicknameTextView;
+        nicknameTextView.setText(user.getNickname());
+
+        TextView likeTextView = holder.likeTextView;
+        likeTextView.setText(String.valueOf(image.getLikeCount()));
     }
 
     @Override
@@ -54,7 +83,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         return mImage.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageButton profileImageButton;
         public ImageButton optionImageButton;
         public ImageButton likeImageButton;

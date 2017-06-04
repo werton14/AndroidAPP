@@ -33,9 +33,11 @@ public class FragmentScrollView extends Fragment {
         View view = inflater.inflate(R.layout.fragmentscrollview, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView.setItemViewCacheSize(1000);
+        recyclerView.setDrawingCacheEnabled(true);
         final List<Image> images = new ArrayList<Image>();
         final List<User> users = new ArrayList<User>();
-        final ImageAdapter imageAdapter = new ImageAdapter(images, users);
+        final ImageAdapter imageAdapter = new ImageAdapter(view.getContext(), images, users);
         recyclerView.setAdapter(imageAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -57,6 +59,8 @@ public class FragmentScrollView extends Fragment {
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
+                imageDownloader.findImage();
+                imageDownloader.findImage();
                 imageDownloader.findImage();
             }
         });
