@@ -43,9 +43,6 @@ public class ContainerUserFragmentsActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setCustomView(R.layout.toolbar);
 
-        frameLayout = (FrameLayout) findViewById(R.id.contentContainer);
-
-
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -54,13 +51,12 @@ public class ContainerUserFragmentsActivity extends AppCompatActivity {
                     case R.id.tab_home : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentScrollView()).commit();
                         break;
                     case R.id.tab_leaders : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,new FragmentLeaders()).commit();
-                    break;
+                        break;
                     case R.id.tab_personaldata : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentPersonalDate()).commit();
                         break;
                 }
             }
         });
-    }/*frameLayout.addView(new FragmentScrollView().onCreateView(getLayoutInflater(), null, null));*/
-
+    }
 }
 
