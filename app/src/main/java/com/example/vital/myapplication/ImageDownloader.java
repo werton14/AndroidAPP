@@ -1,16 +1,6 @@
 package com.example.vital.myapplication;
 
 
-import android.net.Uri;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.example.vital.myapplication.activities.Image;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -21,41 +11,59 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 
 public class ImageDownloader {
 
-    private Image image;
-    private User user;
-    private DatabaseReference imageDbReference;
-    private DatabaseReference imageViewsDbReference;
+    private ArrayDeque<List<Object>> imageQuere
     private FirebaseInfo firebaseInfo;
-    private OnDataDownloadedListener onDataDownloadedListener;
+    private OnSuccessListener<Void> onTimestampUpdate;
+
+    private int unUpdatedTimestampCount = 0;
 
     public ImageDownloader(){
 
         firebaseInfo = FirebaseInfo.getInstance();
+
+        onTimestampUpdate = new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                unUpdatedTimestampCount--;
+                if(unUpdatedTimestampCount == 0) findImage();
+            }
+        };
     }
 
     public void findImage(){
-        firebaseInfo.getViewsDbReference().orderByChild("time").limitToFirst(2).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseInfo.getViewsDbReference().orderByChild("time").limitToFirst(10).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                DataSnapshot firstSnapshot = iterator.next();
-                DataSnapshot secondSnapshot = iterator.next();
-                DataSnapshot d;
-                if(firstSnapshot.child("view").getValue(long.class) < secondSnapshot.child("view").getValue(long.class)){
-                    d = firstSnapshot;
-                }else if(firstSnapshot.child("view").getValue(long.class) > secondSnapshot.child("view").getValue(long.class)){
-                    d = secondSnapshot;
-                }else{
-                    d = firstSnapshot;
+                List<DataSnapshot> snapshots = new ArrayList<DataSnapshot>();
+                iterator.forEachRemaining(snapshots::add);
+                Collections.sort(snapshots, new Comparator<DataSnapshot>() {
+                    @Override
+                    public int compare(DataSnapshot o1, DataSnapshot o2) {
+                        return o1.child("view").getValue(long.class) > o2.child("view").getValue(long.class) ? -1 :
+                                (o1.child("view").getValue(long.class) < o2.child("view").getValue(long.class)) ? 1 : 0;
+                    }
+                });
+
+                List<DatabaseReference> imageDbReferenceList = new ArrayList<DatabaseReference>();
+                for(int i = 0; i < imageDbReferenceList.size() / 2; i++){
+                    unUpdatedTimestampCount++;
+                    DatabaseReference imageViewsDbReference = snapshots.get(i).getRef();
+                    imageViewsDbReference.child("time").setValue(ServerValue.TIMESTAMP).addOnSuccessListener(onTimestampUpdate);
+                    iterateImageViews(imageViewsDbReference);
+                    String str = imageViewsDbReference.getKey();
+                    imageDbReferenceList.add(firebaseInfo.getImagesDbReference().child(str);
                 }
-                imageViewsDbReference = d.getRef();
-                String str = imageViewsDbReference.getKey();
-                imageDbReference = firebaseInfo.getImagesDbReference().child(str);
-                getImage();
+                getImage(imageDbReferenceList);
             }
 
             @Override
@@ -65,27 +73,28 @@ public class ImageDownloader {
         });
     }
 
-    private void getImage(){
-        imageDbReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                image = dataSnapshot.getValue(Image.class);
-                getUser();
-            }
+    private void getImage(List<DatabaseReference> imageDbReferenceList){
+        for(DatabaseReference imageDbReference: imageDbReferenceList) {
+            imageDbReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Image image = dataSnapshot.getValue(Image.class);
+                    getUser(image);
+                }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
-    private void getUser(){
+    private void getUser(Image image){
         firebaseInfo.getUsersDbReference().child(image.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
-                iterateImageViews();
             }
 
             @Override
@@ -95,13 +104,7 @@ public class ImageDownloader {
         });
     }
 
-    private void iterateImageViews(){
-        imageViewsDbReference.child("time").setValue(ServerValue.TIMESTAMP).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                onDataDownloadedListener.onDataDownloaded(image, user);
-            }
-        });
+    private void iterateImageViews(DatabaseReference imageViewsDbReference){
         imageViewsDbReference.child("view").runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -119,16 +122,5 @@ public class ImageDownloader {
     }
 
 
-    public OnDataDownloadedListener getOnDataDownloadedListener() {
-        return onDataDownloadedListener;
-    }
 
-    public void setOnDataDownloadedListener(OnDataDownloadedListener onDataDownloadedListener) {
-        this.onDataDownloadedListener = onDataDownloadedListener;
-    }
-
-
-    interface OnDataDownloadedListener{
-        public void onDataDownloaded(Image image, User user);
-    }
 }
