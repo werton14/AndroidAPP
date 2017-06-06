@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/fon"
+    android:background="@color/White"
     android:paddingBottom="@dimen/without_margin"
     android:paddingLeft="@dimen/without_margin"
     android:paddingRight="@dimen/without_margin"
@@ -18,6 +18,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:background="@color/White"
         android:orientation="vertical"
         android:paddingTop="@dimen/activity_vertical_margin">
 
@@ -33,7 +34,7 @@
                 android:id="@+id/profile_image_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@color/fon"
+                android:background="@color/White"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/circle" />
 
@@ -56,7 +57,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:background="@color/fon"
+                android:background="@color/White"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_social_button" />
 
@@ -92,7 +93,7 @@
                 android:id="@+id/like_image_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@color/fon"
+                android:background="@color/White"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/like" />
 
@@ -109,14 +110,14 @@
                 android:textSize="14sp"
                 android:typeface="serif" />
 
-            <ImageButton
+            <!--<ImageButton
                 android:id="@+id/download_image_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:background="@color/fon"
+                android:background="@color/White"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_arrow" />
+                app:srcCompat="@drawable/ic_arrow" />-->
 
         </LinearLayout>
 

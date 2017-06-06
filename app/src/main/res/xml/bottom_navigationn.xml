@@ -4,8 +4,6 @@
         id="@+id/tab_home"
         icon="@drawable/ic_home"
         title="Home"
-        inActiveColor="#00FF00"
-        activeColor="#FF0000"
         />
     <tab
         id="@+id/tab_leaders"

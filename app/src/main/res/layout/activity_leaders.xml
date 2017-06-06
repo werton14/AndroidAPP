@@ -42,6 +42,7 @@
                                     android:layout_height="90dp"
                                     android:layout_marginEnd="@dimen/dimen_between_picture"
                                     android:layout_marginStart="@dimen/dimen_between_picture" />
+
                         </LinearLayout>
 
                         <LinearLayout
