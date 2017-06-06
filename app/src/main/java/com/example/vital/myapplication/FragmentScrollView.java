@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.vital.myapplication.activities.Image;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
@@ -41,32 +43,30 @@ public class FragmentScrollView extends Fragment {
         recyclerView.setAdapter(imageAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+
         imageDownloader = new ImageDownloader();
-        imageDownloader.findImage();
-        imageDownloader.findImage();
-        imageDownloader.findImage();
-        imageDownloader.findImage();
-        imageDownloader.findImage();
-        imageDownloader.setOnDataDownloadedListener(new ImageDownloader.OnDataDownloadedListener() {
-            @Override
-            public void onDataDownloaded(Image image, User user) {
-                images.add(image);
-                users.add(user);
-                int prevSize = imageAdapter.getItemCount();
-                imageAdapter.notifyItemRangeInserted(prevSize, images.size() - 1);
-            }
-        });
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                imageDownloader.findImage();
-                imageDownloader.findImage();
-                imageDownloader.findImage();
+                ArrayDeque<List<Object>> dataQueue = imageDownloader.getDataQueue();
+                if(!dataQueue.isEmpty()){
+                    List<Object> data = dataQueue.poll();
+                    images.add((Image) data.get(0));
+                    users.add((User) data.get(1));
+                    int prevSize = imageAdapter.getItemCount();
+                    imageAdapter.notifyItemRangeInserted(prevSize, images.size() - 1);
+                }else {
+                    imageDownloader.setOnDataDownloadedListener(new ImageDownloader.OnDataDownloadedListener() {
+                        @Override
+                        public void onDataDownloaded() {
+                            onLoadMore(page, totalItemsCount);
+                            imageDownloader.setOnDataDownloadedListener(null);
+                        }
+                    });
+                }
+
             }
         });
-
-
-
 
         return view;
     }
