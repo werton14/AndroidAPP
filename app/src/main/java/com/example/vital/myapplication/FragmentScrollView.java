@@ -56,7 +56,6 @@ public class FragmentScrollView extends Fragment {
                 imageAdapter.notifyItemRangeInserted(prevSize, images.size() - 1);
             }
         });
-
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
@@ -66,9 +65,11 @@ public class FragmentScrollView extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(imageAdapter);
+
+
 
         return view;
     }
+
 
 }
