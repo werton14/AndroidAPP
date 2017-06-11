@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,91 +25,63 @@ import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
 
-    public final int TYPE_MOVIE = 0;
-    public final int TYPE_LOAD = 1;
-
     private List<Image> mImage;
     private List<User> mUser;
     private Context context;
-    OnLoadMoreListener loadMoreListener;
-    boolean isLoading = false, isMoreDataAvailable = true;
+    private int windowWidth;
 
     public ImageAdapter(Context context, List<Image> images, List<User> users){
         this.mImage = images;
         this.mUser = users;
         this.context = context;
-
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        windowWidth = display.getWidth();
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        if(viewType==TYPE_MOVIE){
+        View imageView = inflater.inflate(R.layout.image, parent, false);
 
-            return new ViewHolder(inflater.inflate(R.layout.image,parent,false));
+        ViewHolder viewHolder = new ViewHolder(imageView);
 
-        }else{
-            return new LoadHolder(inflater.inflate(R.layout.progress_bar,parent,false));
-        }
-
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.w("BindViewHolder", String.valueOf(position));
+        Image image = mImage.get(position);
+        User user = mUser.get(position);
+        FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
 
-        if (holder instanceof ViewHolder)
-        {
-            Log.w("BindViewHolder", String.valueOf(position));
-            Image image = mImage.get(position);
-            User user = mUser.get(position);
-            FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
+        final ImageView competitiveImageView = holder.competitiveImageView;
+        int currentHeight = (windowWidth * image.getHeight()) / image.getWidth();
+        competitiveImageView.setMinimumHeight(currentHeight);
 
-            final ImageButton profileImageButton = holder.profileImageButton;
-            firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.with(context).load(uri)
-                            .resize(profileImageButton.getWidth(), profileImageButton.getHeight()).into(profileImageButton);
-                }
-            });
+        firebaseInfo.getImagesSReference().child(image.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(context).load(uri)
+                        .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).into(competitiveImageView);
+            }
+        });
+        final ImageButton profileImageButton = holder.profileImageButton;
+        firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(context).load(uri)
+                        .resize(profileImageButton.getWidth(), profileImageButton.getHeight()).into(profileImageButton);
+            }
+        });
 
-            final ImageView competitiveImageView = holder.competitiveImageView;
-            final int curentHeight = (competitiveImageView.getWidth() * image.getHeight()) / image.getWidth();
-            competitiveImageView.setMinimumHeight(curentHeight);
-            firebaseInfo.getImagesSReference().child(user.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.with(context).load(uri)
-                            .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).into(competitiveImageView);
-                }
-            });
+        TextView nicknameTextView = holder.nicknameTextView;
+        nicknameTextView.setText(user.getNickname());
 
-            TextView nicknameTextView = holder.nicknameTextView;
-            nicknameTextView.setText(user.getNickname());
-
-            TextView likeTextView = holder.likeTextView;
-            likeTextView.setText(String.valueOf(image.getLikeCount()));
-        }else if (holder instanceof LoadHolder){
-            isLoading = true;
-            loadMoreListener.onLoadMore();
-        }
-
-
-
-
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        int viewtype = TYPE_MOVIE;
-        if (position < mUser.size()){
-            viewtype = TYPE_MOVIE;
-        }else if (position  == mUser.size()){
-            viewtype = TYPE_LOAD;
-        }
-        return viewtype;
+        TextView likeTextView = holder.likeTextView;
+        likeTextView.setText(String.valueOf(image.getLikeCount()));
     }
 
     @Override
@@ -134,29 +108,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
             competitiveImageView = (ImageView) itemView.findViewById(R.id.competitive_image_view);
             nicknameTextView = (TextView) itemView.findViewById(R.id.nickname_text_view);
             likeTextView = (TextView) itemView.findViewById(R.id.like_text_view);
-        }
-
-
-    }
-
-    interface OnLoadMoreListener{
-        void onLoadMore();
-    }
-
-    public void setMoreDataAvailable(boolean moreDataAvailable) {
-        isMoreDataAvailable = moreDataAvailable;
-    }
-    public void notifyDataChanged(){
-        notifyDataSetChanged();
-        isLoading = false;
-    }
-
-    public void setLoadMoreListener(OnLoadMoreListener loadMoreListener) {
-        this.loadMoreListener = loadMoreListener;
-    }
-    private class LoadHolder extends ViewHolder {
-        public LoadHolder(View itemview) {
-            super(itemview);
         }
     }
 }

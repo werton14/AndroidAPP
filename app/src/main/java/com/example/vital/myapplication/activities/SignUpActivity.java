@@ -96,11 +96,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void updateUserData() {
         String profileImageFileName = UUID.randomUUID().toString() + ".png";
-        String competitiveImageFileName = UUID.randomUUID().toString() + ".jpg";
         profileImageSReference = FirebaseStorage.getInstance().getReference().child("profileImages").child(profileImageFileName);
 
         DatabaseReference userDbReference = FirebaseDatabase.getInstance().getReference().child("users");
-        User user = new User(nickname, profileImageFileName, competitiveImageFileName);
+        User user = new User(nickname, profileImageFileName);
         final String userId = firebaseAuth.getCurrentUser().getUid();
         userDbReference.child(userId).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

@@ -1,6 +1,5 @@
 package com.example.vital.myapplication;
 
-
 import android.util.Log;
 
 import com.example.vital.myapplication.activities.Image;
@@ -13,7 +12,6 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,78 +20,73 @@ import java.util.List;
 
 public class ImageDownloader {
 
-    private ArrayDeque<List<Object>> dataQueue;
-
     private FirebaseInfo firebaseInfo;
-    private OnSuccessListener<Void> onTimestampUpdate;
-    private int unUpdatedTimestampCount = 0;
-
-    private OnDataDownloadedListener onDataDownloadedListener = null;
+    private int unDownloadedData = 0;
+    private int unUpdatedViews = 0;
+    private int unCompletedTasks = 0;
+    private OnDataDownloadedListener onDataDownloadedListener;
+    private OnSuccessListener<Void> onTimeStampUpdated;
 
     public ImageDownloader(){
 
         firebaseInfo = FirebaseInfo.getInstance();
 
-        onTimestampUpdate = new OnSuccessListener<Void>() {
+        onTimeStampUpdated = new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                unUpdatedTimestampCount--;
-                findImage();
+                unUpdatedViews--;
+                if(unUpdatedViews == 0 && unCompletedTasks > 0){
+                    getData();
+                }
             }
         };
-
-        dataQueue = new ArrayDeque<List<Object>>();
-
-        // initial search
-        findImage();
 
     }
 
     public void findImage(){
-        if(unUpdatedTimestampCount == 0 && dataQueue.size() < 5) {
-            firebaseInfo.getViewsDbReference().orderByChild("time").limitToFirst(10).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                    List<DataSnapshot> snapshots = new ArrayList<DataSnapshot>();
-                    while (iterator.hasNext()){
-                        snapshots.add(iterator.next());
-                    }
-                    Collections.sort(snapshots, new Comparator<DataSnapshot>() {
-                        @Override
-                        public int compare(DataSnapshot o1, DataSnapshot o2) {
-                            return o1.child("view").getValue(long.class) > o2.child("view").getValue(long.class) ? -1 :
-                                    (o1.child("view").getValue(long.class) < o2.child("view").getValue(long.class)) ? 1 : 0;
-                        }
-                    });
-
-                    List<DatabaseReference> imageDbReferenceList = new ArrayList<DatabaseReference>();
-                    for (int i = 0; i < snapshots.size() / 2; i++) {
-                        unUpdatedTimestampCount++;
-                        DatabaseReference imageViewsDbReference = snapshots.get(i).getRef();
-                        imageViewsDbReference.child("time").setValue(ServerValue.TIMESTAMP).addOnSuccessListener(onTimestampUpdate);
-                        iterateImageViews(imageViewsDbReference);
-                        String str = imageViewsDbReference.getKey();
-                        imageDbReferenceList.add(firebaseInfo.getImagesDbReference().child(str));
-                    }
-                    getImage(imageDbReferenceList);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+        if(unUpdatedViews == 0){
+            getData();
+        }else {
+            unCompletedTasks++;
         }
     }
 
-    private void getImage(List<DatabaseReference> imageDbReferenceList){
+    private void getData(){
+        firebaseInfo.getViewsDbReference().orderByChild("time").limitToFirst(10).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                List<DataSnapshot> snapshots = transformToDataSnaphsotList(iterator);
+                sortDataSnapshots(snapshots);
+
+                List<DatabaseReference> imageDbReferenceList = new ArrayList<DatabaseReference>();
+                for (int i = 0; i < snapshots.size() / 2; i++) {
+                    unDownloadedData++;
+                    unUpdatedViews++;
+                    DatabaseReference imageViewsDbReference = snapshots.get(i).getRef();
+                    updateImageViews(imageViewsDbReference);
+                    imageDbReferenceList.add(getImageDbReference(imageViewsDbReference));
+                }
+                List<Image> images = new ArrayList<Image>();
+                List<User> users = new ArrayList<User>();
+                getImage(imageDbReferenceList, images, users);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getImage(List<DatabaseReference> imageDbReferenceList, final List<Image> images, final List<User> users){
         for(DatabaseReference imageDbReference: imageDbReferenceList) {
             imageDbReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Image image = dataSnapshot.getValue(Image.class);
-                    getUser(image);
+                    images.add(image);
+                    getUser(image, images, users);
                 }
 
                 @Override
@@ -104,17 +97,17 @@ public class ImageDownloader {
         }
     }
 
-    private void getUser(final Image image){
+    private void getUser(final Image image, final List<Image> images, final List<User> users){
         firebaseInfo.getUsersDbReference().child(image.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                List<Object> data = new ArrayList<Object>();
-                data.add(image);
-                data.add(user);
+                users.add(user);
 
-                dataQueue.add(data);
-                if(onDataDownloadedListener != null) onDataDownloadedListener.onDataDownloaded();
+                unDownloadedData--;
+                if(unDownloadedData == 0){
+                    onDataDownloadedListener.onDataDownloaded(images, users);
+                }
             }
 
             @Override
@@ -141,19 +134,41 @@ public class ImageDownloader {
         });
     }
 
-    public ArrayDeque<List<Object>> getDataQueue() {
-        findImage();
-        return dataQueue;
+    private List<DataSnapshot> transformToDataSnaphsotList(Iterator<DataSnapshot> iterator){
+        List<DataSnapshot> snapshots = new ArrayList<DataSnapshot>();
+        while (iterator.hasNext()){
+            snapshots.add(iterator.next());
+        }
+        return snapshots;
+    }
+
+    private void sortDataSnapshots(List<DataSnapshot> snapshots){
+        Collections.sort(snapshots, new Comparator<DataSnapshot>() {
+            @Override
+            public int compare(DataSnapshot o1, DataSnapshot o2) {
+                return o1.child("view").getValue(long.class) < o2.child("view").getValue(long.class) ? -1 :
+                        (o1.child("view").getValue(long.class) > o2.child("view").getValue(long.class)) ? 1 : 0;
+            }
+        });
+    }
+
+    private void updateImageViews(DatabaseReference imageViewsDbReference){
+        imageViewsDbReference.child("time").setValue(ServerValue.TIMESTAMP)
+                .addOnSuccessListener(onTimeStampUpdated);
+        iterateImageViews(imageViewsDbReference);
+    }
+
+    private DatabaseReference getImageDbReference(DatabaseReference imageViewsDbReference){
+        String str = imageViewsDbReference.getKey();
+        return firebaseInfo.getImagesDbReference().child(str);
     }
 
     public void setOnDataDownloadedListener(OnDataDownloadedListener onDataDownloadedListener) {
-
         this.onDataDownloadedListener = onDataDownloadedListener;
     }
 
-    interface OnDataDownloadedListener{
-        public void onDataDownloaded();
-
+    public interface OnDataDownloadedListener{
+        public void onDataDownloaded(List<Image> images, List<User> users);
     }
 
 }
