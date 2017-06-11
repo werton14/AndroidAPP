@@ -93,7 +93,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         public ImageButton profileImageButton;
         public ImageButton optionImageButton;
         public ImageButton likeImageButton;
-        public ImageButton downloadImageButton;
         public ImageView competitiveImageView;
         public TextView nicknameTextView;
         public TextView likeTextView;
@@ -104,7 +103,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
             profileImageButton = (ImageButton) itemView.findViewById(R.id.profile_image_button);
             optionImageButton = (ImageButton) itemView.findViewById(R.id.option_image_button);
             likeImageButton = (ImageButton) itemView.findViewById(R.id.like_image_button);
-            downloadImageButton = (ImageButton) itemView.findViewById(R.id.download_image_button);
             competitiveImageView = (ImageView) itemView.findViewById(R.id.competitive_image_view);
             nicknameTextView = (TextView) itemView.findViewById(R.id.nickname_text_view);
             likeTextView = (TextView) itemView.findViewById(R.id.like_text_view);
