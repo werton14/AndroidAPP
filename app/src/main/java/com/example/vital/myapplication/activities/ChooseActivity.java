@@ -49,9 +49,6 @@ public class ChooseActivity extends AppCompatActivity {
     private Uri fileForNewPhoto;
 
     private FirebaseInfo firebaseInfo;
-    private StorageReference competitiveImageSReference;
-    private String competitiveImageFileName;
-
 
     static final int GET_PHOTO_REQUEST = 1;
 
@@ -71,19 +68,6 @@ public class ChooseActivity extends AppCompatActivity {
 
         onPageChangeListener = this.getOnPageListener();
         mViewPager.addOnPageChangeListener(onPageChangeListener);
-
-        firebaseInfo.getCurrentUserDbReference().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                competitiveImageSReference = firebaseInfo.getImagesSReference().child(user.getCompetitiveImageFileName());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
 
@@ -154,14 +138,17 @@ public class ChooseActivity extends AppCompatActivity {
         final int width = img.getWidth();
         final int height = img.getHeight();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        img.compress(Bitmap.CompressFormat.JPEG, 40, baos);
         final byte imageBA[] = baos.toByteArray();
 
+        final String competitiveImageFileName = UUID.randomUUID().toString() + ".jpg";
+
+        StorageReference competitiveImageSReference = firebaseInfo.getImagesSReference().child(competitiveImageFileName);
         competitiveImageSReference.putBytes(imageBA).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 DatabaseReference imageDbReference = firebaseInfo.getImagesDbReference().push();
-                Image image = new Image(firebaseInfo.getCurrentUserId(), width, height);
+                Image image = new Image(competitiveImageFileName, firebaseInfo.getCurrentUserId(), width, height);
                 imageDbReference.setValue(image);
                 DatabaseReference viewsDbReference = firebaseInfo.getViewsDbReference();
                 viewsDbReference.child(imageDbReference.getKey()).child("view").setValue(0L);

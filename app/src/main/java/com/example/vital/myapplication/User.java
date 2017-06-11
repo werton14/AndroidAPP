@@ -8,18 +8,16 @@ public class User {
 
     private String nickname;
     private String profileImageFileName;
-    private String competitiveImageFileName;
 
     public User(){
         nickname = null;
         profileImageFileName = null;
-        competitiveImageFileName = null;
     }
 
-    public User(String nickname, String profileImageFileName, String competitiveImageFileName){
+    public User(String nickname, String profileImageFileName){
         this.nickname = nickname;
         this.profileImageFileName = profileImageFileName;
-        this.competitiveImageFileName = competitiveImageFileName;
+
     }
 
     public String getNickname() {
@@ -38,11 +36,4 @@ public class User {
         this.profileImageFileName = profileImageFileName;
     }
 
-    public String getCompetitiveImageFileName() {
-        return competitiveImageFileName;
-    }
-
-    public void setCompetitiveImageFileName(String competitiveImageFileName) {
-        this.competitiveImageFileName = competitiveImageFileName;
-    }
 }

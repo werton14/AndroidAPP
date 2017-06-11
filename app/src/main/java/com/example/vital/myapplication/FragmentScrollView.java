@@ -8,16 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.vital.myapplication.activities.Image;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by qwert on 4/9/2017.
@@ -28,6 +24,9 @@ public class FragmentScrollView extends Fragment {
     private RecyclerView recyclerView;
     private ImageDownloader imageDownloader;
     private LinearLayoutManager linearLayoutManager;
+    private ImageAdapter imageAdapter;
+    private List<Image> mImages;
+    private List<User> mUsers;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -37,39 +36,34 @@ public class FragmentScrollView extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setItemViewCacheSize(1000);
         recyclerView.setDrawingCacheEnabled(true);
-        final List<Image> images = new ArrayList<Image>();
-        final List<User> users = new ArrayList<User>();
-        final ImageAdapter imageAdapter = new ImageAdapter(view.getContext(), images, users);
+        mImages = new ArrayList<Image>();
+        mUsers = new ArrayList<User>();
+        imageAdapter = new ImageAdapter(view.getContext(), mImages, mUsers);
         recyclerView.setAdapter(imageAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
         imageDownloader = new ImageDownloader();
+        imageDownloader.setOnDataDownloadedListener(new ImageDownloader.OnDataDownloadedListener() {
+            @Override
+            public void onDataDownloaded(List<Image> images, List<User> users) {
+                int currentItemCount = imageAdapter.getItemCount();
+                mImages.addAll(images);
+                mUsers.addAll(users);
+                imageAdapter.notifyItemRangeInserted(currentItemCount, images.size()-1);
+            }
+        });
+        imageDownloader.findImage();
+
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                ArrayDeque<List<Object>> dataQueue = imageDownloader.getDataQueue();
-                if(!dataQueue.isEmpty()){
-                    List<Object> data = dataQueue.poll();
-                    images.add((Image) data.get(0));
-                    users.add((User) data.get(1));
-                    int prevSize = imageAdapter.getItemCount();
-                    imageAdapter.notifyItemRangeInserted(prevSize, images.size() - 1);
-                }else {
-                    imageDownloader.setOnDataDownloadedListener(new ImageDownloader.OnDataDownloadedListener() {
-                        @Override
-                        public void onDataDownloaded() {
-                            onLoadMore(page, totalItemsCount);
-                            imageDownloader.setOnDataDownloadedListener(null);
-                        }
-                    });
-                }
-
+                imageDownloader.findImage();
+                Log.w("Is running", "Fuck!");
             }
         });
 
         return view;
     }
-
 
 }

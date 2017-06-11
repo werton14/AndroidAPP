@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,11 +28,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
     private List<Image> mImage;
     private List<User> mUser;
     private Context context;
+    private int windowWidth;
 
     public ImageAdapter(Context context, List<Image> images, List<User> users){
         this.mImage = images;
         this.mUser = users;
         this.context = context;
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        windowWidth = display.getWidth();
     }
 
     @Override
@@ -51,23 +57,23 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
         User user = mUser.get(position);
         FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
 
+        final ImageView competitiveImageView = holder.competitiveImageView;
+        int currentHeight = (windowWidth * image.getHeight()) / image.getWidth();
+        competitiveImageView.setMinimumHeight(currentHeight);
+
+        firebaseInfo.getImagesSReference().child(image.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(context).load(uri)
+                        .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).into(competitiveImageView);
+            }
+        });
         final ImageButton profileImageButton = holder.profileImageButton;
         firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.with(context).load(uri)
                         .resize(profileImageButton.getWidth(), profileImageButton.getHeight()).into(profileImageButton);
-            }
-        });
-
-        final ImageView competitiveImageView = holder.competitiveImageView;
-        final int curentHeight = (competitiveImageView.getWidth() * image.getHeight()) / image.getWidth();
-        competitiveImageView.setMinimumHeight(curentHeight);
-        firebaseInfo.getImagesSReference().child(user.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(context).load(uri)
-                        .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).into(competitiveImageView);
             }
         });
 
