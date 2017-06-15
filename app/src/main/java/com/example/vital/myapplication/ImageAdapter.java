@@ -1,6 +1,8 @@
 package com.example.vital.myapplication;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -100,6 +102,15 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 public void onSuccess(Uri uri) {
                     Picasso.with(context).load(uri)
                             .resize(profileImageButton.getWidth(), profileImageButton.getHeight()).into(profileImageButton);
+                }
+            });
+
+            final ImageButton likeImageButton = holder.likeImageButton;
+            likeImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    likeImageButton.setImageResource(R.drawable.ic_like_red_version);
                 }
             });
 

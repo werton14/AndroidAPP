@@ -100,7 +100,7 @@
                 android:layout_height="30dp"
                 android:background="@color/White"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/like_color_change" />
+                app:srcCompat="@drawable/like" />
 
             <TextView
                 android:id="@+id/like_text_view"
