@@ -73,11 +73,6 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder h, int position) {
-
-        Log.w("plaha",String.valueOf(h instanceof ViewHolder));
-        Log.w("plaha",String.valueOf(h instanceof LoadHolder));
-
-
         if (h instanceof ViewHolder){
             ViewHolder holder = (ViewHolder) h;
             Log.w("BindViewHolder", String.valueOf(position));
@@ -97,6 +92,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }
             });
             final ImageButton profileImageButton = holder.profileImageButton;
+
             firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {

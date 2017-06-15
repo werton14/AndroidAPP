@@ -29,6 +29,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by werton on 01.05.17.
  */
@@ -36,7 +38,7 @@ import java.io.IOException;
 public class NicknameActivity extends AppCompatActivity {
 
     private EditText editNickname;
-    private ImageButton chooseProfileImageButton;
+    private CircleImageView chooseProfileImageButton;
     private DatabaseReference nicknamesDbReference;
     private String nickname;
     private Uri localProfileImageUri;
@@ -52,7 +54,7 @@ public class NicknameActivity extends AppCompatActivity {
         nicknamesDbReference = FirebaseInfo.getInstance().getNicknamesDbReference();
 
         editNickname = (EditText) findViewById(R.id.nickname_edit_text_on_nickname);
-        chooseProfileImageButton = (ImageButton) findViewById(R.id.choose_image_from_gallery);
+        chooseProfileImageButton = (CircleImageView) findViewById(R.id.choose_image_from_gallery);
     }
 
     @Override
@@ -101,10 +103,10 @@ public class NicknameActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        img = getCroppedBitmap(img);
+        /*img = getCroppedBitmap(img);*/
         chooseProfileImageButton.setImageBitmap(img);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        img.compress(Bitmap.CompressFormat.JPEG, 30, baos);
         return baos.toByteArray();
     }
 

@@ -36,15 +36,23 @@
             android:gravity="left"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <ImageButton
-                app:srcCompat="@drawable/ic_man"
-                android:id="@+id/imageButton"
-                android:scaleType="fitStart"
-                android:background="@color/fon"
-                android:layout_weight="0.11"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/personal_profile_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_man" />
+
+           <!-- <ImageButton
+                android:id="@+id/personal_profile_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.11"
+                android:background="@color/fon"
+                android:scaleType="fitStart"
+                app:srcCompat="@drawable/ic_man" />-->
         </LinearLayout>
 
         <LinearLayout

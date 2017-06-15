@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
                 android:onClick="onFinishButtonClick"
-                android:text="@string/Next"
+                android:text="@string/End"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 

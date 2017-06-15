@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.example.vital.myapplication.activities.Image;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 public class FragmentScrollView extends Fragment {
 
+    private ImageButton imageButton;
     private RecyclerView recyclerView;
     private ImageDownloader imageDownloader;
     private LinearLayoutManager linearLayoutManager;
@@ -33,6 +35,7 @@ public class FragmentScrollView extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragmentscrollview, container, false);
 
+        imageButton = (ImageButton) view.findViewById(R.id.like_image_button);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setItemViewCacheSize(1000);
         recyclerView.setDrawingCacheEnabled(true);
@@ -64,6 +67,11 @@ public class FragmentScrollView extends Fragment {
         });
 
         return view;
+    }
+
+    public void setColorForLikeButton(){
+
+        
     }
 
 }

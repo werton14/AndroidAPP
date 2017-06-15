@@ -8,14 +8,14 @@
                 android:endColor="#303F9F"></gradient>
             <corners android:radius="3dp"></corners></shape>
     </item>
-    <item  android:state_focused="true" >
+    <!--<item  android:state_selected="true" >
         <shape
             android:shape="rectangle">
             <gradient
                 android:startColor="#5C6BC0"
                 android:endColor="#303F9F"></gradient>
-            <corners android:radius="3dp"></corners></shape>                  <!--#5C6BC0 либо так startcolor либо #303F9F-->
-    </item>
+            <corners android:radius="3dp"></corners></shape>                  &lt;!&ndash;#5C6BC0 либо так startcolor либо #303F9F&ndash;&gt;
+    </item>-->
     <item>
        <shape
            android:shape="rectangle">
