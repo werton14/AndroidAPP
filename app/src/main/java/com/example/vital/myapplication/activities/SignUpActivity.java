@@ -80,7 +80,6 @@ public class SignUpActivity extends AppCompatActivity {
             public void onSuccess(Object o) {
                 updateUserData();
                 if(profileImageBA != null) uploadPic(profileImageBA);
-
             }
         };
     }
@@ -113,6 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void toChooseActivity(){
         Intent intent = new Intent(getApplicationContext(), ChooseActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 

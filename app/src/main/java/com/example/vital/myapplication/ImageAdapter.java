@@ -39,13 +39,10 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public int getItemViewType(int position){
         int viewType = VIEW_TYPE_MOVE;
-        Log.w("spy", String.valueOf(mUser.size()-1));
-        Log.w("spy", String.valueOf(position));
         if(position < mUser.size()){
             viewType = VIEW_TYPE_MOVE;
         }
         if (position == mUser.size() - 1){
-            Log.w("bugaga", String.valueOf(position));
             viewType = VIEW_TYPE_LOAD;
         }
         return viewType;
@@ -63,7 +60,6 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-
         switch (viewType) {
             case VIEW_TYPE_MOVE:
                 return new ViewHolder(inflater.inflate(R.layout.image,parent,false));
@@ -79,7 +75,6 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder h, int position) {
         if (h instanceof ViewHolder){
             ViewHolder holder = (ViewHolder) h;
-            Log.w("BindViewHolder", String.valueOf(position));
             Image image = mImage.get(position);
             User user = mUser.get(position);
             FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
@@ -121,7 +116,6 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             likeTextView.setText(String.valueOf(image.getLikeCount()));
         }else if (h instanceof LoadHolder){
 
-            Log.w("pisun",String.valueOf(position));
         }
 
     }

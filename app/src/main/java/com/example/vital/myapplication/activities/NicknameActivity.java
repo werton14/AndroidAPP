@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
@@ -112,7 +111,8 @@ public class NicknameActivity extends AppCompatActivity {
 
     private void toSignUpActivity(){
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-        if(localProfileImageUri != null) intent.putExtra("imageBA", getImageBA(localProfileImageUri));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        if(localProfileImageUri != null) intent.putExtra("imageBA", localProfileImageUri);
         else intent.putExtra("imageBA", (byte[]) null);
         intent.putExtra("nickname", nickname);
         startActivity(intent);

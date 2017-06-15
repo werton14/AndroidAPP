@@ -127,7 +127,7 @@ public class ChooseActivity extends AppCompatActivity {
 
 
     void uploadPic(Uri selectedImage){
-        Bitmap img = null;
+        Bitmap img  = null;
         try {
             img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
         } catch (FileNotFoundException e) {
@@ -135,10 +135,11 @@ public class ChooseActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         final int width = img.getWidth();
         final int height = img.getHeight();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.JPEG, 40, baos);
+        img.compress(Bitmap.CompressFormat.WEBP, 30, baos);
         final byte imageBA[] = baos.toByteArray();
 
         final String competitiveImageFileName = UUID.randomUUID().toString() + ".jpg";
