@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by werton on 03.06.17.
  */
@@ -91,7 +93,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                             .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).into(competitiveImageView);
                 }
             });
-            final ImageButton profileImageButton = holder.profileImageButton;
+            final CircleImageView profileImageButton = holder.profileImageButton;
 
             firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
@@ -119,7 +121,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public ImageButton profileImageButton;
+        public CircleImageView profileImageButton;
         public ImageButton optionImageButton;
         public ImageButton likeImageButton;
         public ImageView competitiveImageView;
@@ -129,7 +131,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         public ViewHolder(View itemView){
             super(itemView);
 
-            profileImageButton = (ImageButton) itemView.findViewById(R.id.profile_image_button);
+            profileImageButton = (CircleImageView) itemView.findViewById(R.id.profile_image_button);
             optionImageButton = (ImageButton) itemView.findViewById(R.id.option_image_button);
             likeImageButton = (ImageButton) itemView.findViewById(R.id.like_image_button);
             competitiveImageView = (ImageView) itemView.findViewById(R.id.competitive_image_view);

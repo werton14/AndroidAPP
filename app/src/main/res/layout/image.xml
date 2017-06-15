@@ -29,14 +29,19 @@
             android:paddingLeft="@dimen/activity_vertical_margin"
             android:paddingRight="@dimen/activity_vertical_margin">
 
-            <ImageButton
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/circle"/>
 
+           <!-- <ImageButton
                 android:id="@+id/profile_image_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@color/White"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/circle" />
+                app:srcCompat="@drawable/circle" />-->
 
             <TextView
                 android:id="@+id/nickname_text_view"
@@ -95,7 +100,7 @@
                 android:layout_height="30dp"
                 android:background="@color/White"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/like" />
+                app:srcCompat="@drawable/like_color_change" />
 
             <TextView
                 android:id="@+id/like_text_view"
