@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
+import com.example.vital.myapplication.RegistrationData;
 import com.example.vital.myapplication.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,6 +38,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -48,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
     private StorageReference profileImageSReference;
     private String nickname;
     private byte []profileImageBA;
+    private RegistrationData registrationData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         editEmail = (EditText) findViewById(R.id.email_edit_text_on_signUp);
         editPassword = (EditText) findViewById(R.id.password_edit_text_on_signUp);
+
+        Intent intent = getIntent();
+        registrationData = (RegistrationData) intent.getSerializableExtra("RegistrationData");
+
+        //overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
     }
 
@@ -118,5 +126,23 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void onFinishButtonClick(View view){
         createUserWithEmailAndPassword(editEmail.getText().toString(), editPassword.getText().toString());
+    }
+
+    @Override
+    public void onBackPressed() {
+        toNicknameActivity();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        toNicknameActivity();
+        return true;
+    }
+
+    private void toNicknameActivity(){
+        Intent intent = new Intent(this.getApplicationContext(), NicknameActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 }

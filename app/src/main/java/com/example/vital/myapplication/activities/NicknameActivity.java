@@ -17,6 +17,7 @@ import android.widget.EditText;
 
 import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
+import com.example.vital.myapplication.RegistrationData;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,8 +40,8 @@ public class NicknameActivity extends AppCompatActivity {
     private EditText editNickname;
     private CircleImageView chooseProfileImageButton;
     private DatabaseReference nicknamesDbReference;
-    private String nickname;
     private Uri localProfileImageUri;
+    private RegistrationData registrationData;
 
     final private int PHOTO_FROM_GALLERY_REQUEST = 233;
 
@@ -54,6 +55,9 @@ public class NicknameActivity extends AppCompatActivity {
 
         editNickname = (EditText) findViewById(R.id.nickname_edit_text_on_nickname);
         chooseProfileImageButton = (CircleImageView) findViewById(R.id.choose_image_from_gallery);
+
+        registrationData = new RegistrationData();
+        //overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
     }
 
     @Override
@@ -63,8 +67,9 @@ public class NicknameActivity extends AppCompatActivity {
             startCropActivity(selectedImage);
         }if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            localProfileImageUri = result.getUri();
-            getImageBA(localProfileImageUri);
+            Uri localProfileImageUri = result.getUri();
+            registrationData.setProfileImageUri(localProfileImageUri);
+            chooseProfileImageButton.setImageURI(localProfileImageUri);
             //TODO // FIXME: 02.05.17 
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -72,25 +77,6 @@ public class NicknameActivity extends AppCompatActivity {
 
     private void startCropActivity(Uri selectedImage){
         CropImage.activity(selectedImage).setGuidelines(CropImageView.Guidelines.ON).setCropShape(CropImageView.CropShape.OVAL).setAspectRatio(1, 1).start(this);
-    }
-
-    public Bitmap getCroppedBitmap(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-                bitmap.getWidth() / 2, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return output;
     }
 
     private byte[] getImageBA(Uri selectedImage){
@@ -102,8 +88,7 @@ public class NicknameActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*img = getCroppedBitmap(img);*/
-        chooseProfileImageButton.setImageBitmap(img);
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 30, baos);
         return baos.toByteArray();
@@ -111,11 +96,11 @@ public class NicknameActivity extends AppCompatActivity {
 
     private void toSignUpActivity(){
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        if(localProfileImageUri != null) intent.putExtra("imageBA", localProfileImageUri);
-        else intent.putExtra("imageBA", (byte[]) null);
-        intent.putExtra("nickname", nickname);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("RegistrationData", registrationData);
         startActivity(intent);
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+
     }
 
     private void checkNicknameAvailable(){
@@ -129,7 +114,8 @@ public class NicknameActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(!dataSnapshot.hasChild(n)) {
-                        nickname = n;
+                        // FIXME: change to reference check existing
+                        registrationData.setNickname(n);
                         toSignUpActivity();
                     }else {
                         editNickname.setError("User with this nickname already exist!");
