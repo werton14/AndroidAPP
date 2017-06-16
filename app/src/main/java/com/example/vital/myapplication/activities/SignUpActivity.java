@@ -1,44 +1,28 @@
 package com.example.vital.myapplication.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
 import com.example.vital.myapplication.RegistrationData;
 import com.example.vital.myapplication.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.StringJoiner;
 import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -66,9 +50,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         registrationData = (RegistrationData) intent.getSerializableExtra("RegistrationData");
+    }
 
-        //overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
     }
 
     private UploadTask uploadPic(byte[] imageBA){
@@ -96,7 +83,15 @@ public class SignUpActivity extends AppCompatActivity {
         return new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                FirebaseAuthException authException = (FirebaseAuthException) e;
+                switch (authException.getErrorCode()){
+                    case "ERROR_INVALID_EMAIL" : editEmail.setError(e.getMessage());
+                        break;
+                    case "ERROR_EMAIL_ALREADY_IN_USE" : editEmail.setError(e.getMessage());
+                        break;
+                    case "ERROR_WEAK_PASSWORD" : editPassword.setError(e.getMessage());
+                        break;
+                }
             }
         };
     }

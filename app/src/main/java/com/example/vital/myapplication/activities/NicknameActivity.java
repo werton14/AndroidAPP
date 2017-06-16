@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
@@ -45,6 +46,8 @@ public class NicknameActivity extends AppCompatActivity {
 
     final private int PHOTO_FROM_GALLERY_REQUEST = 233;
 
+    private boolean startAnim;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +60,7 @@ public class NicknameActivity extends AppCompatActivity {
         chooseProfileImageButton = (CircleImageView) findViewById(R.id.choose_image_from_gallery);
 
         registrationData = new RegistrationData();
-        //overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        startAnim = true;
     }
 
     @Override
@@ -70,9 +73,19 @@ public class NicknameActivity extends AppCompatActivity {
             Uri localProfileImageUri = result.getUri();
             registrationData.setProfileImageUri(localProfileImageUri);
             chooseProfileImageButton.setImageURI(localProfileImageUri);
-            //TODO // FIXME: 02.05.17 
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onResume() {
+        if(startAnim){
+            overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+            startAnim = false;
+        }else {
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+        }
+        super.onResume();
     }
 
     private void startCropActivity(Uri selectedImage){
@@ -99,8 +112,6 @@ public class NicknameActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("RegistrationData", registrationData);
         startActivity(intent);
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
-
     }
 
     private void checkNicknameAvailable(){
@@ -110,15 +121,14 @@ public class NicknameActivity extends AppCompatActivity {
         }else if(n.length() > 25){
             editNickname.setError("Nickname long!");
         }else {
-            nicknamesDbReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            nicknamesDbReference.child(n).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!dataSnapshot.hasChild(n)) {
-                        // FIXME: change to reference check existing
+                    if(dataSnapshot.getValue() == null){
                         registrationData.setNickname(n);
                         toSignUpActivity();
-                    }else {
-                        editNickname.setError("User with this nickname already exist!");
+                    }else{
+
                     }
                 }
 
@@ -138,5 +148,15 @@ public class NicknameActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, PHOTO_FROM_GALLERY_REQUEST);
+    }
+
+    @Override
+    public void onBackPressed() {
+        toStartActivity();
+    }
+
+    private void toStartActivity(){
+        Intent intent = new Intent(this.getApplicationContext(), StartActivity.class);
+        startActivity(intent);
     }
 }

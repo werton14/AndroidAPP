@@ -21,6 +21,8 @@ public class StartActivity extends AppCompatActivity {
         firebaseInfo = FirebaseInfo.getInstance();
 
         if(firebaseInfo.isSignedIn()) toChooseActivity();
+
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
     }
 
     @Override

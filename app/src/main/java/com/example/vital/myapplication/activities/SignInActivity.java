@@ -37,6 +37,7 @@ public class SignInActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email_edit_text_on_signIn);
         password = (EditText) findViewById(R.id.password_edit_text_on_signIn);
         firebaseAuth = FirebaseInfo.getInstance().getFirebaseAuth();
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
     }
 
     public void onSignInButtonClick(View view){
@@ -92,4 +93,15 @@ public class SignInActivity extends AppCompatActivity {
     private boolean isPasswordCompleted(){
         return !TextUtils.isEmpty(password.getText().toString());
     }
+
+    @Override
+    public void onBackPressed() {
+        toStartActivity();
+    }
+
+    private void toStartActivity(){
+        Intent intent = new Intent(this.getApplicationContext(), StartActivity.class);
+        startActivity(intent);
+    }
+
 }
