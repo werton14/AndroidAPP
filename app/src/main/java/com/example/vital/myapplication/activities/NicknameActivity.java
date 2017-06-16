@@ -1,5 +1,6 @@
 package com.example.vital.myapplication.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -41,26 +43,26 @@ public class NicknameActivity extends AppCompatActivity {
     private EditText editNickname;
     private CircleImageView chooseProfileImageButton;
     private DatabaseReference nicknamesDbReference;
-    private Uri localProfileImageUri;
-    private RegistrationData registrationData;
+    private String nickname;
+    private Uri profileImageUri;
 
     final private int PHOTO_FROM_GALLERY_REQUEST = 233;
 
     private boolean startAnim;
+    private boolean imageIsChoosed;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityname);
 
-        localProfileImageUri = null;
         nicknamesDbReference = FirebaseInfo.getInstance().getNicknamesDbReference();
 
         editNickname = (EditText) findViewById(R.id.nickname_edit_text_on_nickname);
         chooseProfileImageButton = (CircleImageView) findViewById(R.id.choose_image_from_gallery);
 
-        registrationData = new RegistrationData();
         startAnim = true;
+        imageIsChoosed = false;
     }
 
     @Override
@@ -70,9 +72,9 @@ public class NicknameActivity extends AppCompatActivity {
             startCropActivity(selectedImage);
         }if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            Uri localProfileImageUri = result.getUri();
-            registrationData.setProfileImageUri(localProfileImageUri);
-            chooseProfileImageButton.setImageURI(localProfileImageUri);
+            profileImageUri = result.getUri();
+            chooseProfileImageButton.setImageURI(profileImageUri);
+            imageIsChoosed = true;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -92,25 +94,11 @@ public class NicknameActivity extends AppCompatActivity {
         CropImage.activity(selectedImage).setGuidelines(CropImageView.Guidelines.ON).setCropShape(CropImageView.CropShape.OVAL).setAspectRatio(1, 1).start(this);
     }
 
-    private byte[] getImageBA(Uri selectedImage){
-        Bitmap img = null;
-        try {
-            img = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.JPEG, 30, baos);
-        return baos.toByteArray();
-    }
-
     private void toSignUpActivity(){
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra("RegistrationData", registrationData);
+        intent.putExtra("nickname", nickname);
+        intent.putExtra("profileImageUri", profileImageUri.toString());
         startActivity(intent);
     }
 
@@ -121,27 +109,31 @@ public class NicknameActivity extends AppCompatActivity {
         }else if(n.length() > 25){
             editNickname.setError("Nickname long!");
         }else {
-            nicknamesDbReference.child(n).addValueEventListener(new ValueEventListener() {
+            nicknamesDbReference.child(n).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(dataSnapshot.getValue() == null){
-                        registrationData.setNickname(n);
+                        nickname = n;
                         toSignUpActivity();
                     }else{
-
+                        editNickname.setError("This nickname already exist!");
                     }
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-
+                    Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
     public void onNextButtonClick(View view){
-        checkNicknameAvailable();
+
+        if(isOnline()) {
+            if(imageIsChoosed) checkNicknameAvailable();
+            else Toast.makeText(getApplicationContext(), "Please, choose profile image.", Toast.LENGTH_SHORT).show();
+        }else Toast.makeText(getApplicationContext(), "Check your internet connection, and try again.", Toast.LENGTH_SHORT).show();
     }
 
     public void onChooseProfileImageButtonClick(View view){
@@ -158,5 +150,13 @@ public class NicknameActivity extends AppCompatActivity {
     private void toStartActivity(){
         Intent intent = new Intent(this.getApplicationContext(), StartActivity.class);
         startActivity(intent);
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null &&
+                cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 }

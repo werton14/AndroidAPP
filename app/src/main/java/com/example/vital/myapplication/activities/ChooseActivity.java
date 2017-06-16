@@ -105,7 +105,6 @@ public class ChooseActivity extends AppCompatActivity {
                 if (position == 2) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     fileForNewPhoto = Uri.fromFile(getOutputMediaFile());
-                    //intent.setType("image/*");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileForNewPhoto);
                     startActivityForResult(intent, GET_PHOTO_REQUEST);
                     handler.postDelayed(runnable, 1000);
@@ -142,7 +141,7 @@ public class ChooseActivity extends AppCompatActivity {
         img.compress(Bitmap.CompressFormat.WEBP, 30, baos);
         final byte imageBA[] = baos.toByteArray();
 
-        final String competitiveImageFileName = UUID.randomUUID().toString() + ".jpg";
+        final String competitiveImageFileName = UUID.randomUUID().toString() + ".webp";
 
         StorageReference competitiveImageSReference = firebaseInfo.getImagesSReference().child(competitiveImageFileName);
         competitiveImageSReference.putBytes(imageBA).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

@@ -13,12 +13,12 @@ public class RegistrationData implements Serializable {
     private String nickname;
     private String email;
     private String password;
-    private Uri profileImageUri;
+    private String profileImageUri;
 
     public RegistrationData(){
-        nickname = "";
-        email = "";
-        password = "";
+        nickname = null;
+        email = null;
+        password = null;
         profileImageUri = null;
 
     }
@@ -47,11 +47,11 @@ public class RegistrationData implements Serializable {
         this.password = password;
     }
 
-    public Uri getProfileImageUri() {
+    public String getProfileImageUri() {
         return profileImageUri;
     }
 
-    public void setProfileImageUri(Uri profileImageUri) {
+    public void setProfileImageUri(String profileImageUri) {
         this.profileImageUri = profileImageUri;
     }
 }

@@ -1,12 +1,15 @@
 package com.example.vital.myapplication.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
@@ -41,14 +44,18 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void onSignInButtonClick(View view){
-         if(isEmailCompleted() && isPasswordCompleted()) {
-             Task<AuthResult> authResultTask = firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString());
-             authResultTask.addOnFailureListener(makeOnFailureListener());
-             authResultTask.addOnSuccessListener(makeOnSuccessListener());
-         }else {
-             if(!isEmailCompleted()) email.setError("This field cannot be empty!");
-             if(!isPasswordCompleted()) password.setError("This field cannot be empty!");
-         }
+        if(isOnline()) {
+            if (isEmailCompleted() && isPasswordCompleted()) {
+                Task<AuthResult> authResultTask = firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString());
+                authResultTask.addOnFailureListener(makeOnFailureListener());
+                authResultTask.addOnSuccessListener(makeOnSuccessListener());
+            } else {
+                if (!isEmailCompleted()) email.setError("This field cannot be empty!");
+                if (!isPasswordCompleted()) password.setError("This field cannot be empty!");
+            }
+        }else {
+            Toast.makeText(getApplicationContext(), "Check your internet connection, and try again.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void toChooseActivity(){
@@ -102,6 +109,14 @@ public class SignInActivity extends AppCompatActivity {
     private void toStartActivity(){
         Intent intent = new Intent(this.getApplicationContext(), StartActivity.class);
         startActivity(intent);
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null &&
+                cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
 }
