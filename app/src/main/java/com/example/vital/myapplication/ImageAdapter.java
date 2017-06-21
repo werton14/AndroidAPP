@@ -1,6 +1,7 @@
 package com.example.vital.myapplication;
 
 import android.content.Context;
+import android.content.pm.FeatureInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,6 +18,9 @@ import android.widget.TextView;
 
 import com.example.vital.myapplication.activities.Image;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -75,9 +79,9 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder h, int position) {
         if (h instanceof ViewHolder){
             ViewHolder holder = (ViewHolder) h;
-            Image image = mImage.get(position);
+            final Image image = mImage.get(position);
             User user = mUser.get(position);
-            FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
+            final FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
 
             final ImageView competitiveImageView =  holder.competitiveImageView;
             int currentHeight = (windowWidth * image.getHeight()) / image.getWidth();
@@ -104,8 +108,8 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             likeImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    makeLike(likeImageButton, image);
 
-                    likeImageButton.setImageResource(R.drawable.ic_like_red_version);
                 }
             });
 
@@ -118,6 +122,33 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         }
 
+    }
+
+    private void makeLike(final ImageButton likeImageButton, Image image){
+        final FirebaseInfo info = FirebaseInfo.getInstance();
+        info.getWhoLikedImageDbReference().child(image.).child(info.getCurrentUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot == null){
+                    info.getWhoLikedImageDbReference().child(info.getCurrentUserId()).setValue(true);
+                    likeImageButton.setImageResource(R.drawable.ic_like_red_version);
+                }else {
+                    boolean like = dataSnapshot.getValue(boolean.class);
+                    if(like){
+                        info.getWhoLikedImageDbReference().child(info.getCurrentUserId()).setValue(false);
+                        likeImageButton.setImageResource(R.drawable.like);
+                    }else {
+                        info.getWhoLikedImageDbReference().child(info.getCurrentUserId()).setValue(true);
+                        likeImageButton.setImageResource(R.drawable.ic_like_red_version);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

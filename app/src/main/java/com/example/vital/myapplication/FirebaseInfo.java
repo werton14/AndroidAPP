@@ -25,6 +25,7 @@ public class FirebaseInfo {
     private final String NICKNAMES_DATABASE_KEY = "nicknames";
     private final String NICKNAME_DATABASE_KEY = "nickname";
     private final String COMPETITIVE_IMAGE_DATABASE_KEY = "competitiveImage";
+    private final String WHO_LIKED_IMAGE_DATABASE_KEY = "whoLikedImage";
     private final String IMAGES_STORAGE_KEY = "images";
     private final String PROFILE_IMAGE_STORAGE_KEY = "profileImages";
 
@@ -42,6 +43,7 @@ public class FirebaseInfo {
     private DatabaseReference currentUserProfileImageDbReference;
     private DatabaseReference currentUserNicknameDbReference;
     private DatabaseReference currentUserCompetitiveImageDbReference;
+    private DatabaseReference whoLikedImageDbReference;
 
     private StorageReference storageReference;
     private StorageReference imagesSReference;
@@ -62,6 +64,7 @@ public class FirebaseInfo {
         usersDbReference = databaseReference.child(USERS_DATABASE_KEY);
         nicknamesDbReference = databaseReference.child(NICKNAMES_DATABASE_KEY);
 
+        whoLikedImageDbReference = databaseReference.child(WHO_LIKED_IMAGE_DATABASE_KEY);
 
         imagesSReference = storageReference.child(IMAGES_STORAGE_KEY);
         profileImagesSReference = storageReference.child(PROFILE_IMAGE_STORAGE_KEY);
@@ -164,6 +167,10 @@ public class FirebaseInfo {
 
     public String getCurrentUserId() {
         return currentUserId;
+    }
+
+    public DatabaseReference getWhoLikedImageDbReference() {
+        return whoLikedImageDbReference;
     }
 
     private void updateFirebaseInfoForCurrentUser(){
