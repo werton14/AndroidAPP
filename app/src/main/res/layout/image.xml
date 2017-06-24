@@ -74,14 +74,22 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.alexvasilkov.gestures.views.GestureImageView
+                android:id="@+id/competitive_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/backgroungforpicture"
+
+                />
+
+            <!--<ImageView
                 android:id="@+id/competitive_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/backgroungforpicture"
                 android:cropToPadding="false"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter" />-->
         </LinearLayout>
 
         <LinearLayout

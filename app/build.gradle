@@ -36,6 +36,8 @@ dependencies {
     compile 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.alexvasilkov:gesture-views:2.3.1'
+    compile 'com.android.support.constraint:constraint-layout:+'
     testCompile 'junit:junit:4.12'
 }
 
