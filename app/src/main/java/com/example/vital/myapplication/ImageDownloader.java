@@ -60,16 +60,18 @@ public class ImageDownloader {
                 sortDataSnapshots(snapshots);
 
                 List<DatabaseReference> imageDbReferenceList = new ArrayList<DatabaseReference>();
+                List<String> imageIds = new ArrayList<String>();
                 for (int i = 0; i < snapshots.size() / 2; i++) {
                     unDownloadedData++;
                     unUpdatedViews++;
                     DatabaseReference imageViewsDbReference = snapshots.get(i).getRef();
+                    imageIds.add(imageViewsDbReference.getKey());
                     updateImageViews(imageViewsDbReference);
                     imageDbReferenceList.add(getImageDbReference(imageViewsDbReference));
                 }
                 List<Image> images = new ArrayList<Image>();
                 List<User> users = new ArrayList<User>();
-                getImage(imageDbReferenceList, images, users);
+                getImage(imageDbReferenceList, images, users, imageIds);
             }
 
             @Override
@@ -79,14 +81,14 @@ public class ImageDownloader {
         });
     }
 
-    private void getImage(List<DatabaseReference> imageDbReferenceList, final List<Image> images, final List<User> users){
+    private void getImage(List<DatabaseReference> imageDbReferenceList, final List<Image> images, final List<User> users, final List<String> imageIds){
         for(DatabaseReference imageDbReference: imageDbReferenceList) {
             imageDbReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Image image = dataSnapshot.getValue(Image.class);
                     images.add(image);
-                    getUser(image, images, users);
+                    getUser(image, images, users, imageIds);
                 }
 
                 @Override
@@ -97,7 +99,7 @@ public class ImageDownloader {
         }
     }
 
-    private void getUser(final Image image, final List<Image> images, final List<User> users){
+    private void getUser(final Image image, final List<Image> images, final List<User> users, final List<String> imageIds){
         firebaseInfo.getUsersDbReference().child(image.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -106,7 +108,7 @@ public class ImageDownloader {
 
                 unDownloadedData--;
                 if(unDownloadedData == 0){
-                    onDataDownloadedListener.onDataDownloaded(images, users);
+                    onDataDownloadedListener.onDataDownloaded(images, users, imageIds);
                 }
             }
 
@@ -168,7 +170,7 @@ public class ImageDownloader {
     }
 
     public interface OnDataDownloadedListener{
-        public void onDataDownloaded(List<Image> images, List<User> users);
+        public void onDataDownloaded(List<Image> images, List<User> users, List<String> imageIds);
     }
 
 }

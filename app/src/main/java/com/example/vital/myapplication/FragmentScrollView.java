@@ -8,11 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import com.example.vital.myapplication.activities.Image;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +26,7 @@ public class FragmentScrollView extends Fragment {
     private ImageAdapter imageAdapter;
     private List<Image> mImages;
     private List<User> mUsers;
+    private List<String> mImageIds;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -39,7 +38,8 @@ public class FragmentScrollView extends Fragment {
         recyclerView.setDrawingCacheEnabled(true);
         mImages = new ArrayList<Image>();
         mUsers = new ArrayList<User>();
-        imageAdapter = new ImageAdapter(view.getContext(), mImages, mUsers);
+        mImageIds = new ArrayList<String>();
+        imageAdapter = new ImageAdapter(view.getContext(), mImages, mUsers, mImageIds);
         recyclerView.setAdapter(imageAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -47,10 +47,11 @@ public class FragmentScrollView extends Fragment {
         imageDownloader = new ImageDownloader();
         imageDownloader.setOnDataDownloadedListener(new ImageDownloader.OnDataDownloadedListener() {
             @Override
-            public void onDataDownloaded(List<Image> images, List<User> users) {
+            public void onDataDownloaded(List<Image> images, List<User> users, List<String> imageIds) {
                 int currentItemCount = imageAdapter.getItemCount();
                 mImages.addAll(images);
                 mUsers.addAll(users);
+                mImageIds.addAll(imageIds);
                 imageAdapter.notifyItemRangeInserted(currentItemCount, images.size()-1);
             }
         });

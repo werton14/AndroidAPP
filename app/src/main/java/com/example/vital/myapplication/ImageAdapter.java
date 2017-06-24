@@ -1,12 +1,8 @@
 package com.example.vital.myapplication;
 
 import android.content.Context;
-import android.content.pm.FeatureInfo;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +16,9 @@ import com.example.vital.myapplication.activities.Image;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +34,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<Image> mImage;
     private List<User> mUser;
+    private List<String> mImageId;
     private Context context;
     private int windowWidth;
     private static final int VIEW_TYPE_MOVE = 1;
@@ -52,10 +52,11 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return viewType;
     }
 
-    public ImageAdapter(Context context, List<Image> images, List<User> users){
+    public ImageAdapter(Context context, List<Image> images, List<User> users, List<String> imageId){
         this.mImage = images;
         this.mUser = users;
         this.context = context;
+        this.mImageId = imageId;
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         windowWidth = display.getWidth();
@@ -78,78 +79,20 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder h, int position) {
         if (h instanceof ViewHolder){
-            ViewHolder holder = (ViewHolder) h;
-            final Image image = mImage.get(position);
+            Image image = mImage.get(position);
             User user = mUser.get(position);
-            final FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
+            String imageId = mImageId.get(position);
 
-            final ImageView competitiveImageView =  holder.competitiveImageView;
-            int currentHeight = (windowWidth * image.getHeight()) / image.getWidth();
-            competitiveImageView.setMinimumHeight(currentHeight);
+            ViewHolder holder = (ViewHolder) h;
+            holder.bindView(image, user, imageId);
 
-            firebaseInfo.getImagesSReference().child(image.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.with(context).load(uri)
-                            .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).into(competitiveImageView);
-                }
-            });
-            final CircleImageView profileImageButton = holder.profileImageButton;
-
-            firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.with(context).load(uri)
-                            .resize(profileImageButton.getWidth(), profileImageButton.getHeight()).into(profileImageButton);
-                }
-            });
-
-            final ImageButton likeImageButton = holder.likeImageButton;
-            likeImageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    makeLike(likeImageButton, image);
-
-                }
-            });
-
-            TextView nicknameTextView = holder.nicknameTextView;
-            nicknameTextView.setText(user.getNickname());
-
-            TextView likeTextView = holder.likeTextView;
-            likeTextView.setText(String.valueOf(image.getLikeCount()));
         }else if (h instanceof LoadHolder){
 
         }
 
     }
 
-    private void makeLike(final ImageButton likeImageButton, Image image){
-        final FirebaseInfo info = FirebaseInfo.getInstance();
-        info.getWhoLikedImageDbReference().child(image.).child(info.getCurrentUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot == null){
-                    info.getWhoLikedImageDbReference().child(info.getCurrentUserId()).setValue(true);
-                    likeImageButton.setImageResource(R.drawable.ic_like_red_version);
-                }else {
-                    boolean like = dataSnapshot.getValue(boolean.class);
-                    if(like){
-                        info.getWhoLikedImageDbReference().child(info.getCurrentUserId()).setValue(false);
-                        likeImageButton.setImageResource(R.drawable.like);
-                    }else {
-                        info.getWhoLikedImageDbReference().child(info.getCurrentUserId()).setValue(true);
-                        likeImageButton.setImageResource(R.drawable.ic_like_red_version);
-                    }
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     @Override
     public int getItemCount() {
@@ -157,12 +100,18 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        public CircleImageView profileImageButton;
-        public ImageButton optionImageButton;
-        public ImageButton likeImageButton;
-        public ImageView competitiveImageView;
-        public TextView nicknameTextView;
-        public TextView likeTextView;
+        private CircleImageView profileImageButton;
+        private ImageButton optionImageButton;
+        private ImageButton likeImageButton;
+        private ImageView competitiveImageView;
+        private TextView nicknameTextView;
+        private TextView likeTextView;
+
+        private Image mImage;
+        private User mUser;
+        private String mImageId;
+        private FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
+        private boolean isLikedByCurrentUser;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -170,10 +119,110 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             profileImageButton = (CircleImageView) itemView.findViewById(R.id.profile_image_button);
             optionImageButton = (ImageButton) itemView.findViewById(R.id.option_image_button);
             likeImageButton = (ImageButton) itemView.findViewById(R.id.like_image_button);
+            likeImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    makeLike();
+                }
+            });
             competitiveImageView = (ImageView) itemView.findViewById(R.id.competitive_image_view);
             nicknameTextView = (TextView) itemView.findViewById(R.id.nickname_text_view);
             likeTextView = (TextView) itemView.findViewById(R.id.like_text_view);
+
         }
+
+        public void bindView(Image image, User user, String imageId){
+            mImage = image;
+            mUser = user;
+            mImageId = imageId;
+
+            int currentHeight = (windowWidth * mImage.getHeight()) / mImage.getWidth();
+            competitiveImageView.setMinimumHeight(currentHeight);
+
+            firebaseInfo.getImagesSReference().child(mImage.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.with(context).load(uri)
+                            .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).into(competitiveImageView);
+                }
+            });
+
+            firebaseInfo.getProfileImagesSReference().child(mUser.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.with(context).load(uri)
+                            .resize(profileImageButton.getWidth(), profileImageButton.getHeight()).into(profileImageButton);
+                }
+            });
+
+            nicknameTextView.setText(mUser.getNickname());
+
+            firebaseInfo.getWhoLikedImageDbReference().child(imageId).child(firebaseInfo.getCurrentUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getValue() != null){
+                        boolean like = dataSnapshot.getValue(boolean.class);
+                        isLikedByCurrentUser = like;
+                        if(like) likeImageButton.setImageResource(R.drawable.ic_like_red_version);
+                    }else{
+                        isLikedByCurrentUser = false;
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            likeTextView.setText(String.valueOf(mImage.getLikeCount()));
+        }
+
+        private void makeLike(){
+            final FirebaseInfo info = FirebaseInfo.getInstance();
+            final DatabaseReference imageDbReference = info.getWhoLikedImageDbReference().child(mImageId);
+            if(isLikedByCurrentUser){
+                updateLikeParam(imageDbReference, false);
+                runLikeTransaction(-1l);
+
+                likeImageButton.setImageResource(R.drawable.like);
+
+                mImage.setLikeCount(mImage.getLikeCount() - 1);
+                likeTextView.setText(String.valueOf(mImage.getLikeCount()));
+            }else {
+                updateLikeParam(imageDbReference, true);
+                runLikeTransaction(1l);
+
+                likeImageButton.setImageResource(R.drawable.ic_like_red_version);
+
+                mImage.setLikeCount(mImage.getLikeCount() + 1);
+                likeTextView.setText(String.valueOf(mImage.getLikeCount()));
+            }
+        }
+
+        private void updateLikeParam(DatabaseReference imageDbReference, boolean value){
+            isLikedByCurrentUser = value;
+            FirebaseInfo info = FirebaseInfo.getInstance();
+            imageDbReference.child(info.getCurrentUserId()).setValue(value);
+        }
+
+        private void runLikeTransaction(final long action){
+            firebaseInfo.getImagesDbReference().child(mImageId).runTransaction(new Transaction.Handler() {
+                @Override
+                public Transaction.Result doTransaction(MutableData mutableData) {
+                    Image image = mutableData.getValue(Image.class);
+                    image.setLikeCount(image.getLikeCount() + action);
+                    mutableData.setValue(image);
+                    return Transaction.success(mutableData);
+                }
+
+                @Override
+                public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+                }
+            });
+        }
+
     }
 
     private class LoadHolder extends RecyclerView.ViewHolder {
