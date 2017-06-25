@@ -31,7 +31,7 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:onClick="onChooseProfileImageButtonClick"
-                android:src="@drawable/user" />
+                android:src="@drawable/man"/>
 
             <!--<ImageButton
                 android:id="@+id/choose_image_from_gallery"
@@ -72,6 +72,7 @@
                 android:onClick="onNextButtonClick"
                 android:text="@string/Next"
                 android:textColor="@color/White" />
+
         </LinearLayout>
 
     </LinearLayout>
