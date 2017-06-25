@@ -1,5 +1,6 @@
 package com.example.vital.myapplication;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +30,7 @@ public class ImageDownloader {
     private int unCompletedTasks = 0;
     private OnDataDownloadedListener onDataDownloadedListener;
     private OnSuccessListener<Void> onTimeStampUpdated;
+
 
     public ImageDownloader(){
 

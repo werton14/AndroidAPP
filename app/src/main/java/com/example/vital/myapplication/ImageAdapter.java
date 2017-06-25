@@ -154,11 +154,9 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             int currentHeight = (windowWidth * mImage.getHeight()) / mImage.getWidth();
             competitiveImageView.setMinimumHeight(currentHeight);
 
-            Picasso.with(context).load(mImageUri)
-                    .fit().noFade().into(competitiveImageView);
+            Picasso.with(context).load(mImageUri).fit().noFade().into(competitiveImageView);
 
-            Picasso.with(context).load(mProfileUri)
-                    .fit().into(profileImageButton);
+            Picasso.with(context).load(mProfileUri).fit().noFade().into(profileImageButton);
 
             nicknameTextView.setText(mUser.getNickname());
 
