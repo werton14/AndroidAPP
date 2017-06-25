@@ -1,6 +1,7 @@
 package com.example.vital.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -11,7 +12,9 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.vital.myapplication.activities.FullScreenPictureActivity;
 import com.example.vital.myapplication.activities.Image;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +24,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -37,7 +41,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<String> mImageId;
     private Context context;
     private int windowWidth;
-    private static final int VIEW_TYPE_MOVE = 1;
+    public static final int VIEW_TYPE_MOVE = 1;
     private static final int VIEW_TYPE_LOAD = 2;
 
     @Override
@@ -112,6 +116,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         private String mImageId;
         private FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
         private boolean isLikedByCurrentUser;
+        private Uri competitiveImageUri;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -125,13 +130,13 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     makeLike();
                 }
             });
-            competitiveImageView = (ImageView) itemView.findViewById(R.id.competitive_image_view);
+            competitiveImageView = (ImageButton) itemView.findViewById(R.id.competitive_image_view);
             nicknameTextView = (TextView) itemView.findViewById(R.id.nickname_text_view);
             likeTextView = (TextView) itemView.findViewById(R.id.like_text_view);
 
         }
 
-        public void bindView(Image image, User user, String imageId){
+        public void bindView(Image image, User user, final String imageId){
             mImage = image;
             mUser = user;
             mImageId = imageId;
@@ -142,8 +147,9 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             firebaseInfo.getImagesSReference().child(mImage.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
+                    competitiveImageUri = uri;
                     Picasso.with(context).load(uri)
-                            .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).into(competitiveImageView);
+                            .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).noFade().into(competitiveImageView);
                 }
             });
 
@@ -176,6 +182,24 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             });
 
             likeTextView.setText(String.valueOf(mImage.getLikeCount()));
+
+            competitiveImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, FullScreenPictureActivity.class);
+                    int [] screenLocation = new int[2];
+                    v.getLocationOnScreen(screenLocation);
+                    intent.putExtra("left", screenLocation[0]);
+                    intent.putExtra("top", screenLocation[1]);
+                    int orientation = context.getResources().getConfiguration().orientation;
+                    intent.putExtra("orientation", orientation);
+                    intent.putExtra("width", competitiveImageView.getWidth());
+                    intent.putExtra("height", competitiveImageView.getHeight());
+                    intent.putExtra("imageUri", competitiveImageUri.toString());
+                    intent.putExtra("imageId", imageId);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         private void makeLike(){

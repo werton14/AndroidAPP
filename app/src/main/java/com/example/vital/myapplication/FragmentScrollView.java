@@ -36,6 +36,7 @@ public class FragmentScrollView extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerView.setItemViewCacheSize(1000);
         recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         mImages = new ArrayList<Image>();
         mUsers = new ArrayList<User>();
         mImageIds = new ArrayList<String>();
@@ -53,6 +54,7 @@ public class FragmentScrollView extends Fragment {
                 mUsers.addAll(users);
                 mImageIds.addAll(imageIds);
                 imageAdapter.notifyItemRangeInserted(currentItemCount, images.size()-1);
+
             }
         });
         imageDownloader.findImage();
@@ -61,7 +63,6 @@ public class FragmentScrollView extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 imageDownloader.findImage();
-                Log.w("Is running", "Fuck!");
             }
         });
 
