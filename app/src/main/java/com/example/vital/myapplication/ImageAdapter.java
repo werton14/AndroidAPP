@@ -39,6 +39,8 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<Image> mImage;
     private List<User> mUser;
     private List<String> mImageId;
+    private List<Uri> mImageUris;
+    private List<Uri> mProfileUris;
     private Context context;
     private int windowWidth;
     public static final int VIEW_TYPE_MOVE = 1;
@@ -56,11 +58,14 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return viewType;
     }
 
-    public ImageAdapter(Context context, List<Image> images, List<User> users, List<String> imageId){
+    public ImageAdapter(Context context, List<Image> images, List<User> users, List<String> imageId,
+                        List<Uri> imageUris, List<Uri> profileUris){
         this.mImage = images;
         this.mUser = users;
-        this.context = context;
         this.mImageId = imageId;
+        this.mImageUris = imageUris;
+        this.mProfileUris = profileUris;
+        this.context = context;
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
         windowWidth = display.getWidth();
@@ -86,9 +91,11 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             Image image = mImage.get(position);
             User user = mUser.get(position);
             String imageId = mImageId.get(position);
+            Uri imageUri = mImageUris.get(position);
+            Uri profileUri = mProfileUris.get(position);
 
             ViewHolder holder = (ViewHolder) h;
-            holder.bindView(image, user, imageId);
+            holder.bindView(image, user, imageId, imageUri, profileUri);
 
         }else if (h instanceof LoadHolder){
 
@@ -114,9 +121,10 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         private Image mImage;
         private User mUser;
         private String mImageId;
+        private Uri mImageUri;
+        private Uri mProfileUri;
         private FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
         private boolean isLikedByCurrentUser;
-        private Uri competitiveImageUri;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -136,30 +144,21 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         }
 
-        public void bindView(Image image, User user, final String imageId){
+        public void bindView(Image image, User user, final String imageId, Uri imageUri, Uri profileUri){
             mImage = image;
             mUser = user;
             mImageId = imageId;
+            mImageUri = imageUri;
+            mProfileUri = profileUri;
 
             int currentHeight = (windowWidth * mImage.getHeight()) / mImage.getWidth();
             competitiveImageView.setMinimumHeight(currentHeight);
 
-            firebaseInfo.getImagesSReference().child(mImage.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    competitiveImageUri = uri;
-                    Picasso.with(context).load(uri)
-                            .resize(competitiveImageView.getWidth(), competitiveImageView.getHeight()).noFade().into(competitiveImageView);
-                }
-            });
+            Picasso.with(context).load(mImageUri)
+                    .fit().noFade().into(competitiveImageView);
 
-            firebaseInfo.getProfileImagesSReference().child(mUser.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    Picasso.with(context).load(uri)
-                            .resize(profileImageButton.getWidth(), profileImageButton.getHeight()).into(profileImageButton);
-                }
-            });
+            Picasso.with(context).load(mProfileUri)
+                    .fit().into(profileImageButton);
 
             nicknameTextView.setText(mUser.getNickname());
 
@@ -195,7 +194,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     intent.putExtra("orientation", orientation);
                     intent.putExtra("width", competitiveImageView.getWidth());
                     intent.putExtra("height", competitiveImageView.getHeight());
-                    intent.putExtra("imageUri", competitiveImageUri.toString());
+                    intent.putExtra("imageUri", mImageUri.toString());
                     intent.putExtra("imageId", imageId);
                     context.startActivity(intent);
                 }

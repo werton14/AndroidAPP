@@ -1,6 +1,8 @@
 package com.example.vital.myapplication;
 
+import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.vital.myapplication.activities.Image;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,22 +58,22 @@ public class ImageDownloader {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
-                List<DataSnapshot> snapshots = transformToDataSnaphsotList(iterator);
+                List<DataSnapshot> snapshots = transformToDataSnapshotList(iterator);
                 sortDataSnapshots(snapshots);
 
                 List<DatabaseReference> imageDbReferenceList = new ArrayList<DatabaseReference>();
-                List<String> imageIds = new ArrayList<String>();
+                ImageData data = new ImageData();
+
                 for (int i = 0; i < snapshots.size() / 2; i++) {
                     unDownloadedData++;
                     unUpdatedViews++;
                     DatabaseReference imageViewsDbReference = snapshots.get(i).getRef();
-                    imageIds.add(imageViewsDbReference.getKey());
+                    data.addImageId(imageViewsDbReference.getKey());
                     updateImageViews(imageViewsDbReference);
                     imageDbReferenceList.add(getImageDbReference(imageViewsDbReference));
                 }
-                List<Image> images = new ArrayList<Image>();
-                List<User> users = new ArrayList<User>();
-                getImage(imageDbReferenceList, images, users, imageIds);
+
+                getImage(imageDbReferenceList, data);
             }
 
             @Override
@@ -81,14 +83,14 @@ public class ImageDownloader {
         });
     }
 
-    private void getImage(List<DatabaseReference> imageDbReferenceList, final List<Image> images, final List<User> users, final List<String> imageIds){
+    private void getImage(List<DatabaseReference> imageDbReferenceList, final ImageData data){
         for(DatabaseReference imageDbReference: imageDbReferenceList) {
             imageDbReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Image image = dataSnapshot.getValue(Image.class);
-                    images.add(image);
-                    getUser(image, images, users, imageIds);
+                    data.addImage(image);
+                    getUser(image, data);
                 }
 
                 @Override
@@ -99,22 +101,45 @@ public class ImageDownloader {
         }
     }
 
-    private void getUser(final Image image, final List<Image> images, final List<User> users, final List<String> imageIds){
+    private void getUser(final Image image, final ImageData data){
         firebaseInfo.getUsersDbReference().child(image.getUserId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                users.add(user);
+                data.addUser(user);
 
-                unDownloadedData--;
-                if(unDownloadedData == 0){
-                    onDataDownloadedListener.onDataDownloaded(images, users, imageIds);
-                }
+                getImageUri(image, user, data);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void getImageUri(Image image, final User user, final ImageData data){
+        firebaseInfo.getImagesSReference().child(image.getCompetitiveImageFileName()).getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                data.addImageUri(uri);
+
+                getProfileUri(user, data);
+            }
+        });
+    }
+
+    private void getProfileUri(User user, final ImageData data){
+        firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                data.addProfileUri(uri);
+                unDownloadedData--;
+                if(unDownloadedData == 0){
+                    onDataDownloadedListener.onDataDownloaded(data);
+                }
             }
         });
     }
@@ -136,7 +161,7 @@ public class ImageDownloader {
         });
     }
 
-    private List<DataSnapshot> transformToDataSnaphsotList(Iterator<DataSnapshot> iterator){
+    private List<DataSnapshot> transformToDataSnapshotList(Iterator<DataSnapshot> iterator){
         List<DataSnapshot> snapshots = new ArrayList<DataSnapshot>();
         while (iterator.hasNext()){
             snapshots.add(iterator.next());
@@ -170,7 +195,7 @@ public class ImageDownloader {
     }
 
     public interface OnDataDownloadedListener{
-        public void onDataDownloaded(List<Image> images, List<User> users, List<String> imageIds);
+        public void onDataDownloaded(ImageData data);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.vital.myapplication;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +28,9 @@ public class FragmentScrollView extends Fragment {
     private List<Image> mImages;
     private List<User> mUsers;
     private List<String> mImageIds;
+    private List<Uri> mImageUris;
+    private List<Uri> mProfileUris;
+
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -40,7 +44,9 @@ public class FragmentScrollView extends Fragment {
         mImages = new ArrayList<Image>();
         mUsers = new ArrayList<User>();
         mImageIds = new ArrayList<String>();
-        imageAdapter = new ImageAdapter(view.getContext(), mImages, mUsers, mImageIds);
+        mImageUris = new ArrayList<Uri>();
+        mProfileUris = new ArrayList<Uri>();
+        imageAdapter = new ImageAdapter(view.getContext(), mImages, mUsers, mImageIds, mImageUris, mProfileUris);
         recyclerView.setAdapter(imageAdapter);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -48,13 +54,14 @@ public class FragmentScrollView extends Fragment {
         imageDownloader = new ImageDownloader();
         imageDownloader.setOnDataDownloadedListener(new ImageDownloader.OnDataDownloadedListener() {
             @Override
-            public void onDataDownloaded(List<Image> images, List<User> users, List<String> imageIds) {
+            public void onDataDownloaded(ImageData data) {
                 int currentItemCount = imageAdapter.getItemCount();
-                mImages.addAll(images);
-                mUsers.addAll(users);
-                mImageIds.addAll(imageIds);
-                imageAdapter.notifyItemRangeInserted(currentItemCount, images.size()-1);
-
+                mImages.addAll(data.getImages());
+                mUsers.addAll(data.getUsers());
+                mImageIds.addAll(data.getImageIds());
+                mImageUris.addAll(data.getImageUris());
+                mProfileUris.addAll(data.getProfileUris());
+                imageAdapter.notifyItemRangeInserted(currentItemCount, data.getImages().size()-1);
             }
         });
         imageDownloader.findImage();
