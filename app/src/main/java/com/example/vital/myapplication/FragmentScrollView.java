@@ -51,7 +51,7 @@ public class FragmentScrollView extends Fragment {
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        imageDownloader = new ImageDownloader();
+        imageDownloader = new ImageDownloader(getContext());
         imageDownloader.setOnDataDownloadedListener(new ImageDownloader.OnDataDownloadedListener() {
             @Override
             public void onDataDownloaded(ImageData data) {

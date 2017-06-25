@@ -12,19 +12,16 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.vital.myapplication.activities.FullScreenPictureActivity;
 import com.example.vital.myapplication.activities.Image;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -154,9 +151,8 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             int currentHeight = (windowWidth * mImage.getHeight()) / mImage.getWidth();
             competitiveImageView.setMinimumHeight(currentHeight);
 
-            Picasso.with(context).load(mImageUri).fit().noFade().into(competitiveImageView);
-
-            Picasso.with(context).load(mProfileUri).fit().noFade().into(profileImageButton);
+            Glide.with(context).load(mImageUri).fitCenter().dontAnimate().into(competitiveImageView);
+            Glide.with(context).load(mProfileUri).into(profileImageButton);
 
             nicknameTextView.setText(mUser.getNickname());
 

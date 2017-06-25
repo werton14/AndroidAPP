@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.vital.myapplication.activities.Image;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -30,10 +31,11 @@ public class ImageDownloader {
     private int unCompletedTasks = 0;
     private OnDataDownloadedListener onDataDownloadedListener;
     private OnSuccessListener<Void> onTimeStampUpdated;
+    private Context context;
 
+    public ImageDownloader(Context context){
 
-    public ImageDownloader(){
-
+        this.context = context;
         firebaseInfo = FirebaseInfo.getInstance();
 
         onTimeStampUpdated = new OnSuccessListener<Void>() {
@@ -121,12 +123,13 @@ public class ImageDownloader {
         });
     }
 
-    private void getImageUri(Image image, final User user, final ImageData data){
+    private void getImageUri(final Image image, final User user, final ImageData data){
         firebaseInfo.getImagesSReference().child(image.getCompetitiveImageFileName()).getDownloadUrl()
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 data.addImageUri(uri);
+                Glide.with(context).load(uri).downloadOnly(image.getWidth(), image.getHeight());
 
                 getProfileUri(user, data);
             }
@@ -139,6 +142,8 @@ public class ImageDownloader {
             @Override
             public void onSuccess(Uri uri) {
                 data.addProfileUri(uri);
+                Glide.with(context).load(uri);
+
                 unDownloadedData--;
                 if(unDownloadedData == 0){
                     onDataDownloadedListener.onDataDownloaded(data);
