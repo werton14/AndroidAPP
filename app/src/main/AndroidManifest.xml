@@ -62,8 +62,8 @@
             android:theme="@style/AppTheme.New" />
         <activity
             android:name=".activities.ContainerUserFragmentsActivity"
-            android:label="@string/Space"
-            android:theme="@style/AppTheme.New" />
+            android:theme="@style/AppTheme.New"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
