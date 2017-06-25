@@ -18,13 +18,14 @@
                 android:layout_marginTop="56dp" />
 
     <com.roughike.bottombar.BottomBar
-                    android:id="@+id/bottomBar"
-                    android:layout_width="match_parent"
-                    app:bb_tabXmlResource="@xml/bottom_navigationn"
-                    android:layout_alignParentBottom="true"
-                    app:bb_badgeBackgroundColor="@color/BasicColor"
-                    app:bb_behavior="iconsOnly"
-                    android:layout_height="40dp" />
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_alignParentBottom="true"
+        app:bb_inActiveTabColor="@color/dark"
+        app:bb_behavior="iconsOnly"
+        app:bb_activeTabColor="@color/BasicColor"
+        app:bb_tabXmlResource="@xml/bottom_navigationn" />
 
 </RelativeLayout>
 

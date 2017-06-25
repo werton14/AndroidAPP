@@ -3,13 +3,13 @@
     <tab
         id="@+id/tab_home"
         icon="@drawable/ic_home"
-        barColorWhenSelected="#5D4037"/>
+        />
     <tab
         id="@+id/tab_leaders"
         icon="@drawable/ic_star"
-        barColorWhenSelected="#8ad237"/>
+        />
     <tab
         id="@+id/tab_personaldata"
         icon="@drawable/ic_imagge"
-        barColorWhenSelected="#ea3700"/>
+        />
 </tabs>

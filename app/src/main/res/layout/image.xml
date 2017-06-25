@@ -20,22 +20,22 @@
         android:layout_alignParentTop="true"
         android:background="@color/White"
         android:orientation="vertical"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        android:paddingTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_vertical_margin"
+            android:paddingLeft="10dp"
             android:paddingRight="@dimen/activity_vertical_margin">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/circle"/>
+                android:src="@drawable/circle" />
 
-           <!-- <ImageButton
+            <!-- <ImageButton
                 android:id="@+id/profile_image_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -59,8 +59,8 @@
 
             <ImageButton
                 android:id="@+id/option_image_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center_vertical"
                 android:background="@color/White"
                 android:scaleType="fitCenter"
@@ -87,17 +87,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingLeft="12dp"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:weightSum="1">
 
             <ImageButton
                 android:id="@+id/like_image_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:background="@color/White"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/like" />
