@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:paddingLeft="12dp"
+            android:paddingLeft="9dp"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:weightSum="1">
 
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/White"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_favorite_border" />
+                app:srcCompat="@drawable/ic_favorite_grey" />
 
             <TextView
                 android:id="@+id/like_text_view"
@@ -116,12 +116,20 @@
 
             <ImageButton
                 android:id="@+id/download_image_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
                 android:background="@color/White"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_visibiluty_standart" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="7dp"
+                android:text="322" />
 
         </LinearLayout>
 

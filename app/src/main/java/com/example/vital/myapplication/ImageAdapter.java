@@ -164,7 +164,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     if(dataSnapshot.getValue() != null){
                         boolean like = dataSnapshot.getValue(boolean.class);
                         isLikedByCurrentUser = like;
-                        if(like) likeImageButton.setImageResource(R.drawable.ic_favorite);
+                        if(like) likeImageButton.setImageResource(R.drawable.ic_favorite_red);
                     }else{
                         isLikedByCurrentUser = false;
                     }
@@ -204,7 +204,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 updateLikeParam(imageDbReference, false);
                 runLikeTransaction(-1l);
 
-                likeImageButton.setImageResource(R.drawable.ic_favorite_border);
+                likeImageButton.setImageResource(R.drawable.ic_favorite_grey);
 
                 mImage.setLikeCount(mImage.getLikeCount() - 1);
                 likeTextView.setText(String.valueOf(mImage.getLikeCount()));
