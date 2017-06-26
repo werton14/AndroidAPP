@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.vital.myapplication.activities.FullScreenPictureActivity;
 import com.example.vital.myapplication.activities.Image;
 import com.google.firebase.database.DataSnapshot;
@@ -151,8 +152,9 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             int currentHeight = (windowWidth * mImage.getHeight()) / mImage.getWidth();
             competitiveImageView.setMinimumHeight(currentHeight);
 
-            Glide.with(context).load(mImageUri).fitCenter().dontAnimate().into(competitiveImageView);
-            Glide.with(context).load(mProfileUri).into(profileImageButton);
+            Glide.with(context).load(mImageUri).diskCacheStrategy(DiskCacheStrategy.SOURCE).fitCenter().dontAnimate().into(competitiveImageView);
+
+            Glide.with(context).load(mProfileUri).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(profileImageButton);
 
             nicknameTextView.setText(mUser.getNickname());
 
@@ -202,7 +204,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 updateLikeParam(imageDbReference, false);
                 runLikeTransaction(-1l);
 
-                likeImageButton.setImageResource(R.drawable.like);
+                likeImageButton.setImageResource(R.drawable.ic_favorite_border);
 
                 mImage.setLikeCount(mImage.getLikeCount() - 1);
                 likeTextView.setText(String.valueOf(mImage.getLikeCount()));
@@ -210,7 +212,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 updateLikeParam(imageDbReference, true);
                 runLikeTransaction(1l);
 
-                likeImageButton.setImageResource(R.drawable.ic_like_red_version);
+                likeImageButton.setImageResource(R.drawable.ic_favorite);
 
                 mImage.setLikeCount(mImage.getLikeCount() + 1);
                 likeTextView.setText(String.valueOf(mImage.getLikeCount()));
@@ -239,7 +241,6 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }
             });
         }
-
     }
 
     private class LoadHolder extends RecyclerView.ViewHolder {

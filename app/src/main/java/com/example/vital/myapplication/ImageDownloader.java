@@ -32,6 +32,7 @@ public class ImageDownloader {
     private OnDataDownloadedListener onDataDownloadedListener;
     private OnSuccessListener<Void> onTimeStampUpdated;
     private Context context;
+    private List<String> imageIds = new ArrayList<String>();
 
     public ImageDownloader(Context context){
 
@@ -73,9 +74,13 @@ public class ImageDownloader {
                     unDownloadedData++;
                     unUpdatedViews++;
                     DatabaseReference imageViewsDbReference = snapshots.get(i).getRef();
-                    data.addImageId(imageViewsDbReference.getKey());
-                    updateImageViews(imageViewsDbReference);
-                    imageDbReferenceList.add(getImageDbReference(imageViewsDbReference));
+                    String imageId = imageViewsDbReference.getKey();
+                    if(imageIds.contains(imageId)) {
+                        imageIds.add(imageId);
+                        data.addImageId(imageId);
+                        updateImageViews(imageViewsDbReference);
+                        imageDbReferenceList.add(getImageDbReference(imageViewsDbReference));
+                    }
                 }
 
                 getImage(imageDbReferenceList, data);

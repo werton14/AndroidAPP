@@ -16,6 +16,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
+import com.bumptech.glide.load.engine.cache.LruResourceCache;
+import com.bumptech.glide.util.LruCache;
 import com.example.vital.myapplication.R;
 import com.example.vital.myapplication.ShadowLayout;
 import com.squareup.picasso.NetworkPolicy;
@@ -56,7 +60,6 @@ public class FullScreenPictureActivity extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         Uri imageUri = Uri.parse(bundle.getString("imageUri"));
-        Picasso.with(getApplicationContext()).load(imageUri).noFade().into(mImageView);
 
 
     }
