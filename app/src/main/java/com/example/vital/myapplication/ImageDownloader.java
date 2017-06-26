@@ -75,7 +75,7 @@ public class ImageDownloader {
                     unUpdatedViews++;
                     DatabaseReference imageViewsDbReference = snapshots.get(i).getRef();
                     String imageId = imageViewsDbReference.getKey();
-                    if(imageIds.contains(imageId)) {
+                    if(!imageIds.contains(imageId)) {
                         imageIds.add(imageId);
                         data.addImageId(imageId);
                         updateImageViews(imageViewsDbReference);
