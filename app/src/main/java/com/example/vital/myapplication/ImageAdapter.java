@@ -162,7 +162,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     if(dataSnapshot.getValue() != null){
                         boolean like = dataSnapshot.getValue(boolean.class);
                         isLikedByCurrentUser = like;
-                        if(like) likeImageButton.setImageResource(R.drawable.ic_like_red_version);
+                        if(like) likeImageButton.setImageResource(R.drawable.ic_favorite);
                     }else{
                         isLikedByCurrentUser = false;
                     }

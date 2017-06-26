@@ -2,14 +2,14 @@
 <tabs>
     <tab
         id="@+id/tab_home"
-        icon="@drawable/ic_home"
+        icon="@drawable/ic_home_grey"
         />
     <tab
         id="@+id/tab_leaders"
-        icon="@drawable/ic_star"
+        icon="@drawable/ic_star_grey"
         />
     <tab
         id="@+id/tab_personaldata"
-        icon="@drawable/ic_imagge"
+        icon="@drawable/ic_person_grey"
         />
 </tabs>

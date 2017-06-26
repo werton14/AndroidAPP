@@ -11,7 +11,10 @@ import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,20 +46,41 @@ public class ContainerUserFragmentsActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setCustomView(R.layout.toolbar);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_choose_screen, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        final MenuItem item = menu.findItem(R.id.action_settings);
+
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 switch(tabId){
                     case R.id.tab_home : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentScrollView()).commit();
+                        item.setEnabled(false);
+                        item.getIcon().setAlpha(0);
                         break;
                     case R.id.tab_leaders : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,new FragmentLeaders()).commit();
+                        item.setEnabled(false);
+                        item.getIcon().setAlpha(0);
                         break;
                     case R.id.tab_personaldata : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentPersonalDate()).commit();
+                        item.setEnabled(true);
+                        item.getIcon().setAlpha(230);
                         break;
                 }
             }
         });
+        return true;
     }
 }
 
