@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -230,14 +232,21 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 @Override
                 public Transaction.Result doTransaction(MutableData mutableData) {
                     Image image = mutableData.getValue(Image.class);
-                    image.setLikeCount(image.getLikeCount() + action);
-                    mutableData.setValue(image);
+                    if(image == null) {
+                        Log.w("Like", "1");
+                    }else{
+                        image.setLikeCount(image.getLikeCount() + action);
+                        mutableData.setValue(image);
+                        Log.w("Like", "2");
+                    }
                     return Transaction.success(mutableData);
+
                 }
 
                 @Override
                 public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
 
+                    if(databaseError != null);
                 }
             });
         }
