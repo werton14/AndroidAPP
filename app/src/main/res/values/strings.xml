@@ -29,4 +29,5 @@
     <string name="title_activity_picture_details">PictureDetailsActivity</string>
     <drawable name="clr_normal_left">#303F9F</drawable>
     <drawable name="clr_normal_right">#5C6BC0</drawable>
+    <drawable name="clr_normal">#3949AB</drawable>
 </resources>
