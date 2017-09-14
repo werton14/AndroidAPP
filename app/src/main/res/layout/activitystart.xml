@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.vital.myapplication.activities.StartActivity"
-    android:background="@drawable/background_gradient">
+    android:background="@color/BasicColor">
 
         <LinearLayout
             android:orientation="vertical"
@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/log_in"
-                android:background="@drawable/ic_visibility"
+                android:background="@color/BasicColor"
                 android:textColor="@android:color/background_light" />
         </LinearLayout>
 
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sign_in"
-                android:background="@drawable/ic_visibility"
+                android:background="@color/BasicColor"
 
                 android:layout_gravity="bottom"
                 android:textColor="@android:color/background_light"
