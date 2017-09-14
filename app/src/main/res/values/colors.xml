@@ -13,4 +13,7 @@
     <color name="fornewbackground">#f3f5f9</color>
     <color name="foredittext_default">#F5F5F5</color>
     <color name="backgroungforpicture">#e0e0e0</color>
+    <color name="clr_normal_left">#303F9F</color>
+    <color name="clr_normal_right">#5C6BC0</color>
+    <color name="clr_normal">#3949AB</color>
 </resources>
