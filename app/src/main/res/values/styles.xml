@@ -6,7 +6,7 @@
     </style>
 
     <style name="AppTheme.New" parent="Theme.AppCompat.Light">
-        <item name="colorPrimaryDark">@drawable/background_gradient</item>
+        <item name="colorPrimaryDark">@color/BasicColor</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
