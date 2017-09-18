@@ -1,22 +1,22 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@drawable/background_gradient</item>
-        <item name="colorPrimaryDark">@drawable/background_gradient</item>
+        <item name="colorPrimary">@color/BasicColor</item>
+        <item name="colorPrimaryDark">@color/BasicColor</item>
     </style>
 
     <style name="AppTheme.New" parent="Theme.AppCompat.Light">
-        <item name="colorPrimaryDark">@color/BasicColor</item>
+        <!--<item name="colorPrimaryDark">@color/BasicColor</item>-->
         <item name="windowActionBar">false</item>
-        <!--<item name="windowNoTitle">true</item>-->
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="ScrollPage" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimaryDark">@color/scroll_page</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="actionBarTheme">@style/ScrollPage</item>
-        <item name="actionBarStyle">@style/ScrollPage</item>
+        <!--<item name="actionBarTheme">@style/ScrollPage</item>
+        <item name="actionBarStyle">@style/ScrollPage</item>-->
     </style>
 
     <style name="CameraPage" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -42,8 +42,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 
 </resources>
