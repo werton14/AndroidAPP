@@ -3,8 +3,22 @@
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></include>-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-        <LinearLayout
+    <GridView
+        android:id="@+id/contsinerforimage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="90dp"
+        android:numColumns="4"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp"
+        android:gravity="center"/>
+</LinearLayout>
+        <!--<LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -73,4 +87,4 @@
                     android:background="@color/backgroungforpicture" />
             </LinearLayout>
 
-        </LinearLayout>
+        </LinearLayout>-->
