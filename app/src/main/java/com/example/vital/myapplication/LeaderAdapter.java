@@ -89,9 +89,6 @@ public class LeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView);
             imageButtons = new ArrayList<ImageButton> ();
             imageButtons.add((ImageButton) itemView.findViewById(R.id.imageButton1));
-            imageButtons.add((ImageButton) itemView.findViewById(R.id.imageButton2));
-            imageButtons.add((ImageButton) itemView.findViewById(R.id.imageButton3));
-            imageButtons.add((ImageButton) itemView.findViewById(R.id.imageButton4));
         }
     }
 
