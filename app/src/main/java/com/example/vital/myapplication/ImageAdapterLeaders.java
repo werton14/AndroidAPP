@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<List<Uri>> mImageUriList;
+    private List<Uri> mImageUriList;
     private Context context;
 
     public static final int VIEW_TYPE_MOVE = 1;
@@ -54,7 +54,7 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
         return null;
     }
 
-    public ImageAdapterLeaders(Context context, List<List<Uri>> mImageUriList){
+    public ImageAdapterLeaders(Context context, List<Uri> mImageUriList){
         this.mImageUriList = mImageUriList;
         this.context = context;
         Log.w("wtf", "Constructor");
@@ -65,7 +65,7 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Log.w("wtf", "onBind");
         if(holder instanceof ViewHolderLeaders){
-            List<Uri> imagesUri = mImageUriList.get(position);
+            Uri imagesUri = mImageUriList.get(position);
             ViewHolderLeaders viewHolderLeaders = (ViewHolderLeaders) holder;
             viewHolderLeaders.bindView(imagesUri);
         }else if(holder instanceof LoadHolderLeader){
@@ -79,18 +79,16 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class ViewHolderLeaders extends RecyclerView.ViewHolder{
-        List<ImageButton> imageButtons;
+        ImageButton imageButton;
 
-        private int IMAGE_BUTTONS_COUNT = 4;
 
         public ViewHolderLeaders(View view){
             super(view);
-            imageButtons = new ArrayList<>(IMAGE_BUTTONS_COUNT);
-            imageButtons.add((ImageButton) view.findViewById(R.id.imageButton1));
+            imageButton = (ImageButton) view.findViewById(R.id.imageButton1);
         }
 
-        public void bindView(List<Uri> imageUris){
-            Glide.with(context).load(imageUris.get(0)).into(imageButtons.get(0));
+        public void bindView(Uri imageUri){
+            Glide.with(context).load(imageUri).into(imageButton);
         }
 
     }

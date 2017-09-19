@@ -25,13 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:paddingTop="@dimen/vertical_dimen_for_leaders"
-            android:weightSum="4">
+            android:paddingTop="@dimen/vertical_dimen_for_leaders">
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_width="wrap_content">
 
                 <ImageButton
@@ -40,7 +38,6 @@
                     android:layout_height="90dp"
                     android:layout_marginEnd="@dimen/dimen_between_picture"
                     android:layout_marginStart="@dimen/dimen_between_picture"
-                    android:adjustViewBounds="true"
                     android:background="@color/backgroungforpicture"
                     android:scaleType="centerCrop" />
 

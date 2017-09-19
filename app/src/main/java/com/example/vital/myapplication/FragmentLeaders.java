@@ -31,7 +31,7 @@ public class FragmentLeaders extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private ImageAdapterLeaders imageAdapterLeaders;
-    private List<List<Uri>> mImageUriList;
+    private List<Uri> mImageUriList;
     private FirebaseInfo firebaseInfo;
     private int unDownloadedImage = 0;
     private int currentItemCount;
@@ -76,14 +76,14 @@ public class FragmentLeaders extends Fragment {
 
         class DownloadImage{
             int unCompleteDownloads = 0;
-            public void getImage(DatabaseReference imageDbReference, final List<Uri> imageUri){
+            public void getImage(DatabaseReference imageDbReference){
                 unCompleteDownloads++;
                 imageDbReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Image image = dataSnapshot.getValue(Image.class);
                         Log.w("IMAGE IS HAVE", "IMAGE IS HAVE");
-                        getImageUri(image, imageUri);
+                        getImageUri(image);
 
                     }
 
@@ -94,15 +94,14 @@ public class FragmentLeaders extends Fragment {
                 });
             }
 
-            private void getImageUri(final Image image, final List<Uri> imageUri){
+            private void getImageUri(final Image image){
                 firebaseInfo.getImagesSReference().child(image.getCompetitiveImageFileName()).getDownloadUrl()
                         .addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                imageUri.add(uri);
+                                mImageUriList.add(uri);
                                 unCompleteDownloads--;
                                 if(unCompleteDownloads == 0){
-                                    mImageUriList.add(imageUri);
                                     unDownloadedImage--;
                                     if(unDownloadedImage == 0) {
                                         Log.w("wtf", "All right!");
@@ -121,11 +120,10 @@ public class FragmentLeaders extends Fragment {
         imagesDbReference.orderByChild("likeCount").limitToLast(4).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Uri> imageUri = new ArrayList<>();
                 DownloadImage downloadImage = new DownloadImage();
                 for(DataSnapshot dS : dataSnapshot.getChildren()) {
                     DatabaseReference imageDbReference = dS.getRef();
-                    downloadImage.getImage(imageDbReference, imageUri);
+                    downloadImage.getImage(imageDbReference);
                 }
             }
 
