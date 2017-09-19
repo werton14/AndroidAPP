@@ -2,8 +2,6 @@ package com.example.vital.myapplication;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.vital.myapplication.activities.Image;
@@ -15,7 +13,6 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
