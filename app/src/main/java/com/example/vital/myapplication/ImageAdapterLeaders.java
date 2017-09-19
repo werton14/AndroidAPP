@@ -28,6 +28,8 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
+        Log.w("wtf", "onViewType");
+
         int viewType = VIEW_TYPE_MOVE;
         if(position < mImageUriList.size()){
             viewType = VIEW_TYPE_MOVE;
@@ -55,6 +57,8 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
     public ImageAdapterLeaders(Context context, List<List<Uri>> mImageUriList){
         this.mImageUriList = mImageUriList;
         this.context = context;
+        Log.w("wtf", "Constructor");
+
     }
 
     @Override
@@ -101,6 +105,5 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
         }
     }
-
 
 }

@@ -61,7 +61,8 @@ public class FragmentScrollView extends Fragment {
                 mImageIds.addAll(data.getImageIds());
                 mImageUris.addAll(data.getImageUris());
                 mProfileUris.addAll(data.getProfileUris());
-                imageAdapter.notifyItemRangeInserted(currentItemCount, data.getImages().size()-1);
+                imageAdapter.notifyDataSetChanged();
+                //imageAdapter.notifyItemRangeInserted(currentItemCount, data.getImages().size()-1);
             }
         });
         imageDownloader.findImage();

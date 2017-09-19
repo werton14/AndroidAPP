@@ -2,9 +2,11 @@ package com.example.vital.myapplication;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,9 +48,10 @@ public class FragmentLeaders extends Fragment {
         recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         mImageUriList = new ArrayList<>();
         imageAdapterLeaders = new ImageAdapterLeaders(view.getContext(), mImageUriList);
-        layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setAdapter(imageAdapterLeaders);
+        layoutManager = new GridLayoutManager(view.getContext(), 4);
         recyclerView.setLayoutManager(layoutManager);
-
+        recyclerView.setHasFixedSize(false);
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
@@ -56,8 +59,6 @@ public class FragmentLeaders extends Fragment {
                 downLoadNewImage();
                 downLoadNewImage();
                 downLoadNewImage();
-
-
             }
         });
         currentItemCount = imageAdapterLeaders.getItemCount() + 1;
@@ -105,7 +106,8 @@ public class FragmentLeaders extends Fragment {
                                     unDownloadedImage--;
                                     if(unDownloadedImage == 0) {
                                         Log.w("wtf", "All right!");
-                                        imageAdapterLeaders.notifyItemRangeInserted(currentItemCount, 1);
+                                        imageAdapterLeaders.notifyDataSetChanged();
+                                        //notifyAdapter();
                                     }
                                 }
                             }
@@ -116,7 +118,7 @@ public class FragmentLeaders extends Fragment {
 
 
         final DatabaseReference imagesDbReference = firebaseInfo.getImagesDbReference();
-        imagesDbReference.orderByChild("likeCount").limitToFirst(4).addListenerForSingleValueEvent(new ValueEventListener() {
+        imagesDbReference.orderByChild("likeCount").limitToLast(4).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Uri> imageUri = new ArrayList<>();
@@ -134,5 +136,10 @@ public class FragmentLeaders extends Fragment {
         });
 
 
+    }
+
+    @UiThread
+    private void notifyAdapter(){
+        imageAdapterLeaders.notifyItemRangeInserted(currentItemCount, 1);
     }
 }
