@@ -65,14 +65,14 @@ public class LeaderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         List<Image> image = mImage.get(position);
         FirebaseInfo firebaseInfo = FirebaseInfo.getInstance();
 
-        final Iterator<ImageButton> itertor = holder.imageButtons.iterator();
+        final Iterator<ImageButton> iterator = holder.imageButtons.iterator();
 
         for (Image img:image) {
 
             firebaseInfo.getImagesSReference().child(img.getCompetitiveImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Picasso.with(context).load(uri).centerCrop().into(itertor.next());
+                    Picasso.with(context).load(uri).centerCrop().into(iterator.next());
                 }
             });
         }

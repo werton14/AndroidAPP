@@ -87,15 +87,10 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
             super(view);
             imageButtons = new ArrayList<>(IMAGE_BUTTONS_COUNT);
             imageButtons.add((ImageButton) view.findViewById(R.id.imageButton1));
-            imageButtons.add((ImageButton) view.findViewById(R.id.imageButton2));
-            imageButtons.add((ImageButton) view.findViewById(R.id.imageButton3));
-            imageButtons.add((ImageButton) view.findViewById(R.id.imageButton4));
         }
 
         public void bindView(List<Uri> imageUris){
-            for(int i = 0; i < IMAGE_BUTTONS_COUNT; i++){
-                Glide.with(context).load(imageUris.get(i)).into(imageButtons.get(i));
-            }
+            Glide.with(context).load(imageUris.get(0)).into(imageButtons.get(0));
         }
 
     }
