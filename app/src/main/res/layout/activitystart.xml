@@ -12,6 +12,11 @@
     tools:context="com.example.vital.myapplication.activities.StartActivity"
     android:background="@drawable/background_gradient">
 
+        <com.example.vital.myapplication.StatusBarView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_gradient"/>
+    
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
