@@ -25,6 +25,7 @@
         </activity>
         <activity
             android:name=".activities.SignInActivity"
+            android:label="@string/action_sign_in"
             android:noHistory="true"
             android:parentActivityName=".activities.StartActivity"
             android:theme="@style/AppTheme.New">

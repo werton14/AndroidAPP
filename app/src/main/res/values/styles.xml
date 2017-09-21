@@ -5,7 +5,7 @@
         <item name="colorPrimaryDark">@color/BasicColor</item>
     </style>-->
 
-    <style name="AppTheme.New" parent="ThemeOverlay.AppCompat">
+    <style name="AppTheme.New" parent="Theme.AppCompat.Light">
         <item name="colorPrimaryDark">@color/clr_normal</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
