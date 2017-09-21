@@ -9,6 +9,7 @@
         <item name="colorPrimaryDark">@color/clr_normal</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorControlNormal">@color/White</item>
     </style>
 
     <style name="ScrollPage" parent="Theme.AppCompat.Light.DarkActionBar">
