@@ -5,9 +5,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,29 +20,32 @@ public class StartActivity extends AppCompatActivity {
     FirebaseInfo firebaseInfo;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void setStatusBarGradiant(Activity activity) {
+    public static void setStatusBarGradient(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
-            Drawable background = activity.getResources().getDrawable(R.drawable.background_gradient);
+            Drawable background = ResourcesCompat
+                    .getDrawable(activity.getResources(), R.drawable.background_gradient, null);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(activity.getResources().getColor(R.color.dark));
-            window.setNavigationBarColor(activity.getResources().getColor(R.color.dark));
+//            window.setStatusBarColor(ResourcesCompat
+//                    .getColor(activity.getResources(), R.color.backgroungforpicture1, null));
+//            window.setNavigationBarColor(ResourcesCompat
+//                    .getColor(activity.getResources(), R.color.clr_normal_left, null));
             window.setBackgroundDrawable(background);
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*Для градиента Statusbar*/
+        super.onCreate(savedInstanceState);
+        //Для градиента Statusbar
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window w = getWindow();
             w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }*/
 
-        setStatusBarGradiant(this);
+        setStatusBarGradient(this);
 
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activitystart);
 
         firebaseInfo = FirebaseInfo.getInstance();

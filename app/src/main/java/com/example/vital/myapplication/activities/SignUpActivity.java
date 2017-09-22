@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vital.myapplication.R;
@@ -60,7 +61,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.findViewById(R.id.mytext).setAlpha(0);
+        TextView textView = (TextView)toolbar.findViewById(R.id.mytext);
+        textView.setVisibility(View.INVISIBLE);
 
 
         super.onCreate(savedInstanceState);

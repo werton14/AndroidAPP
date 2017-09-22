@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vital.myapplication.FirebaseInfo;
@@ -50,7 +51,8 @@ public class NicknameActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.findViewById(R.id.mytext).setAlpha(0);
+        TextView textView = (TextView)toolbar.findViewById(R.id.mytext);
+        textView.setVisibility(View.INVISIBLE);
 
         nicknamesDbReference = FirebaseInfo.getInstance().getNicknamesDbReference();
 

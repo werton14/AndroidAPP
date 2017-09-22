@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class FragmentLeaders extends Fragment {
     private FirebaseInfo firebaseInfo;
     private int unDownloadedImage = 0;
     private int currentItemCount;
+    private String lastItem;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,13 +59,9 @@ public class FragmentLeaders extends Fragment {
             public void onLoadMore(int page, int totalItemsCount) {
                 currentItemCount = imageAdapterLeaders.getItemCount() + 1;
                 downLoadNewImage();
-                downLoadNewImage();
-                downLoadNewImage();
             }
         });
         currentItemCount = imageAdapterLeaders.getItemCount() + 1;
-        downLoadNewImage();
-        downLoadNewImage();
         downLoadNewImage();
 
 
@@ -72,6 +70,8 @@ public class FragmentLeaders extends Fragment {
     }
 
     private void downLoadNewImage(){
+
+        Log.w("downloadImage", "All ok!");
         unDownloadedImage++;
 
         class DownloadImage{
@@ -112,19 +112,34 @@ public class FragmentLeaders extends Fragment {
                             }
                         });
             }
+        }
 
+        final DatabaseReference imagesDbReference = firebaseInfo.getImagesDbReference();
+        Query image;
+        if(lastItem == null){
+            Log.w("firstStage", "ALL ok");
+             image = imagesDbReference.orderByChild("likeCount").limitToLast(1);
+        }else {
+            Log.w("secondStage", "ALL ok");
+
+            image = imagesDbReference.orderByChild("likeCount").endAt(lastItem).limitToLast(2);
         }
 
 
-        final DatabaseReference imagesDbReference = firebaseInfo.getImagesDbReference();
-        imagesDbReference.orderByChild("likeCount").limitToLast(4).addListenerForSingleValueEvent(new ValueEventListener() {
+        image.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DownloadImage downloadImage = new DownloadImage();
+                DatabaseReference imageDbReference = null;
                 for(DataSnapshot dS : dataSnapshot.getChildren()) {
-                    DatabaseReference imageDbReference = dS.getRef();
-                    downloadImage.getImage(imageDbReference);
+                    imageDbReference = dS.getRef();
+                    if(imageDbReference.getKey() != lastItem){
+                        lastItem = imageDbReference.getKey();
+                        Log.w("lastItem", lastItem);
+                        downloadImage.getImage(imageDbReference);
+                    }
                 }
+
             }
 
             @Override

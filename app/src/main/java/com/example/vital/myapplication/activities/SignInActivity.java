@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vital.myapplication.FirebaseInfo;
@@ -45,7 +46,8 @@ public class SignInActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.findViewById(R.id.mytext).setAlpha(0);
+        TextView textView = (TextView)toolbar.findViewById(R.id.mytext);
+        textView.setVisibility(View.INVISIBLE);
 
         email = (EditText) findViewById(R.id.email_edit_text_on_signIn);
         password = (EditText) findViewById(R.id.password_edit_text_on_signIn);
