@@ -60,6 +60,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.findViewById(R.id.mytext).setAlpha(0);
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitysignup);

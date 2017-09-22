@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,7 +45,7 @@ public class SignInActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        toolbar.findViewById(R.id.mytext).setAlpha(0);
 
         email = (EditText) findViewById(R.id.email_edit_text_on_signIn);
         password = (EditText) findViewById(R.id.password_edit_text_on_signIn);

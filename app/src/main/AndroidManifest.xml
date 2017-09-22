@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name=".activities.NicknameActivity"
-            android:label="@string/action_sign_up_short"
+            android:label="@string/Nickname"
             android:parentActivityName=".activities.StartActivity"
             android:theme="@style/AppTheme.New">
             <meta-data

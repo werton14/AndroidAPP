@@ -1,6 +1,9 @@
 package com.example.vital.myapplication.activities;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +19,18 @@ public class StartActivity extends AppCompatActivity {
 
     FirebaseInfo firebaseInfo;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void setStatusBarGradiant(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            Drawable background = activity.getResources().getDrawable(R.drawable.background_gradient);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(activity.getResources().getColor(R.color.dark));
+            window.setNavigationBarColor(activity.getResources().getColor(R.color.dark));
+            window.setBackgroundDrawable(background);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /*Для градиента Statusbar*/
@@ -24,6 +39,8 @@ public class StartActivity extends AppCompatActivity {
             w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
             w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }*/
+
+        setStatusBarGradiant(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitystart);

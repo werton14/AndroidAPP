@@ -73,6 +73,7 @@
                 android:fontFamily="sans-serif-smallcaps"
                 android:hint="@string/Nickname"
                 android:inputType="textPersonName"
+                android:textColor="@color/dark"
                 android:maxLines="1"
                 android:padding="10dp"
                 android:textColorHint="#bbbbbb" />
