@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rel"
     android:background="@drawable/background_gradient"
@@ -31,4 +31,4 @@
             android:paddingRight="@dimen/activity_horizontal_margin"/>-->
 
 </android.support.v7.widget.Toolbar>
-</RelativeLayout>
+</LinearLayout>
