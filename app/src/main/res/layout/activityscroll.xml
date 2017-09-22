@@ -6,16 +6,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"></include>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/background_gradient"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"></include>
+
+    </LinearLayout>
 
     <FrameLayout
                 android:id="@+id/contentContainer"
                 android:layout_width="match_parent"
-                android:layout_above="@+id/bottomBar"
-                android:layout_height="match_parent"
-                android:layout_marginTop="56dp" />
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottomBar"
