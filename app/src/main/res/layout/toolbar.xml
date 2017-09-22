@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel"
+    android:background="@drawable/background_gradient"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+<android.support.v7.widget.Toolbar
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
@@ -25,3 +31,4 @@
             android:paddingRight="@dimen/activity_horizontal_margin"/>-->
 
 </android.support.v7.widget.Toolbar>
+</RelativeLayout>
