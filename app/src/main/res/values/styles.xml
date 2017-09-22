@@ -8,7 +8,7 @@
 
     <style name="AppTheme.New" parent="Theme.AppCompat">
         <item name="colorPrimaryDark">@color/BasicColor</item>
-
+        <item name="android:windowBackground">@color/White</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
