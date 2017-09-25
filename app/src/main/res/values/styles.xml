@@ -6,7 +6,7 @@
         <item name="colorControlNormal">@color/White</item>
     </style>-->
 
-    <style name="AppTheme.New" parent="Theme.AppCompat">
+    <style name="AppTheme.New" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/BasicColor</item>
         <item name="android:windowBackground">@color/White</item>
         <item name="windowActionBar">false</item>

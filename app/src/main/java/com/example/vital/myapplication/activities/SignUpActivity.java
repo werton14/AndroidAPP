@@ -56,6 +56,9 @@ public class SignUpActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activitysignup);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,10 +66,6 @@ public class SignUpActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         TextView textView = (TextView)toolbar.findViewById(R.id.mytext);
         textView.setVisibility(View.INVISIBLE);
-
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activitysignup);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
