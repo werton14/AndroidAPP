@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class ChooseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MultiDex.install(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activitychoose);
 
@@ -90,11 +92,12 @@ public class ChooseActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
 
                 if (position == 2) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     fileForNewPhoto = Uri.fromFile(getOutputMediaFile());
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileForNewPhoto);
                     startActivityForResult(intent, GET_PHOTO_REQUEST);
-                    handler.postDelayed(runnable, 1000);
+                    handler.postDelayed(runnable, 1000);*/
+                    //getPhoto();
                 }
                 if (position == 0) {
                     Intent intent = new Intent(getApplicationContext(), ContainerUserFragmentsActivity.class);
@@ -109,6 +112,11 @@ public class ChooseActivity extends AppCompatActivity {
             }
         };
     }
+
+//    private void getPhoto(){
+//        MagicalCamera magicalCamera = new MagicalCamera(this, MagicalCamera.TAKE_PHOTO, null);
+//        magicalCamera.takeFragmentPhoto(mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem()));
+//    }
 
 
 

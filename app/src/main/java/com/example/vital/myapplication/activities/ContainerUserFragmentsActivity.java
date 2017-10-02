@@ -38,8 +38,6 @@ public class ContainerUserFragmentsActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityscroll);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
