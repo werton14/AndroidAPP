@@ -8,10 +8,13 @@ public class User {
 
     private String nickname;
     private String profileImageFileName;
+        private String description;
+    private long taskNumber = 0;
 
     public User(){
         nickname = null;
         profileImageFileName = null;
+        description = null;
     }
 
     public User(String nickname, String profileImageFileName){
@@ -36,4 +39,19 @@ public class User {
         this.profileImageFileName = profileImageFileName;
     }
 
+    public long getTaskNumber() {
+        return taskNumber;
+    }
+
+    public void setTaskNumber(long taskNumber) {
+        this.taskNumber = taskNumber;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

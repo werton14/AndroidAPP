@@ -206,20 +206,20 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             final DatabaseReference imageDbReference = info.getWhoLikedImageDbReference().child(mImageId);
             if(isLikedByCurrentUser){
                 updateLikeParam(imageDbReference, false);
-                runLikeTransaction(-1l);
+                runLikeTransaction(1l);
 
                 likeImageButton.setImageResource(R.drawable.ic_favorite_grey);
 
-                mImage.setLikeCount(mImage.getLikeCount() - 1);
-                likeTextView.setText(String.valueOf(mImage.getLikeCount()));
+                mImage.setLikeCount(mImage.getLikeCount() + 1);
+                likeTextView.setText(String.valueOf(mImage.getLikeCount() * - 1));
             }else {
                 updateLikeParam(imageDbReference, true);
-                runLikeTransaction(1l);
+                runLikeTransaction(-1l);
 
                 likeImageButton.setImageResource(R.drawable.ic_favorite);
 
-                mImage.setLikeCount(mImage.getLikeCount() + 1);
-                likeTextView.setText(String.valueOf(mImage.getLikeCount()));
+                mImage.setLikeCount(mImage.getLikeCount() - 1);
+                likeTextView.setText(String.valueOf(mImage.getLikeCount() * -1));
             }
         }
 

@@ -88,7 +88,7 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bindView(Uri imageUri){
-            Glide.with(context).load(imageUri).into(imageButton);
+            Glide.with(context).load(imageUri).fitCenter().into(imageButton);
         }
 
     }

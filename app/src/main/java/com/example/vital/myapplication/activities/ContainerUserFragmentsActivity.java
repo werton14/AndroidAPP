@@ -1,16 +1,22 @@
 package com.example.vital.myapplication.activities;
 
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.example.vital.myapplication.FragmentLeaders;
 import com.example.vital.myapplication.FragmentPersonalDate;
@@ -23,7 +29,6 @@ import com.roughike.bottombar.OnTabSelectListener;
 public class ContainerUserFragmentsActivity extends AppCompatActivity {
 
     private BottomBar bottomBar;
-    private FrameLayout frameLayout;
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -32,6 +37,8 @@ public class ContainerUserFragmentsActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityscroll);
@@ -52,8 +59,18 @@ public class ContainerUserFragmentsActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         final MenuItem item = menu.findItem(R.id.action_settings);
-
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+
+        boolean nav = ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey();
+        if(!nav){
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) bottomBar.getLayoutParams();
+            Resources resources = getApplicationContext().getResources();
+            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+            int height = resources.getDimensionPixelSize(resourceId);
+            layoutParams.setMargins(0, 0, 0, height);
+            bottomBar.setLayoutParams(layoutParams);
+        }
+
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {

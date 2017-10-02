@@ -21,6 +21,7 @@ public class FirebaseInfo {
     private final String VIEWS_DATABASE_KEY = "views";
     private final String IMAGES_DATABASE_KEY = "images";
     private final String USERS_DATABASE_KEY = "users";
+    private final String TASK_DATABASE_KEY = "task";
     private final String PROFILE_IMAGE_DATABASE_KEY = "profileImage";
     private final String NICKNAMES_DATABASE_KEY = "nicknames";
     private final String NICKNAME_DATABASE_KEY = "nickname";
@@ -35,6 +36,7 @@ public class FirebaseInfo {
     private FirebaseAuth firebaseAuth;
 
     private DatabaseReference databaseReference;
+    private DatabaseReference taskDbReference;
     private DatabaseReference viewsDbReference;
     private DatabaseReference imagesDbReference;
     private DatabaseReference usersDbReference;
@@ -60,6 +62,7 @@ public class FirebaseInfo {
         storageReference = FirebaseStorage.getInstance().getReference();
 
         viewsDbReference = databaseReference.child(VIEWS_DATABASE_KEY);
+        taskDbReference = databaseReference.child(TASK_DATABASE_KEY);
         imagesDbReference = databaseReference.child(IMAGES_DATABASE_KEY);
         usersDbReference = databaseReference.child(USERS_DATABASE_KEY);
         nicknamesDbReference = databaseReference.child(NICKNAMES_DATABASE_KEY);
@@ -128,6 +131,9 @@ public class FirebaseInfo {
         return nicknamesDbReference;
     }
 
+    public DatabaseReference getTaskDbReference() {
+        return taskDbReference;
+    }
 
     public StorageReference getProfileImagesSReference() {
         return profileImagesSReference;

@@ -15,9 +15,10 @@ import com.example.vital.myapplication.activities.ContainerUserFragmentsActivity
 public class FragmentCamera extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragmentcamera, container, false);
         Button tempButton = (Button) rootView.findViewById(R.id.button2);
+        
 
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override

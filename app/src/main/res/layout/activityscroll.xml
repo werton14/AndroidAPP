@@ -40,16 +40,19 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="47dp"
-            android:layout_marginBottom="48dp"
-            android:layout_alignParentBottom="true"
             app:bb_activeTabColor="@color/BasicColor"
             app:bb_behavior="iconsOnly"
             app:bb_inActiveTabColor="@color/dark"
             app:bb_tabXmlResource="@xml/bottom_navigationn"></com.roughike.bottombar.BottomBar>
-
+    </LinearLayout>
 </RelativeLayout>
 

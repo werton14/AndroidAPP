@@ -30,13 +30,13 @@ import java.util.List;
 public class FragmentLeaders extends Fragment {
 
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
+    private GridLayoutManager layoutManager;
     private ImageAdapterLeaders imageAdapterLeaders;
     private List<Uri> mImageUriList;
     private FirebaseInfo firebaseInfo;
     private int unDownloadedImage = 0;
     private int currentItemCount;
-    private String lastItem;
+    private int lastItem = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,15 +52,16 @@ public class FragmentLeaders extends Fragment {
         imageAdapterLeaders = new ImageAdapterLeaders(view.getContext(), mImageUriList);
         recyclerView.setAdapter(imageAdapterLeaders);
         layoutManager = new GridLayoutManager(view.getContext(), 4);
+        layoutManager.generateDefaultLayoutParams();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(false);
-        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                currentItemCount = imageAdapterLeaders.getItemCount() + 1;
-                downLoadNewImage();
-            }
-        });
+//        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount) {
+//                currentItemCount = imageAdapterLeaders.getItemCount() + 1;
+//                downLoadNewImage();
+//            }
+//        });
         currentItemCount = imageAdapterLeaders.getItemCount() + 1;
         downLoadNewImage();
 
@@ -115,16 +116,8 @@ public class FragmentLeaders extends Fragment {
         }
 
         final DatabaseReference imagesDbReference = firebaseInfo.getImagesDbReference();
-        Query image;
-        if(lastItem == null){
-            Log.w("firstStage", "ALL ok");
-             image = imagesDbReference.orderByChild("likeCount").limitToLast(1);
-        }else {
-            Log.w("secondStage", "ALL ok");
-
-            image = imagesDbReference.orderByChild("likeCount").endAt(lastItem).limitToLast(2);
-        }
-
+        Query image= imagesDbReference.limitToLast(600);
+        lastItem++;
 
         image.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -133,11 +126,8 @@ public class FragmentLeaders extends Fragment {
                 DatabaseReference imageDbReference = null;
                 for(DataSnapshot dS : dataSnapshot.getChildren()) {
                     imageDbReference = dS.getRef();
-                    if(imageDbReference.getKey() != lastItem){
-                        lastItem = imageDbReference.getKey();
-                        Log.w("lastItem", lastItem);
-                        downloadImage.getImage(imageDbReference);
-                    }
+
+                    downloadImage.getImage(imageDbReference);
                 }
 
             }

@@ -4,14 +4,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.github.florent37.camerafragment.CameraFragment;
+import com.github.florent37.camerafragment.configuration.Configuration;
+
 /**
  * Created by qwert on 11.02.2017.
  */
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
+    FragmentManager fragmentManager;
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
+        fragmentManager = fm;
     }
 
     @Override
