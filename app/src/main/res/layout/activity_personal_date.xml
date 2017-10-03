@@ -53,11 +53,13 @@
                     android:background="@color/fornewbackground"
                     android:fontFamily="casual"
                     android:hint="About you"
+                    android:paddingBottom="5dp"
                     android:paddingEnd="7dp"
                     android:paddingStart="7dp"
                     android:paddingTop="5dp"
+                    android:textAllCaps="false"
                     android:textColor="@color/BasicColor"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

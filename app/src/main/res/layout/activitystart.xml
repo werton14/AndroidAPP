@@ -11,40 +11,42 @@
     android:background="@drawable/background_gradient"
     tools:context="com.example.vital.myapplication.activities.StartActivity">
 
-        <LinearLayout
-            android:orientation="vertical"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_gradient"
+        android:orientation="vertical"
+        android:paddingTop="350dp">
+
+        <Button
+            android:id="@+id/log_in"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:gravity="bottom"
-            android:background="@drawable/background_gradient">
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:onClick="onToSignInButtonClick"
+            android:text="@string/action_sign_in"
+            android:textColor="@android:color/background_light" />
+    </LinearLayout>
 
-            <Button
-                android:onClick="onToSignInButtonClick"
-                android:text="@string/action_sign_in"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/log_in"
-                android:background="@drawable/button_background"
-                android:textColor="@android:color/background_light" />
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:paddingTop="410dp">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <Button
+            android:id="@+id/sign_in"
             android:layout_width="match_parent"
-            android:gravity="bottom"
-            android:layout_height="460dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/button_background"
+            android:onClick="onToSignUpButtonClick"
+            android:text="@string/action_sign_up_short"
+            android:textColor="@android:color/background_light" />
 
-            <Button
-                android:onClick="onToSignUpButtonClick"
-                android:text="@string/action_sign_up_short"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sign_in"
-                android:background="@drawable/button_background"
-                android:layout_gravity="bottom"
-                android:textColor="@android:color/background_light"
-                />
-
-        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
