@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_signup_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.vital.myapplication.activities.SignUpActivity"
     android:background="@color/White">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +17,9 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/toolbar"></include>
+                layout="@layout/toolbar">
+
+            </include>
 
         </LinearLayout>
 
@@ -34,8 +31,7 @@
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:weightSum="1">
+            android:paddingTop="@dimen/activity_vertical_margin">
 
             <EditText
                 android:id="@+id/email_edit_text_on_signUp"
@@ -44,7 +40,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/edittext_default_bg"
                 android:fontFamily="sans-serif-smallcaps"
-                android:hint="@string/prompt_email"
+                android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:padding="10dp"
                 android:textColor="@color/dark"
@@ -57,7 +53,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/edittext_default_bg"
                 android:fontFamily="sans-serif-smallcaps"
-                android:hint="@string/prompt_password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:padding="10dp"
@@ -71,12 +67,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background"
                 android:onClick="onFinishButtonClick"
-                android:text="@string/End"
+                android:text="@string/finish"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
         </LinearLayout>
-
+<!--TODO прочитать про padding в Design Materials и если надо изменить-->
     </LinearLayout>
-
-</RelativeLayout>

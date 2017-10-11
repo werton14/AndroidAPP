@@ -44,7 +44,7 @@
             android:layout_gravity="bottom"
             android:background="@drawable/button_background"
             android:onClick="onToSignUpButtonClick"
-            android:text="@string/action_sign_up_short"
+            android:text="@string/action_sign_up"
             android:textColor="@android:color/background_light" />
 
     </LinearLayout>

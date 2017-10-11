@@ -47,7 +47,7 @@
         </activity>
         <activity
             android:name=".activities.NicknameActivity"
-            android:label="@string/Nickname"
+            android:label="@string/nickname"
             android:parentActivityName=".activities.StartActivity"
             android:theme="@style/AppTheme.New">
             <meta-data
@@ -56,7 +56,7 @@
         </activity>
         <activity
             android:name=".activities.SignUpActivity"
-            android:label="@string/action_sign_up_short"
+            android:label="@string/action_sign_up"
             android:theme="@style/AppTheme.New">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -64,12 +64,11 @@
         </activity>
         <activity
             android:name=".activities.ChooseActivity"
-            android:label="@string/title_activity_choose_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.New" />
         <activity
             android:name=".activities.ContainerUserFragmentsActivity"
-            android:label="@string/Space"
+            android:label="@string/space"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.New" />
         <activity

@@ -5,12 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/White"
-    android:paddingBottom="@dimen/without_margin"
-    android:paddingLeft="@dimen/without_margin"
-    android:paddingRight="@dimen/without_margin"
-    android:paddingTop="@dimen/without_margin"
-    tools:context="com.example.vital.myapplication.FragmentPrototypeScroll">
-
+    tools:context="com.example.vital.myapplication.activities.ChooseActivity">
+    <!--TODO написать ContentDescription-->
     <LinearLayout
         android:id="@+id/Parentlayout"
         android:layout_width="match_parent"
@@ -26,22 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="@dimen/activity_vertical_margin">
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingLeft="10dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_circle_avatar" />
-
-            <!-- <ImageButton
-                android:id="@+id/profile_image_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/White"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/circle" />-->
 
             <TextView
                 android:id="@+id/nickname_text_view"
@@ -51,11 +39,11 @@
                 android:layout_weight="1"
                 android:paddingEnd="7dp"
                 android:paddingStart="7dp"
-                android:text="default"
                 android:textAllCaps="false"
                 android:textColor="@color/BasicColor"
                 android:textSize="14sp"
-                android:typeface="serif" />                     <!--просит android studio-->
+                android:typeface="serif"
+                tools:text="default" />                     <!--просит android studio-->
 
             <ImageButton
                 android:id="@+id/option_image_button"
@@ -76,7 +64,7 @@
 
             <ImageButton
                 android:id="@+id/competitive_image_view"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/backgroungforpicture"
@@ -89,8 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
-            android:paddingLeft="9dp"
             android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingLeft="9dp"
             android:weightSum="1">
 
             <ImageButton
@@ -109,17 +97,17 @@
                 android:layout_weight="1"
                 android:paddingEnd="7dp"
                 android:paddingStart="7dp"
-                android:text="322"
                 android:textColor="@color/BasicColor"
                 android:textSize="14sp"
-                android:typeface="serif" />
+                android:typeface="serif"
+                tools:text="322" />
 
             <ImageButton
                 android:id="@+id/download_image_button"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:background="@color/White"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_visibiluty_standart" />
@@ -128,8 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingLeft="7dp"
-                android:text="322" />
+                android:layout_marginLeft="7dp"
+                tools:text="322" />
 
         </LinearLayout>
 
@@ -139,4 +127,5 @@
             android:background="@android:color/darker_gray"/>-->
 
     </LinearLayout>
+
 </RelativeLayout>

@@ -5,8 +5,8 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/AppTheme.New"
     android:fitsSystemWindows="true"
-    android:theme="@style/ScrollPage"
     tools:context="com.example.vital.myapplication.activities.ActivityChoose">
 
     <android.support.v4.view.ViewPager
