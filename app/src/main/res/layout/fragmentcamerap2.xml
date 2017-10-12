@@ -8,7 +8,7 @@
     <FrameLayout
         android:id="@+id/cp2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="500dp" />
 
     <!--<Button-->
         <!--android:id="@+id/take_photo2"-->
