@@ -14,6 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.github.florent37.camerafragment.widgets.RecordButton;
+
 import static android.content.ContentValues.TAG;
 
 public class FragmentCamera extends Fragment{
@@ -26,7 +28,7 @@ public class FragmentCamera extends Fragment{
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragmentcamerap2, container, false);
-        Button tempButton = (Button) rootView.findViewById(R.id.take_photo2);
+        RecordButton tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
 
         cameraPreviewLayout = (FrameLayout) rootView.findViewById(R.id.cp2);
 
