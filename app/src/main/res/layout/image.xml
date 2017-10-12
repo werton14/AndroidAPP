@@ -113,6 +113,7 @@
                 app:srcCompat="@drawable/ic_visibiluty_standart" />
 
             <TextView
+                android:id="@+id/views_count_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
