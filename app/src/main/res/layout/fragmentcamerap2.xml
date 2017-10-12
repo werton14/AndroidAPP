@@ -6,13 +6,13 @@
     android:orientation="vertical"
     android:theme="@style/CameraPage">
 
-    <SurfaceView
-        android:id="@+id/camera_preview"
+    <FrameLayout
+        android:id="@+id/cp2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <Button
-        android:id="@+id/take_photo"
+        android:id="@+id/take_photo2"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_alignParentBottom="true"

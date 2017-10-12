@@ -6,10 +6,13 @@ package com.example.vital.myapplication;
 
 import android.hardware.Camera;
 import android.content.Context;
+import android.os.Build;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.IOException;
+
+import static android.os.Build.VERSION.SDK;
 
 public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -19,9 +22,6 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     public ImageSurfaceView(Context context, Camera camera) {
         super(context);
         this.camera = camera;
-        Camera.Parameters parameters = camera.getParameters();
-        parameters.setRotation(90);
-        camera.setParameters(parameters);
         this.surfaceHolder = getHolder();
         this.surfaceHolder.addCallback(this);
     }
@@ -29,6 +29,9 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         try {
+            if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                this.camera.setDisplayOrientation(90);
+            }
             this.camera.setPreviewDisplay(holder);
             this.camera.startPreview();
         } catch (IOException e) {
@@ -38,7 +41,13 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        Camera.Parameters parameters = camera.getParameters();
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            parameters.setPreviewSize(height, width);
+        }else {
+            parameters.setPreviewSize(width, height);
+        }
+        camera.setParameters(parameters);
     }
 
     @Override

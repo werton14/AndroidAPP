@@ -32,6 +32,10 @@ public class FragmentChoose extends Fragment {
         return  rootView;
     }
 
+    public static FragmentChoose newInstance(){
+        return new FragmentChoose();
+    }
+
     private  void getUser(){
         DatabaseReference usersReference = firebaseInfo.getUsersDbReference();
         String currentUserId = firebaseInfo.getCurrentUserId();

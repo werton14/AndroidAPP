@@ -19,8 +19,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0 : return  new FragmentScroll();
-            case 1 : return  new FragmentChoose();
-            case 2 : return  Camera2BasicFragment.newInstance();
+            case 1 : return  FragmentChoose.newInstance();
+            case 2 : return  FragmentCamera.newInstance();
         }
         return  null;
     }
