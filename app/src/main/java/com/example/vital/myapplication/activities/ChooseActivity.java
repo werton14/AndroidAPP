@@ -1,5 +1,6 @@
 package com.example.vital.myapplication.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.vital.myapplication.FirebaseInfo;
 import com.example.vital.myapplication.R;
@@ -37,6 +39,7 @@ public class ChooseActivity extends AppCompatActivity {
     private Uri fileForNewPhoto;
 
     private FirebaseInfo firebaseInfo;
+    private Activity activity;
 
     static final int GET_PHOTO_REQUEST = 1;
 
@@ -46,6 +49,8 @@ public class ChooseActivity extends AppCompatActivity {
         MultiDex.install(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activitychoose);
+
+        activity = this;
 
         firebaseInfo = FirebaseInfo.getInstance();
 
@@ -98,6 +103,8 @@ public class ChooseActivity extends AppCompatActivity {
                     startActivityForResult(intent, GET_PHOTO_REQUEST);
                     handler.postDelayed(runnable, 1000);*/
                     //getPhoto();
+                    requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
                 if (position == 0) {
                     Intent intent = new Intent(getApplicationContext(), ContainerUserFragmentsActivity.class);
