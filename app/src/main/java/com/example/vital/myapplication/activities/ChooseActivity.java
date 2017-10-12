@@ -103,12 +103,18 @@ public class ChooseActivity extends AppCompatActivity {
                     startActivityForResult(intent, GET_PHOTO_REQUEST);
                     handler.postDelayed(runnable, 1000);*/
                     //getPhoto();
-                    requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    /*requestWindowFeature(Window.FEATURE_NO_TITLE);
                     activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+*/                  getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                }if(position == 1){
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                 }
                 if (position == 0) {
                     Intent intent = new Intent(getApplicationContext(), ContainerUserFragmentsActivity.class);
                     startActivity(intent);
+
                     handler.postDelayed(runnable, 1000);
                 }
             }
