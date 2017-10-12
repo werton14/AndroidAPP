@@ -117,6 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="7dp"
+                android:textColor="@color/bb_inActiveBottomBarItemColor"
                 tools:text="322" />
 
         </LinearLayout>
