@@ -8,7 +8,7 @@
     <color name="scroll_page">#ffb300</color>
     <color name="photo_page">#e91e63</color>
     <color name="dark">#000000</color>
-    <color name="prototypebackround">#C6C5C5</color>
+    <color name="prototypebackround">#c6c5c5</color>
     <color name="forview">#d6d8e1</color>                   <!--для полоски View-->
     <color name="fornewbackground">#f3f5f9</color>          <!--background для лбого экрана-->
     <color name="foredittext_default">#F5F5F5</color>
