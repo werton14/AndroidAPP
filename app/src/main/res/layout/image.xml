@@ -113,10 +113,12 @@
                 app:srcCompat="@drawable/ic_visibiluty_standart" />
 
             <TextView
+                android:id="@+id/views_count_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="7dp"
+                android:textColor="@color/bb_tabletRightBorderDark"
                 tools:text="322" />
 
         </LinearLayout>

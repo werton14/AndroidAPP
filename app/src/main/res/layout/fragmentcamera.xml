@@ -6,10 +6,10 @@
     android:orientation="vertical"
     android:theme="@style/CameraPage">
 
-    <SurfaceView
+    <com.example.vital.myapplication.AutoFitTextureView
         android:id="@+id/camera_preview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/take_photo"
@@ -18,5 +18,16 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/finish" />
+
+    <ImageButton
+        android:id="@+id/infobutton"
+        style="@android:style/Widget.Material.Light.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical|right"
+        android:padding="20dp"
+        android:src="@drawable/ic_settings" />
 
 </RelativeLayout>

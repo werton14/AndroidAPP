@@ -119,6 +119,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         private ImageView competitiveImageView;
         private TextView nicknameTextView;
         private TextView likeTextView;
+        private TextView viewsCountTextView;
 
         private Image mImage;
         private User mUser;
@@ -143,6 +144,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             competitiveImageView = (ImageButton) itemView.findViewById(R.id.competitive_image_view);
             nicknameTextView = (TextView) itemView.findViewById(R.id.nickname_text_view);
             likeTextView = (TextView) itemView.findViewById(R.id.like_text_view);
+            viewsCountTextView = (TextView) itemView.findViewById(R.id.views_count_text_view);
 
         }
 
@@ -182,6 +184,19 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
             likeTextView.setText(String.valueOf(mImage.getLikeCount()));
 
+            DatabaseReference viewsDbReference = firebaseInfo.getViewsDbReference();
+            viewsDbReference.child(mImageId).child("view").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    viewsCountTextView.setText(String.valueOf(dataSnapshot.getValue(long.class)));
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
             competitiveImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -206,20 +221,20 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             final DatabaseReference imageDbReference = info.getWhoLikedImageDbReference().child(mImageId);
             if(isLikedByCurrentUser){
                 updateLikeParam(imageDbReference, false);
-                runLikeTransaction(1l);
+                runLikeTransaction(-1l);
 
                 likeImageButton.setImageResource(R.drawable.ic_favorite_grey);
 
-                mImage.setLikeCount(mImage.getLikeCount() + 1);
-                likeTextView.setText(String.valueOf(mImage.getLikeCount() * - 1));
+                mImage.setLikeCount(mImage.getLikeCount() - 1l);
+                likeTextView.setText(String.valueOf(mImage.getLikeCount()));
             }else {
                 updateLikeParam(imageDbReference, true);
-                runLikeTransaction(-1l);
+                runLikeTransaction(1l);
 
                 likeImageButton.setImageResource(R.drawable.ic_favorite);
 
-                mImage.setLikeCount(mImage.getLikeCount() - 1);
-                likeTextView.setText(String.valueOf(mImage.getLikeCount() * -1));
+                mImage.setLikeCount(mImage.getLikeCount() + 1l);
+                likeTextView.setText(String.valueOf(mImage.getLikeCount()));
             }
         }
 

@@ -79,12 +79,12 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class ViewHolderLeaders extends RecyclerView.ViewHolder{
-        ImageButton imageButton;
+        SquareImageView imageButton;
 
 
         public ViewHolderLeaders(View view){
             super(view);
-            imageButton = (ImageButton) view.findViewById(R.id.imageButton1);
+            imageButton = (SquareImageView) view.findViewById(R.id.imageButton1);
         }
 
         public void bindView(Uri imageUri){
