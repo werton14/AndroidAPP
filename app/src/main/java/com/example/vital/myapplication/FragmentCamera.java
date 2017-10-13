@@ -2,6 +2,8 @@ package com.example.vital.myapplication;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.hardware.Camera;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -29,9 +31,8 @@ public class FragmentCamera extends Fragment{
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragmentcamerap2, container, false);
         RecordButton tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
-
         cameraPreviewLayout = (FrameLayout) rootView.findViewById(R.id.cp2);
-
+        tempButton.setBackgroundResource(R.drawable.take_photo_button);
         camera = checkDeviceCamera();
         mImageSurfaceView = new ImageSurfaceView(getContext(), camera);
         if(cameraPreviewLayout == null) Log.w(TAG, "PreviewLayout is null");
