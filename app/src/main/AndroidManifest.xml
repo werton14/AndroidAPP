@@ -65,7 +65,7 @@
         <activity
             android:name=".activities.ChooseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.New" />
         <activity
             android:name=".activities.ContainerUserFragmentsActivity"
             android:label="@string/space"
