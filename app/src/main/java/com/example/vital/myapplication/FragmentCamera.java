@@ -34,6 +34,7 @@ public class FragmentCamera extends Fragment{
         final RecordButton tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
         cameraPreviewLayout = (FrameLayout) rootView.findViewById(R.id.cp2);
         camera = checkDeviceCamera();
+
         tempButton.setBackgroundResource(R.drawable.take_photo_button);
         tempButton.setBackgroundResource(R.drawable.circle_frame_background);
         mImageSurfaceView = new ImageSurfaceView(getContext(), camera);
