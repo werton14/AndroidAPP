@@ -49,7 +49,6 @@ public class ChooseActivity extends AppCompatActivity {
         MultiDex.install(this);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activitychoose);
-
         activity = this;
 
         firebaseInfo = FirebaseInfo.getInstance();
@@ -112,10 +111,7 @@ public class ChooseActivity extends AppCompatActivity {
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                 }
                 if (position == 0) {
-                    Intent intent = new Intent(getApplicationContext(), ContainerUserFragmentsActivity.class);
-                    startActivity(intent);
 
-                    handler.postDelayed(runnable, 1000);
                 }
             }
 

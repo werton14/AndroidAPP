@@ -70,6 +70,10 @@ public class FragmentLeaders extends Fragment {
         return view;
     }
 
+    public static FragmentLeaders newInstance(){
+        return new FragmentLeaders();
+    }
+
     private void downLoadNewImage(){
 
         Log.w("downloadImage", "All ok!");

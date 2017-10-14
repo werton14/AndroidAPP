@@ -77,4 +77,8 @@ public class FragmentScrollView extends Fragment {
         return view;
     }
 
+    public static FragmentScrollView newInstace(){
+        return new FragmentScrollView();
+    }
+
 }

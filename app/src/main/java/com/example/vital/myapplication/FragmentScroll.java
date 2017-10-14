@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,21 +36,37 @@ public class FragmentScroll extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.activityscroll, container, false);
+        viewPager = (ViewPager) view.findViewById(R.id.contentContainer);
+        userPageAdapter = new UserPageAdapter(getChildFragmentManager());
+        viewPager.setAdapter(userPageAdapter);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
-        userPageAdapter = new UserPageAdapter(getFragmentManager());
 
-        viewPager = (ViewPager) view.findViewById(R.id.contentContainer);
-        viewPager.setAdapter(userPageAdapter);
         return view;
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        Log.w("onResume", "work fine");
+        super.onResume();
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.w("onMENUOPTINON", "option");
         inflater.inflate(R.menu.button_settings, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -66,10 +83,11 @@ public class FragmentScroll extends Fragment {
             layoutParams.setMargins(0, 0, 0, height);
             bottomBar.setLayoutParams(layoutParams);
         }
-
+        Log.w("onMenu", "menu");
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
+                Log.w("bottom", "bottom bar working");
                 switch(tabId){
                     case R.id.tab_home : viewPager.setCurrentItem(0);
                         item.setEnabled(false);
@@ -86,5 +104,6 @@ public class FragmentScroll extends Fragment {
                 }
             }
         });
+        bottomBar.setVisibility(BottomBar.INVISIBLE);
     }
 }

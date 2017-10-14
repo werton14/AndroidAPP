@@ -36,6 +36,10 @@ public class FragmentPersonalDate extends Fragment {
         return view;
     }
 
+    public static FragmentPersonalDate newInstace(){
+        return new FragmentPersonalDate();
+    }
+
     private void getUser (){
         firebaseInfo.getCurrentUserDbReference().addListenerForSingleValueEvent(new ValueEventListener() {
 
