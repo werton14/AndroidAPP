@@ -8,6 +8,7 @@
     tools:context=".activities.SignInActivity">
 
         <LinearLayout
+            android:id="@+id/linearLayoutSignIn"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@drawable/background_gradient"

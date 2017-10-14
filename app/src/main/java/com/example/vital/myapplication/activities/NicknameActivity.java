@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class NicknameActivity extends AppCompatActivity {
 
     private EditText editNickname;
+    private LinearLayout linearLayout;
     private CircleImageView chooseProfileImageButton;
     private DatabaseReference nicknamesDbReference;
     private String nickname;
@@ -47,13 +49,18 @@ public class NicknameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activityname);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            linearLayout = (LinearLayout) findViewById(R.id.linearLayoutNickname);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            linearLayout.setLayoutParams(params);
         }
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activityname);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
