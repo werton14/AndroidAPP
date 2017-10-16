@@ -41,7 +41,6 @@ public class ChooseActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private Uri fileForNewPhoto;
-    private FragmentScroll fragmentScroll;
 
     private FirebaseInfo firebaseInfo;
     private Activity activity;
@@ -67,10 +66,6 @@ public class ChooseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        } else {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            fragmentScroll.getLinearLayout().setLayoutParams(params);
         }
 
         onPageChangeListener = this.getOnPageListener();

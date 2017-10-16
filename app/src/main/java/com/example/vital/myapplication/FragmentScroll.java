@@ -1,6 +1,7 @@
 package com.example.vital.myapplication;
 
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -16,6 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.roughike.bottombar.BottomBar;
@@ -48,6 +51,12 @@ public class FragmentScroll extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            linearLayout.setLayoutParams(params);
+        }
 
         return view;
     }
@@ -113,10 +122,6 @@ public class FragmentScroll extends Fragment {
             }
         });
         bottomBar.setVisibility(BottomBar.INVISIBLE);
-    }
-
-    public LinearLayout getLinearLayout() {
-        return linearLayout;
     }
 
 }
