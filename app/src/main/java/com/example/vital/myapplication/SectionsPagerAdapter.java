@@ -12,20 +12,25 @@ import android.view.ViewGroup;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    FragmentManager fragmentManager;
+    private OnFragmentCreatedListener fragmentCreatedListener;
+
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
-//        fragmentManager = fm;
     }
 
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment = null;
         switch (position){
-            case 0 : return  FragmentScroll.newInstance();
-            case 1 : return  FragmentChoose.newInstance();
-            case 2 : return  FragmentCamera.newInstance();
+            case 0 : fragment = FragmentScroll.newInstance();
+                break;
+            case 1 : fragment = FragmentChoose.newInstance();
+                break;
+            case 2 : fragment = FragmentCamera.newInstance();
+                break;
         }
-        return  null;
+        fragmentCreatedListener.onFragmentCreated(fragment);
+        return fragment;
     }
 
     @Override
@@ -33,4 +38,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
+
+    public interface OnFragmentCreatedListener{
+        void onFragmentCreated(Fragment fragment);
+    }
+
+    public void setFragmentCreatedListener(OnFragmentCreatedListener fragmentCreatedListener) {
+        this.fragmentCreatedListener = fragmentCreatedListener;
+    }
 }

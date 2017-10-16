@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.multidex.MultiDex;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.example.vital.myapplication.FirebaseInfo;
+import com.example.vital.myapplication.FragmentChoose;
 import com.example.vital.myapplication.FragmentScroll;
 import com.example.vital.myapplication.R;
 import com.example.vital.myapplication.SectionsPagerAdapter;
@@ -59,7 +61,18 @@ public class ChooseActivity extends AppCompatActivity {
         firebaseInfo = FirebaseInfo.getInstance();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter.setFragmentCreatedListener(new SectionsPagerAdapter.OnFragmentCreatedListener() {
+            @Override
+            public void onFragmentCreated(Fragment fragment) {
+                if(fragment instanceof FragmentScroll){
 
+                }if(fragment instanceof FragmentChoose){
+
+                }else {
+
+                }
+            }
+        });
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
