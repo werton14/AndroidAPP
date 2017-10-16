@@ -198,7 +198,12 @@ public class ChooseActivity extends AppCompatActivity {
         } else {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            fragmentScroll.getLinearLayout();
+            fragmentScroll.setOnLinearLayoutScrollCreatedListener(new FragmentScroll.OnLinearLayoutScrollCreatedListener() {
+                @Override
+                public void onLinearLayoutScrollCreated(LinearLayout linearLayout) {
+
+                }
+            });
         }
     }
 }
