@@ -10,8 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    private OnFragmentScrollCreatedListener fragmentScrollCreatedListener;
-
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -19,9 +17,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0 : FragmentScroll fragmentScroll = FragmentScroll.newInstance();
-                fragmentScrollCreatedListener.onFragmentScrollCreated(fragmentScroll);
-                return fragmentScroll;
+            case 0 :  return FragmentScroll.newInstance();
             case 1 :  return FragmentChoose.newInstance();
             case 2 :  return FragmentCamera.newInstance();
         }
@@ -33,11 +29,4 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
-    public interface OnFragmentScrollCreatedListener {
-        void onFragmentScrollCreated(FragmentScroll fragment);
-    }
-
-    public void setFragmentScrollCreatedListener(OnFragmentScrollCreatedListener fragmentScrollCreatedListener) {
-        this.fragmentScrollCreatedListener = fragmentScrollCreatedListener;
-    }
 }

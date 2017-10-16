@@ -33,7 +33,7 @@ public class FragmentScroll extends Fragment {
     private UserPageAdapter userPageAdapter;
     private ViewPager viewPager;
     private ViewPager.OnPageChangeListener onPageChangeListener;
-    private OnLinearLayoutScrollCreatedListener onLinearLayoutScrollCreatedListener;
+
 
     @Nullable
     @Override
@@ -45,7 +45,6 @@ public class FragmentScroll extends Fragment {
         userPageAdapter = new UserPageAdapter(getChildFragmentManager());
         viewPager.setAdapter(userPageAdapter);
         linearLayout = (LinearLayout) view.findViewById(R.id.linearLayoutScroll);
-        onLinearLayoutScrollCreatedListener.onLinearLayoutScrollCreated(linearLayout);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
@@ -120,11 +119,4 @@ public class FragmentScroll extends Fragment {
         return linearLayout;
     }
 
-    public void setOnLinearLayoutScrollCreatedListener(OnLinearLayoutScrollCreatedListener onLinearLayoutScrollCreatedListener) {
-        this.onLinearLayoutScrollCreatedListener = onLinearLayoutScrollCreatedListener;
-    }
-
-    public interface OnLinearLayoutScrollCreatedListener{
-        void onLinearLayoutScrollCreated(LinearLayout linearLayout);
-    }
 }

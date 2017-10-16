@@ -9,10 +9,10 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.multidex.MultiDex;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -41,6 +41,7 @@ public class ChooseActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private Uri fileForNewPhoto;
+    private FragmentScroll fragmentScroll;
 
     private FirebaseInfo firebaseInfo;
     private Activity activity;
@@ -58,16 +59,19 @@ public class ChooseActivity extends AppCompatActivity {
         firebaseInfo = FirebaseInfo.getInstance();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mSectionsPagerAdapter.setFragmentScrollCreatedListener(new SectionsPagerAdapter.OnFragmentScrollCreatedListener() {
-            @Override
-            public void onFragmentScrollCreated(FragmentScroll fragment) {
-                checkVersion(fragment);
-            }
-        });
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            fragmentScroll.getLinearLayout().setLayoutParams(params);
+        }
 
         onPageChangeListener = this.getOnPageListener();
         mViewPager.addOnPageChangeListener(onPageChangeListener);
@@ -170,10 +174,6 @@ public class ChooseActivity extends AppCompatActivity {
         });
     }
 
-    void checkForVersion(Fragment fragment){
-
-
-    }
 
     private static File getOutputMediaFile(){
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
@@ -188,22 +188,5 @@ public class ChooseActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         return new File(mediaStorageDir.getPath() + File.separator +
                 "IMG_"+ timeStamp + ".jpg");
-    }
-
-    void checkVersion (FragmentScroll fragmentScroll){
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        } else {
-            final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            fragmentScroll.setOnLinearLayoutScrollCreatedListener(new FragmentScroll.OnLinearLayoutScrollCreatedListener() {
-                @Override
-                public void onLinearLayoutScrollCreated(LinearLayout linearLayout) {
-                        linearLayout.setLayoutParams(params);
-                }
-            });
-        }
     }
 }
