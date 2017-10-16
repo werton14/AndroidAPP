@@ -13,13 +13,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.example.vital.myapplication.FirebaseInfo;
-import com.example.vital.myapplication.FragmentChoose;
 import com.example.vital.myapplication.FragmentScroll;
 import com.example.vital.myapplication.R;
 import com.example.vital.myapplication.SectionsPagerAdapter;
@@ -43,7 +41,6 @@ public class ChooseActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private Uri fileForNewPhoto;
-    private FragmentScroll fragmentScroll;
 
     private FirebaseInfo firebaseInfo;
     private Activity activity;
@@ -61,30 +58,16 @@ public class ChooseActivity extends AppCompatActivity {
         firebaseInfo = FirebaseInfo.getInstance();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mSectionsPagerAdapter.setFragmentCreatedListener(new SectionsPagerAdapter.OnFragmentCreatedListener() {
+        mSectionsPagerAdapter.setFragmentScrollCreatedListener(new SectionsPagerAdapter.OnFragmentScrollCreatedListener() {
             @Override
-            public void onFragmentCreated(Fragment fragment) {
-                if(fragment instanceof FragmentScroll){
-
-                }if(fragment instanceof FragmentChoose){
-
-                }else {
-
-                }
+            public void onFragmentScrollCreated(FragmentScroll fragment) {
+                checkVersion(fragment);
             }
         });
+
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        } else {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            fragmentScroll.getLinearLayout().setLayoutParams(params);
-        }
 
         onPageChangeListener = this.getOnPageListener();
         mViewPager.addOnPageChangeListener(onPageChangeListener);
@@ -187,6 +170,10 @@ public class ChooseActivity extends AppCompatActivity {
         });
     }
 
+    void checkForVersion(Fragment fragment){
+
+
+    }
 
     private static File getOutputMediaFile(){
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
@@ -201,5 +188,17 @@ public class ChooseActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         return new File(mediaStorageDir.getPath() + File.separator +
                 "IMG_"+ timeStamp + ".jpg");
+    }
+
+    void checkVersion (FragmentScroll fragmentScroll){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            fragmentScroll.getLinearLayout();
+        }
     }
 }
