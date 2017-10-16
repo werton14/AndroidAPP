@@ -27,6 +27,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 public class FragmentScroll extends Fragment {
 
+    private LinearLayout linearLayout;
     private View view;
     private BottomBar bottomBar;
     private UserPageAdapter userPageAdapter;
@@ -42,11 +43,16 @@ public class FragmentScroll extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.contentContainer);
         userPageAdapter = new UserPageAdapter(getChildFragmentManager());
         viewPager.setAdapter(userPageAdapter);
+        linearLayout = (LinearLayout) view.findViewById(R.id.linearLayoutScroll);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
 
         return view;
+    }
+
+    public static FragmentScroll newInstance(){
+        return new FragmentScroll();
     }
 
     @Override
@@ -75,6 +81,7 @@ public class FragmentScroll extends Fragment {
         bottomBar = (BottomBar) view.findViewById(R.id.bottomBar);
 
         boolean nav = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
+
         if(!nav){
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) bottomBar.getLayoutParams();
             Resources resources = getContext().getResources();
@@ -105,5 +112,9 @@ public class FragmentScroll extends Fragment {
             }
         });
         bottomBar.setVisibility(BottomBar.INVISIBLE);
+    }
+
+    public LinearLayout getLinearLayout() {
+        return linearLayout;
     }
 }

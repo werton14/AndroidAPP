@@ -57,8 +57,6 @@ public class SignInActivity extends AppCompatActivity {
             linearLayout.setLayoutParams(params);
         }
 
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

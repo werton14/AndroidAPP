@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -11,10 +12,13 @@ import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.example.vital.myapplication.FirebaseInfo;
+import com.example.vital.myapplication.FragmentScroll;
 import com.example.vital.myapplication.R;
 import com.example.vital.myapplication.SectionsPagerAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,6 +41,7 @@ public class ChooseActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private Uri fileForNewPhoto;
+    private FragmentScroll fragmentScroll;
 
     private FirebaseInfo firebaseInfo;
     private Activity activity;
@@ -59,10 +64,18 @@ public class ChooseActivity extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            fragmentScroll.getLinearLayout().setLayoutParams(params);
+        }
+
         onPageChangeListener = this.getOnPageListener();
         mViewPager.addOnPageChangeListener(onPageChangeListener);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
