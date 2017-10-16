@@ -46,23 +46,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <!--<com.roughike.bottombar.BottomBar-->
-            <!--android:id="@+id/bottomBar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="47dp"-->
-            <!--app:bb_activeTabColor="@color/BasicColor"-->
-            <!--app:bb_behavior="iconsOnly"-->
-            <!--app:bb_inActiveTabColor="@color/dark"-->
-            <!--app:bb_tabXmlResource="@xml/bottom_navigationn">-->
-
-        <!--</com.roughike.bottombar.BottomBar>-->
-
-        <android.support.design.widget.BottomNavigationView
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="47dp"
+            app:bb_activeTabColor="@color/BasicColor"
+            app:bb_behavior="iconsOnly"
+            app:bb_inActiveTabColor="@color/dark"
+            app:bb_tabXmlResource="@xml/bottom_navigationn">
 
-        </android.support.design.widget.BottomNavigationView>
+        </com.roughike.bottombar.BottomBar>
+
+        <!--<android.support.design.widget.BottomNavigationView-->
+            <!--android:id="@id/bottomBar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--&gt;-->
+
+        <!--</android.support.design.widget.BottomNavigationView>-->
 
     </LinearLayout>
 
