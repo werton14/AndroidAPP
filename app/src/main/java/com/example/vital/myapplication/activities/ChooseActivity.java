@@ -196,12 +196,12 @@ public class ChooseActivity extends AppCompatActivity {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         } else {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+            final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             fragmentScroll.setOnLinearLayoutScrollCreatedListener(new FragmentScroll.OnLinearLayoutScrollCreatedListener() {
                 @Override
                 public void onLinearLayoutScrollCreated(LinearLayout linearLayout) {
-
+                        linearLayout.setLayoutParams(params);
                 }
             });
         }
