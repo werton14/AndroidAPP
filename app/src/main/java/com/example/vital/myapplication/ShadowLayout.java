@@ -71,7 +71,6 @@ public class ShadowLayout extends RelativeLayout {
             invalidate(); // We need to redraw when the shadow attributes change
         }
     }
-
     /**
      * Overriding onDraw allows us to draw shadows behind every child of this container.
      * onDraw() is called to draw a layout's content before the children are drawn, so the
@@ -95,6 +94,4 @@ public class ShadowLayout extends RelativeLayout {
             canvas.restore();
         }
     }
-    
-    
 }

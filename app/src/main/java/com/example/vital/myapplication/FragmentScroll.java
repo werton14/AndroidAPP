@@ -109,6 +109,7 @@ public class FragmentScroll extends Fragment {
                     case R.id.tab_home : viewPager.setCurrentItem(0);
                         item.setEnabled(false);
                         item.getIcon().setAlpha(0);
+
                         break;
                     case R.id.tab_leaders : viewPager.setCurrentItem(1);
                         item.setEnabled(false);
