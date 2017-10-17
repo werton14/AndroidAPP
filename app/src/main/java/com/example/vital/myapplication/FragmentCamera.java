@@ -47,6 +47,7 @@ public class FragmentCamera extends Fragment{
         final Camera.Parameters parameters = camera.getParameters();
 //        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_INFINITY);
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
         camera.setParameters(parameters);
 
         tempButton.setBackgroundResource(R.drawable.take_photo_button);
