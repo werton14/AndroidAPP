@@ -60,8 +60,10 @@
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            app:menu="@menu/bottom_baarr">
+            android:layout_height="wrap_content"
+            app:itemBackground="@color/White"
+            app:menu="@menu/bottom_baarr"
+            >
 
         </android.support.design.widget.BottomNavigationView>
 
