@@ -111,7 +111,7 @@ public class FragmentCamera extends Fragment{
     private Camera checkDeviceCamera(){
         Camera mCamera = null;
         try {
-            mCamera = Camera.open(0);
+            mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
         } catch (Exception e) {
             e.printStackTrace();
         }
