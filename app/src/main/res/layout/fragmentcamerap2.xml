@@ -40,6 +40,15 @@
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_marginTop="5dp"
-        app:srcCompat="@drawable/ic_flash_off_white"
-        tools:background="@color/bb_darkBackgroundColor" />
+        android:background="@color/dark"
+        app:srcCompat="@drawable/ic_flash_off_white_24dp" />
+
+    <ImageButton
+        android:id="@+id/switchCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:srcCompat="@drawable/ic_camera_rear_white_24dp"
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

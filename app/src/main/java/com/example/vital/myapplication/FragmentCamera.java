@@ -1,5 +1,6 @@
 package com.example.vital.myapplication;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,9 +22,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.vital.myapplication.activities.Image;
+import com.github.florent37.camerafragment.listeners.CameraFragmentResultAdapter;
 import com.github.florent37.camerafragment.widgets.FlashSwitchView;
 import com.github.florent37.camerafragment.widgets.RecordButton;
 
+import java.io.IOException;
 import java.security.Policy;
 
 import static android.content.ContentValues.TAG;
@@ -31,8 +35,10 @@ public class FragmentCamera extends Fragment{
 
     private ImageSurfaceView mImageSurfaceView;
     private int checkFlashState = 0;
+    private int currentCameraId = 0;
     private Camera camera;
-    private ImageButton button;
+    private ImageButton flash;
+    private ImageButton switchCamera;
     private FrameLayout cameraPreviewLayout;
 
     @Override
@@ -40,13 +46,14 @@ public class FragmentCamera extends Fragment{
         final View rootView = inflater.inflate(R.layout.fragmentcamerap2, container, false);
         final RecordButton tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
         cameraPreviewLayout = (FrameLayout) rootView.findViewById(R.id.cp2);
-        button = (ImageButton) rootView.findViewById(R.id.flashButton);
-        button.setBackgroundColor(Color.TRANSPARENT);
+        flash = (ImageButton) rootView.findViewById(R.id.flashButton);
+        flash.setBackgroundColor(Color.TRANSPARENT);
+        switchCamera = (ImageButton) rootView.findViewById(R.id.switchCamera);
+        switchCamera.setBackgroundColor(Color.TRANSPARENT);
         camera = checkDeviceCamera();
 
         final Camera.Parameters parameters = camera.getParameters();
-//        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_INFINITY);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
         camera.setParameters(parameters);
 
@@ -70,7 +77,7 @@ public class FragmentCamera extends Fragment{
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        flash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -78,29 +85,54 @@ public class FragmentCamera extends Fragment{
                     case 0 :
                         setFlash(Camera.Parameters.FLASH_MODE_OFF);
                         changeFlashMode();
-                        button.setImageResource(R.drawable.ic_flash_off_white);
-
-
+                        flash.setImageResource(R.drawable.ic_flash_off_white_24dp);
                         break;
 
                     case 1:
                         setFlash(Camera.Parameters.FLASH_MODE_ON);
                         changeFlashMode();
-                        button.setImageResource(R.drawable.ic_flash_on_white);
+                        flash.setImageResource(R.drawable.ic_flash_on_white_24dp);
                         break;
 
                     case 2 :
                         setFlash(Camera.Parameters.FLASH_MODE_AUTO);
                         changeFlashMode();
-                        button.setImageResource(R.drawable.ic_flash_auto_white);
+                        flash.setImageResource(R.drawable.ic_flash_auto_white_24dp);
                         break;
                 }
             }
         });
 
+        switchCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                camera.stopPreview();
+                camera.release();
+
+                if(currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK){
+                    currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+                }
+                else {
+                    currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+                }
+
+                camera = Camera.open(currentCameraId);
+
+                try {
+
+                    camera.setPreviewDisplay(mImageSurfaceView.getHolder());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                camera.startPreview();
+
+            }
+        });
+
         return  rootView;
     }
-
 
 
     public static FragmentCamera newInstance(){
@@ -110,11 +142,13 @@ public class FragmentCamera extends Fragment{
 
     private Camera checkDeviceCamera(){
         Camera mCamera = null;
-        try {
-            mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+            try {
+                mCamera = Camera.open(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         return mCamera;
     }
 

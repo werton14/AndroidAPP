@@ -64,7 +64,6 @@
             app:itemBackground="@color/White"
             app:menu="@menu/bottom_baarr"
             >
-
         </android.support.design.widget.BottomNavigationView>
 
     </LinearLayout>
