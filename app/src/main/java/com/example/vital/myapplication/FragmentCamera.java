@@ -107,9 +107,6 @@ public class FragmentCamera extends Fragment{
             @Override
             public void onClick(View v) {
 
-                camera.stopPreview();
-                camera.release();
-
                 if(currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK){
                     currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
                 }
