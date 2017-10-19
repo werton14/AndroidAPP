@@ -47,6 +47,7 @@ public class FragmentScroll extends Fragment {
         activity.setSupportActionBar(toolbar);
 
         bottomBar = (MyBottomNavigationView) view.findViewById(R.id.bottomBar);
+        //pisun
         getFragmentManager().beginTransaction()
                 .replace(R.id.contentContainer, FragmentScrollView.newInstace()).commit();
         boolean nav = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
