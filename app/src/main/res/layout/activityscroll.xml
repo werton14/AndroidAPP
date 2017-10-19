@@ -61,7 +61,8 @@
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/BasicColor"
+            app:itemBackground="@color/White"
+            app:itemIconTint="@color/dark"
             app:menu="@menu/bottom_baarr">
 
         </com.example.vital.myapplication.MyBottomNavigationView>

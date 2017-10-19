@@ -2,14 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homee"
+        android:title="@string/space"
         android:icon="@drawable/ic_home_grey">
     </item>
     <item
         android:id="@+id/leadeers"
+        android:title="@string/space"
         android:icon="@drawable/ic_star_grey">
     </item>
     <item
         android:id="@+id/dataa"
+        android:title="@string/space"
         android:icon="@drawable/ic_person_grey">
     </item>
 </menu>
