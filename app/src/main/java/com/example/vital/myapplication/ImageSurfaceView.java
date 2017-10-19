@@ -59,7 +59,6 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         }
         camera.setDisplayOrientation(cameraRotation);
         camera.setParameters(parameters);
-        Toast.makeText(getContext(), String.valueOf(rotation), Toast.LENGTH_SHORT).show();
         camera.startPreview();
     }
 
@@ -77,7 +76,6 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             Camera.CameraInfo info = new Camera.CameraInfo();
             Camera.getCameraInfo(i, info);
             if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                Log.d(TAG, "Camera found");
                 cameraInfo = info;
                 break;
             }
@@ -116,8 +114,6 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         }else{
             result = (info.orientation - degrees + 360) % 360;
         }
-        Log.w("cameraRotation", String.valueOf(result));
-        Log.w("cameraOrientation", String.valueOf(info.orientation));
         return result;
     }
 }
