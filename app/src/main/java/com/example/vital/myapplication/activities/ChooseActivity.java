@@ -3,6 +3,7 @@ package com.example.vital.myapplication.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -119,7 +120,7 @@ public class ChooseActivity extends AppCompatActivity {
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                 }
                 if (position == 0) {
-
+                    getWindow().setNavigationBarColor(Color.BLACK);
                 }
             }
 

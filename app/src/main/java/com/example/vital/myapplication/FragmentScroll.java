@@ -1,15 +1,18 @@
 package com.example.vital.myapplication;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +31,7 @@ public class FragmentScroll extends Fragment {
     private View view;
     private MyBottomNavigationView bottomBar;
     private UserPageAdapter userPageAdapter;
+    private FrameLayout frameLayout;
     private ViewPager.OnPageChangeListener onPageChangeListener;
 
 
@@ -46,16 +50,21 @@ public class FragmentScroll extends Fragment {
         getFragmentManager().beginTransaction()
                 .replace(R.id.contentContainer, FragmentScrollView.newInstace()).commit();
         boolean nav = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
-
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) bottomBar.getLayoutParams();
+        int bottomMargin = 0;
         if(!nav){
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) bottomBar.getLayoutParams();
             Resources resources = getContext().getResources();
             int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
             int height = resources.getDimensionPixelSize(resourceId);
+            bottomMargin += height;
             layoutParams.setMargins(0, 0, 0, height);
-            bottomBar.setLayoutParams(layoutParams);
         }
 
+         int height = (int) TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 47, getResources().getDisplayMetrics());
+        bottomBar.setLayoutParams(layoutParams);
+        layoutParams.height = height;
+        bottomMargin += height;
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -63,6 +72,12 @@ public class FragmentScroll extends Fragment {
                 return false;
             }
         });
+
+        frameLayout = (FrameLayout) view.findViewById(R.id.contentContainer);
+        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) frameLayout.getLayoutParams();
+        params1.setMargins(0, 0, 0, bottomMargin);
+        frameLayout.setLayoutParams(params1);
+
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
