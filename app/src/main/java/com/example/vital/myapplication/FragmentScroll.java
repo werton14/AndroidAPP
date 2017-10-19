@@ -3,26 +3,20 @@ package com.example.vital.myapplication;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 
 /**
  * Created by qwert on 12.02.2017.
@@ -32,9 +26,8 @@ public class FragmentScroll extends Fragment {
 
     private LinearLayout linearLayout;
     private View view;
-    private BottomBar bottomBar;
+    private MyBottomNavigationView bottomBar;
     private UserPageAdapter userPageAdapter;
-    private ViewPager viewPager;
     private ViewPager.OnPageChangeListener onPageChangeListener;
 
 
@@ -44,52 +37,14 @@ public class FragmentScroll extends Fragment {
 
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.activityscroll, container, false);
-        viewPager = (ViewPager) view.findViewById(R.id.contentContainer);
-        userPageAdapter = new UserPageAdapter(getChildFragmentManager());
-        viewPager.setAdapter(userPageAdapter);
         linearLayout = (LinearLayout) view.findViewById(R.id.linearLayoutScroll);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            linearLayout.setLayoutParams(params);
-        }
-
-        return view;
-    }
-
-    public static FragmentScroll newInstance(){
-        return new FragmentScroll();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        Log.w("onResume", "work fine");
-        super.onResume();
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.w("onMENUOPTINON", "option");
-        inflater.inflate(R.menu.button_settings, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        final MenuItem item = menu.findItem(R.id.action_settings);
-        bottomBar = (BottomBar) view.findViewById(R.id.bottomBar);
-
+        bottomBar = (MyBottomNavigationView) view.findViewById(R.id.bottomBar);
+        getFragmentManager().beginTransaction()
+                .replace(R.id.contentContainer, FragmentScrollView.newInstace()).commit();
         boolean nav = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
 
         if(!nav){
@@ -100,29 +55,41 @@ public class FragmentScroll extends Fragment {
             layoutParams.setMargins(0, 0, 0, height);
             bottomBar.setLayoutParams(layoutParams);
         }
-        Log.w("onMenu", "menu");
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
-                Log.w("bottom", "bottom bar working");
-                switch(tabId){
-                    case R.id.tab_home : viewPager.setCurrentItem(0);
-                        item.setEnabled(false);
-                        item.getIcon().setAlpha(0);
 
-                        break;
-                    case R.id.tab_leaders : viewPager.setCurrentItem(1);
-                        item.setEnabled(false);
-                        item.getIcon().setAlpha(0);
-                        break;
-                    case R.id.tab_personaldata : viewPager.setCurrentItem(2);
-                        item.setEnabled(true);
-                        item.getIcon().setAlpha(230);
-                        break;
-                }
+        bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                changeFragment(item.getItemId());
+                return false;
             }
         });
-        bottomBar.setVisibility(BottomBar.INVISIBLE);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            linearLayout.setLayoutParams(params);
+        }
+
+        return view;
+    }
+
+    private void changeFragment(int id) {
+        Fragment fragment = null;
+        switch (id){
+            case R.id.homee:
+                fragment = FragmentScrollView.newInstace();
+                break;
+            case R.id.leadeers:
+                fragment = FragmentLeaders.newInstance();
+                break;
+            case  R.id.dataa:
+                fragment = FragmentPersonalDate.newInstance();
+                break;
+        }
+        getFragmentManager().beginTransaction().replace(R.id.contentContainer, fragment).commit();
+    }
+    public static FragmentScroll newInstance(){
+        return new FragmentScroll();
     }
 
 }

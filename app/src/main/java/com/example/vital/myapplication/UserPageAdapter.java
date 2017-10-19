@@ -20,7 +20,7 @@ public class UserPageAdapter extends FragmentPagerAdapter {
         switch (position){
             case 0 : return  FragmentScrollView.newInstace();
             case 1 : return  FragmentLeaders.newInstance();
-            case 2 : return  FragmentPersonalDate.newInstace();
+            case 2 : return  FragmentPersonalDate.newInstance();
         }
         return  null;
     }

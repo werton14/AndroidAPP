@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/tab_home"
-        android:title="home"
-        android:icon="@drawable/ic_home_grey" />
-    <item android:id="@+id/tab_leaders"
-        android:title="nothome"
-        android:icon="@drawable/ic_star_grey" />
-    <item android:id="@+id/tab_personaldata"
-        android:title="homie"
-        android:icon="@drawable/ic_person_grey" />
+    <item
+        android:id="@+id/homee"
+        android:icon="@drawable/ic_home_grey">
+    </item>
+    <item
+        android:id="@+id/leadeers"
+        android:icon="@drawable/ic_star_grey">
+    </item>
+    <item
+        android:id="@+id/dataa"
+        android:icon="@drawable/ic_person_grey">
+    </item>
 </menu>

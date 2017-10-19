@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v4.view.ViewPager
+            <FrameLayout
                 android:id="@+id/contentContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -57,14 +57,14 @@
 
         <!--</com.roughike.bottombar.BottomBar>-->
 
-        <android.support.design.widget.BottomNavigationView
+        <com.example.vital.myapplication.MyBottomNavigationView
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemBackground="@color/White"
-            app:menu="@menu/bottom_baarr"
-            >
-        </android.support.design.widget.BottomNavigationView>
+            android:layout_height="56dp"
+            android:background="@color/BasicColor"
+            app:menu="@menu/bottom_baarr">
+
+        </com.example.vital.myapplication.MyBottomNavigationView>
 
     </LinearLayout>
 
