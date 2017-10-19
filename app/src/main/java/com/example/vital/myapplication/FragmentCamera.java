@@ -50,7 +50,7 @@ public class FragmentCamera extends Fragment{
         flash.setBackgroundColor(Color.TRANSPARENT);
         switchCamera = (ImageButton) rootView.findViewById(R.id.switchCamera);
         switchCamera.setBackgroundColor(Color.TRANSPARENT);
-        camera = checkDeviceCamera();
+        camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
 
         final Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
@@ -60,7 +60,6 @@ public class FragmentCamera extends Fragment{
         tempButton.setBackgroundResource(R.drawable.take_photo_button);
         tempButton.setBackgroundResource(R.drawable.circle_frame_background);
         mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity());
-        if(cameraPreviewLayout == null) Log.w(TAG, "PreviewLayout is null");
         cameraPreviewLayout.addView(mImageSurfaceView);
 
         tempButton.setOnClickListener(new View.OnClickListener() {
@@ -114,16 +113,10 @@ public class FragmentCamera extends Fragment{
                     currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
                 }
 
-                camera = Camera.open(currentCameraId);
-
-                try {
-
-                    camera.setPreviewDisplay(mImageSurfaceView.getHolder());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                camera.startPreview();
+                cameraPreviewLayout.removeAllViews();
+                camera = camera.open(currentCameraId);
+                mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity());
+                cameraPreviewLayout.addView(mImageSurfaceView);
 
             }
         });
@@ -137,11 +130,11 @@ public class FragmentCamera extends Fragment{
     }
 
 
-    private Camera checkDeviceCamera(){
+    private Camera checkDeviceCamera(int id){
         Camera mCamera = null;
 
             try {
-                mCamera = Camera.open(0);
+                mCamera = Camera.open(id);
             } catch (Exception e) {
                 e.printStackTrace();
             }
