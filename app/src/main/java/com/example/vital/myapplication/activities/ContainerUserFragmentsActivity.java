@@ -69,26 +69,25 @@ public class ContainerUserFragmentsActivity extends AppCompatActivity {
             bottomBar.setLayoutParams(layoutParams);
         }
 
-//        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-//            @Override
-//            public void onTabSelected(@IdRes int tabId) {
-//                switch(tabId){
-//                    case R.id.tab_home : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentScrollView()).commit();
-//                        item.setEnabled(false);
-//                        item.getIcon().setAlpha(0);
-//                        break;
-//                    case R.id.tab_leaders : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,new FragmentLeaders()).commit();
-//                        item.setEnabled(false);
-//                        item.getIcon().setAlpha(0);
-//                        break;
-//                    case R.id.tab_personaldata : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentPersonalDate()).commit();
-//                        item.setEnabled(true);
-//                        item.getIcon().setAlpha(230);
-//                        break;
-//                }
-//            }
-//        });
-
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                switch(tabId){
+                    case R.id.tab_home : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentScrollView()).commit();
+                        item.setEnabled(false);
+                        item.getIcon().setAlpha(0);
+                        break;
+                    case R.id.tab_leaders : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer,new FragmentLeaders()).commit();
+                        item.setEnabled(false);
+                        item.getIcon().setAlpha(0);
+                        break;
+                    case R.id.tab_personaldata : getSupportFragmentManager().beginTransaction().replace(R.id.contentContainer, new FragmentPersonalDate()).commit();
+                        item.setEnabled(true);
+                        item.getIcon().setAlpha(230);
+                        break;
+                }
+            }
+        });
         return true;
     }
 }
