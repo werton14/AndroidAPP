@@ -1,35 +1,19 @@
 package com.example.vital.myapplication;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.hardware.Camera;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Surface;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.vital.myapplication.activities.Image;
-import com.github.florent37.camerafragment.listeners.CameraFragmentResultAdapter;
-import com.github.florent37.camerafragment.widgets.FlashSwitchView;
 import com.github.florent37.camerafragment.widgets.RecordButton;
-
-import java.io.IOException;
-import java.security.Policy;
-
-import static android.content.ContentValues.TAG;
 
 public class FragmentCamera extends Fragment{
 
@@ -37,10 +21,8 @@ public class FragmentCamera extends Fragment{
     private int checkFlashState = 0;
     private int currentCameraId = 0;
     private Camera camera;
-    private FrameLayout frameReverse;
     private RecordButton tempButton;
-    private FrameLayout frameGallery;
-    private FrameLayout frameClose;
+    private ImageButton gallery;
     private ImageButton close;
     private ImageButton check;
     private ImageButton flash;
@@ -57,16 +39,18 @@ public class FragmentCamera extends Fragment{
         switchCamera = (ImageButton) rootView.findViewById(R.id.switchCamera);
         switchCamera.setBackgroundColor(Color.TRANSPARENT);
         camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
-        frameReverse = (FrameLayout) rootView.findViewById(R.id.frameReverse);
-        frameGallery = (FrameLayout) rootView.findViewById(R.id.frameGallery);
-        frameClose = (FrameLayout) rootView.findViewById(R.id.gallery);
+        gallery = (ImageButton) rootView.findViewById(R.id.gallery);
         close = (ImageButton) rootView.findViewById(R.id.close);
         check = (ImageButton) rootView.findViewById(R.id.check);
+        close.setEnabled(false);
+        check.setEnabled(false);
         final Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
         camera.setParameters(parameters);
-
+        gallery.setBackgroundColor(Color.TRANSPARENT);
+        close.setBackgroundColor(Color.TRANSPARENT);
+        check.setBackgroundColor(Color.TRANSPARENT);
         tempButton.setBackgroundResource(R.drawable.take_photo_button);
         tempButton.setBackgroundResource(R.drawable.circle_frame_background);
         mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity());
@@ -77,7 +61,21 @@ public class FragmentCamera extends Fragment{
             public void onClick(View v) {
                 addConirmationButton();
                 camera.takePicture(null, null, pictureCallback);
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteConirmationButton();
                 camera.startPreview();
+            }
+        });
+
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
@@ -96,19 +94,19 @@ public class FragmentCamera extends Fragment{
                     case 0 :
                         setFlash(Camera.Parameters.FLASH_MODE_OFF);
                         changeFlashMode();
-                        flash.setImageResource(R.drawable.ic_flash_off_white_24dp);
+                        flash.setImageResource(R.mipmap.ic_flash_off);
                         break;
 
                     case 1:
                         setFlash(Camera.Parameters.FLASH_MODE_ON);
                         changeFlashMode();
-                        flash.setImageResource(R.drawable.ic_flash_on_white_24dp);
+                        flash.setImageResource(R.mipmap.ic_flash_on);
                         break;
 
                     case 2 :
                         setFlash(Camera.Parameters.FLASH_MODE_AUTO);
                         changeFlashMode();
-                        flash.setImageResource(R.drawable.ic_flash_auto_white_24dp);
+                        flash.setImageResource(R.mipmap.ic_flash_auto);
                         break;
                 }
             }
@@ -137,20 +135,33 @@ public class FragmentCamera extends Fragment{
     }
 
     private void addConirmationButton() {
-
         tempButton.setEnabled(false);
         flash.setEnabled(false);
+        gallery.setEnabled(false);
+        switchCamera.setEnabled(false);
         tempButton.setVisibility(View.INVISIBLE);
-//        frameReverse.setVisibility(View.INVISIBLE);
-//        frameGallery.setVisibility(View.INVISIBLE);
-        frameClose.setVisibility(View.INVISIBLE);
+        gallery.setVisibility(View.INVISIBLE);
         switchCamera.setVisibility(View.INVISIBLE);
         flash.setVisibility(View.INVISIBLE);
         check.setVisibility(View.VISIBLE);
         close.setVisibility(View.VISIBLE);
-
+        check.setEnabled(true);
+        close.setEnabled(true);
     }
-
+private void deleteConirmationButton() {
+    tempButton.setEnabled(true);
+    flash.setEnabled(true);
+    gallery.setEnabled(true);
+    switchCamera.setEnabled(true);
+    tempButton.setVisibility(View.VISIBLE);
+    gallery.setVisibility(View.VISIBLE);
+    switchCamera.setVisibility(View.VISIBLE);
+    flash.setVisibility(View.VISIBLE);
+    check.setVisibility(View.INVISIBLE);
+    close.setVisibility(View.INVISIBLE);
+    check.setEnabled(false);
+    close.setEnabled(false);
+    }
 
     public static FragmentCamera newInstance(){
         return new FragmentCamera();

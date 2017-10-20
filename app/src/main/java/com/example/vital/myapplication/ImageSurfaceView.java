@@ -61,7 +61,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         camera.setParameters(parameters);
         camera.startPreview();
     }
-
+//TODO faceDetection
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         this.camera.stopPreview();

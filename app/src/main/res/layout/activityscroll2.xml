@@ -3,15 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:theme="@style/AppTheme.New">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/frameToolbar"
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -25,26 +19,14 @@
 
             </include>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/contentContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+                android:layout_height="match_parent"
+                android:layout_below="@id/frameToolbar"
+                android:layout_above="@id/bottomBar"/>
 
         <com.example.vital.myapplication.MyBottomNavigationView
             android:id="@+id/bottomBar"
@@ -52,11 +34,9 @@
             android:layout_height="47dp"
             app:itemBackground="@color/White"
             app:itemIconTint="@drawable/item_bar_selector"
-            app:menu="@menu/bottom_navigation_view">
+            app:menu="@menu/bottom_navigation_view"
+            android:layout_alignParentBottom="true">
 
         </com.example.vital.myapplication.MyBottomNavigationView>
 
-    </LinearLayout>
-
 </RelativeLayout>
-

@@ -18,14 +18,11 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
-/**
- * Created by qwert on 12.02.2017.
- */
+import android.widget.RelativeLayout;
 
 public class FragmentScroll extends Fragment {
 
-    private LinearLayout linearLayout;
+    private FrameLayout frameToolbar;
     private View view;
     private MyBottomNavigationView bottomBar;
     private UserPageAdapter userPageAdapter;
@@ -38,8 +35,8 @@ public class FragmentScroll extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.activityscroll, container, false);
-        linearLayout = (LinearLayout) view.findViewById(R.id.linearLayoutScroll);
+        view = inflater.inflate(R.layout.activityscroll2, container, false);
+        frameToolbar = (FrameLayout) view.findViewById(R.id.frameToolbar);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
@@ -49,7 +46,7 @@ public class FragmentScroll extends Fragment {
         getFragmentManager().beginTransaction()
                 .replace(R.id.contentContainer, FragmentScrollView.newInstace()).commit();
         boolean nav = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) bottomBar.getLayoutParams();
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) bottomBar.getLayoutParams();
         int bottomMargin = 0;
         if(!nav){
             Resources resources = getContext().getResources();
@@ -74,15 +71,15 @@ public class FragmentScroll extends Fragment {
         });
 
         frameLayout = (FrameLayout) view.findViewById(R.id.contentContainer);
-        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) frameLayout.getLayoutParams();
+        RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) frameLayout.getLayoutParams();
         params1.setMargins(0, 0, 0, bottomMargin);
         frameLayout.setLayoutParams(params1);
 
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            linearLayout.setLayoutParams(params);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            frameToolbar.setLayoutParams(params);
         }
 
         return view;

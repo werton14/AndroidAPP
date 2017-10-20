@@ -120,7 +120,7 @@ public class ChooseActivity extends AppCompatActivity {
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                 }
                 if (position == 0) {
-                    getWindow().setNavigationBarColor(Color.BLACK);
+//                    getWindow().setNavigationBarColor(Color.BLACK);
                 }
             }
 

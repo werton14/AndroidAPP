@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_nickname"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/White"
-    tools:context="com.example.vital.myapplication.activities.SignUpActivity">
+    android:background="@color/White">
 
     <LinearLayout
         android:id="@+id/linearLayoutNickname"
@@ -24,26 +22,22 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="20dp"
             android:id="@+id/choose_image_from_gallery"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:layout_below="@id/linearLayoutNickname"
+            android:layout_centerHorizontal="true"
             android:onClick="onChooseProfileImageButtonClick"
             android:src="@drawable/ic_man" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_below="@id/choose_image_from_gallery"
         android:padding="25dp"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -76,4 +70,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

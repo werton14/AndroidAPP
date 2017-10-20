@@ -11,11 +11,10 @@
     android:background="@drawable/background_gradient"
     tools:context="com.example.vital.myapplication.activities.StartActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_gradient"
-        android:orientation="vertical"
         android:paddingTop="350dp">
 
         <Button
@@ -26,9 +25,9 @@
             android:onClick="onToSignInButtonClick"
             android:text="@string/action_sign_in"
             android:textColor="@android:color/background_light" />
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -47,6 +46,6 @@
             android:text="@string/action_sign_up"
             android:textColor="@android:color/background_light" />
 
-    </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>
