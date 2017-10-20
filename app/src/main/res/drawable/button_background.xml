@@ -5,8 +5,11 @@
             android:shape="rectangle">
             <gradient
                 android:startColor="@color/clr_normal_right"
-                android:endColor="@color/clr_normal_left"></gradient>
-            <corners android:radius="4dp"></corners></shape>
+                android:endColor="@color/clr_normal_left">
+            </gradient>
+            <corners android:radius="4dp">
+            </corners>
+        </shape>
     </item>
     <!--<item  android:state_selected="true" >
         <shape
@@ -21,7 +24,10 @@
            android:shape="rectangle">
            <gradient
                android:startColor="@color/clr_normal_left"
-               android:endColor="@color/clr_normal_right"></gradient>
-           <corners android:radius="4dp"></corners></shape>                  <!--#303F9F либо так startcolor либо #283593. Радиус был 3dp изменил на 4dp если говно поменять назад-->
+               android:endColor="@color/clr_normal_right">
+           </gradient>
+           <corners android:radius="4dp">
+           </corners>
+       </shape>                  <!--#303F9F либо так startcolor либо #283593. Радиус был 3dp изменил на 4dp если говно поменять назад-->
     </item>
 </selector>

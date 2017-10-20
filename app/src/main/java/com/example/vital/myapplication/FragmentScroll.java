@@ -1,12 +1,10 @@
 package com.example.vital.myapplication;
 
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -93,13 +91,13 @@ public class FragmentScroll extends Fragment {
     private void changeFragment(int id) {
         Fragment fragment = null;
         switch (id){
-            case R.id.homee:
+            case R.id.home:
                 fragment = FragmentScrollView.newInstace();
                 break;
-            case R.id.leadeers:
+            case R.id.leaders:
                 fragment = FragmentLeaders.newInstance();
                 break;
-            case  R.id.dataa:
+            case  R.id.data:
                 fragment = FragmentPersonalDate.newInstance();
                 break;
         }

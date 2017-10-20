@@ -37,6 +37,11 @@ public class FragmentCamera extends Fragment{
     private int checkFlashState = 0;
     private int currentCameraId = 0;
     private Camera camera;
+    private FrameLayout frameReverse;
+    private RecordButton tempButton;
+    private FrameLayout frameGallery;
+    private ImageButton close;
+    private ImageButton check;
     private ImageButton flash;
     private ImageButton switchCamera;
     private FrameLayout cameraPreviewLayout;
@@ -44,14 +49,17 @@ public class FragmentCamera extends Fragment{
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragmentcamerap2, container, false);
-        final RecordButton tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
+        tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
         cameraPreviewLayout = (FrameLayout) rootView.findViewById(R.id.cp2);
         flash = (ImageButton) rootView.findViewById(R.id.flashButton);
         flash.setBackgroundColor(Color.TRANSPARENT);
         switchCamera = (ImageButton) rootView.findViewById(R.id.switchCamera);
         switchCamera.setBackgroundColor(Color.TRANSPARENT);
         camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
-
+        frameReverse = (FrameLayout) rootView.findViewById(R.id.frameReverse);
+        frameGallery = (FrameLayout) rootView.findViewById(R.id.frameGallery);
+        close = (ImageButton) rootView.findViewById(R.id.close);
+        check = (ImageButton) rootView.findViewById(R.id.check);
         final Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
@@ -65,7 +73,9 @@ public class FragmentCamera extends Fragment{
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addConirmationButton();
                 camera.takePicture(null, null, pictureCallback);
+                camera.startPreview();
             }
         });
 
@@ -122,6 +132,19 @@ public class FragmentCamera extends Fragment{
         });
 
         return  rootView;
+    }
+
+    private void addConirmationButton() {
+
+        tempButton.setEnabled(false);
+        flash.setEnabled(false);
+        tempButton.setVisibility(View.INVISIBLE);
+        frameReverse.setVisibility(View.INVISIBLE);
+        frameGallery.setVisibility(View.INVISIBLE);
+        flash.setVisibility(View.INVISIBLE);
+        check.setVisibility(View.VISIBLE);
+        close.setVisibility(View.VISIBLE);
+
     }
 
 

@@ -25,30 +25,75 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="5dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:textSize="30sp" />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="75dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:textSize="30sp" />-->
 
     <ImageButton
         android:id="@+id/flashButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:layout_marginTop="5dp"
         android:background="@color/dark"
         app:srcCompat="@drawable/ic_flash_off_white_24dp" />
 
-    <ImageButton
-        android:id="@+id/switchCamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:srcCompat="@drawable/ic_camera_rear_white_24dp"
-        android:layout_alignParentRight="true"/>
+    <FrameLayout
+        android:id="@+id/frameGallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@id/record_button"
+        android:layout_toLeftOf="@id/record_button">
+
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@color/dark"
+            android:src="@mipmap/ic_close"
+            android:visibility="invisible"/>
+
+        <FrameLayout
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@color/scroll_page">
+
+        </FrameLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameReverse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/record_button"
+        android:layout_toRightOf="@id/record_button"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/check"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@color/dark"
+            android:src="@mipmap/ic_check"
+            android:visibility="invisible"/>
+
+        <ImageButton
+            android:id="@+id/switchCamera"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@color/dark"
+            app:srcCompat="@mipmap/ic_reverse_camera" />
+    </FrameLayout>
 
 </RelativeLayout>

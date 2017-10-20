@@ -46,24 +46,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <!--<com.roughike.bottombar.BottomBar-->
-            <!--android:id="@+id/bottomBar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="47dp"-->
-            <!--app:bb_activeTabColor="@color/BasicColor"-->
-            <!--app:bb_behavior="iconsOnly"-->
-            <!--app:bb_inActiveTabColor="@color/dark"-->
-            <!--app:bb_tabXmlResource="@xml/bottom_navigationn">-->
-
-        <!--</com.roughike.bottombar.BottomBar>-->
-
         <com.example.vital.myapplication.MyBottomNavigationView
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="47dp"
             app:itemBackground="@color/White"
-            app:itemIconTint="@drawable/item_bar_selector"
-            app:menu="@menu/bottom_baarr">
+            app:menu="@menu/bottom_navigation_view">
 
         </com.example.vital.myapplication.MyBottomNavigationView>
 
