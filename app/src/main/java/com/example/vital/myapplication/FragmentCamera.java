@@ -40,6 +40,7 @@ public class FragmentCamera extends Fragment{
     private FrameLayout frameReverse;
     private RecordButton tempButton;
     private FrameLayout frameGallery;
+    private FrameLayout frameClose;
     private ImageButton close;
     private ImageButton check;
     private ImageButton flash;
@@ -58,6 +59,7 @@ public class FragmentCamera extends Fragment{
         camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
         frameReverse = (FrameLayout) rootView.findViewById(R.id.frameReverse);
         frameGallery = (FrameLayout) rootView.findViewById(R.id.frameGallery);
+        frameClose = (FrameLayout) rootView.findViewById(R.id.gallery);
         close = (ImageButton) rootView.findViewById(R.id.close);
         check = (ImageButton) rootView.findViewById(R.id.check);
         final Camera.Parameters parameters = camera.getParameters();
@@ -139,8 +141,10 @@ public class FragmentCamera extends Fragment{
         tempButton.setEnabled(false);
         flash.setEnabled(false);
         tempButton.setVisibility(View.INVISIBLE);
-        frameReverse.setVisibility(View.INVISIBLE);
-        frameGallery.setVisibility(View.INVISIBLE);
+//        frameReverse.setVisibility(View.INVISIBLE);
+//        frameGallery.setVisibility(View.INVISIBLE);
+        frameClose.setVisibility(View.INVISIBLE);
+        switchCamera.setVisibility(View.INVISIBLE);
         flash.setVisibility(View.INVISIBLE);
         check.setVisibility(View.VISIBLE);
         close.setVisibility(View.VISIBLE);
