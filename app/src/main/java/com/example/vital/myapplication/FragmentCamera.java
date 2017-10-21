@@ -47,6 +47,7 @@ public class FragmentCamera extends Fragment{
         close = (ImageButton) rootView.findViewById(R.id.close);
         check = (ImageButton) rootView.findViewById(R.id.check);
         close.setEnabled(false);
+        //fdfsd
         check.setEnabled(false);
         final Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
