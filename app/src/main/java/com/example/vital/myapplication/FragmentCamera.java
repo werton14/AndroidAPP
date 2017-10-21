@@ -3,6 +3,7 @@ package com.example.vital.myapplication;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -14,6 +15,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.github.florent37.camerafragment.widgets.RecordButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentCamera extends Fragment{
 
@@ -47,6 +51,7 @@ public class FragmentCamera extends Fragment{
         final Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
+        parameters.setAutoWhiteBalanceLock(false);           //автоматический баланс белого хз работает ли
         camera.setParameters(parameters);
         gallery.setBackgroundColor(Color.TRANSPARENT);
         close.setBackgroundColor(Color.TRANSPARENT);
