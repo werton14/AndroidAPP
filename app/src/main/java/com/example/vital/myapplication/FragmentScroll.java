@@ -26,7 +26,6 @@ public class FragmentScroll extends Fragment {
     private View view;
     private MyBottomNavigationView bottomBar;
     private UserPageAdapter userPageAdapter;
-    private FrameLayout frameLayout;
     private ViewPager.OnPageChangeListener onPageChangeListener;
 
 
@@ -47,12 +46,10 @@ public class FragmentScroll extends Fragment {
                 .replace(R.id.contentContainer, FragmentScrollView.newInstace()).commit();
         boolean nav = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) bottomBar.getLayoutParams();
-        int bottomMargin = 0;
         if(!nav){
             Resources resources = getContext().getResources();
             int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
             int height = resources.getDimensionPixelSize(resourceId);
-            bottomMargin += height;
             layoutParams.setMargins(0, 0, 0, height);
         }
 
@@ -60,7 +57,6 @@ public class FragmentScroll extends Fragment {
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 47, getResources().getDisplayMetrics());
         bottomBar.setLayoutParams(layoutParams);
         layoutParams.height = height;
-        bottomMargin += height;
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -69,11 +65,6 @@ public class FragmentScroll extends Fragment {
                 return false;
             }
         });
-
-        frameLayout = (FrameLayout) view.findViewById(R.id.contentContainer);
-        RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) frameLayout.getLayoutParams();
-        params1.setMargins(0, 0, 0, bottomMargin);
-        frameLayout.setLayoutParams(params1);
 
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {

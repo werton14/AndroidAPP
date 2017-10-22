@@ -1,23 +1,36 @@
 package com.example.vital.myapplication;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.vital.myapplication.activities.Image;
 import com.github.florent37.camerafragment.widgets.RecordButton;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class FragmentCamera extends Fragment{
 
@@ -137,6 +150,16 @@ public class FragmentCamera extends Fragment{
             }
         });
 
+        boolean nav = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
+        if(!nav){
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tempButton.getLayoutParams();
+            Resources resources = getContext().getResources();
+            int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+            int height = resources.getDimensionPixelSize(resourceId);
+            layoutParams.setMargins(0, 0, 0, height);
+            tempButton.setLayoutParams(layoutParams);
+        }
+
         return  rootView;
     }
 
@@ -197,11 +220,27 @@ private void deleteConirmationButton() {
     Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            if(bitmap==null){
-                Toast.makeText(getContext(), "Captured image is empty", Toast.LENGTH_LONG).show();
-                return;
-            }
+            final FirebaseInfo instance = FirebaseInfo.getInstance();
+            final String fileName = UUID.randomUUID().toString() + ".jpeg";
+            final StorageReference imageRef = instance.getImagesSReference().child(fileName);
+            imageRef.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Image image = new Image(fileName, instance.getCurrentUserId(), 1080, 1080);
+                            image.setImageUri(uri.toString());
+                            DatabaseReference push = instance.getImagesDbReference().push();
+                            push.setValue(image);
+                            instance.getViewsDbReference().child(push.getKey()).child("time").setValue(ServerValue.TIMESTAMP);
+                            instance.getViewsDbReference().child(push.getKey()).child("view").setValue(0l);
+                        }
+                    });
+                }
+            });
+
+
         }
     };
 

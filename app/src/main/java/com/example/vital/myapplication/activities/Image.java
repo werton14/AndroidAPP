@@ -1,5 +1,6 @@
 package com.example.vital.myapplication.activities;
 
+import android.net.Uri;
 import android.util.Size;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
 public class Image {
     private String competitiveImageFileName;
     private String userId;
+    private String imageUri;
     private long likeCount;
     private int width;
     private int height;
-
     public Image(){
         competitiveImageFileName = null;
         userId = null;
@@ -69,5 +70,13 @@ public class Image {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 }

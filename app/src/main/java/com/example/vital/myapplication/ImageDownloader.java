@@ -45,7 +45,6 @@ public class ImageDownloader {
                 }
             }
         };
-
     }
 
     public void findImage(){
@@ -114,8 +113,8 @@ public class ImageDownloader {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 data.addUser(user);
-
-                getImageUri(image, user, data);
+                getProfileUri(user, data);
+//                getImageUri(image, user, data);
             }
 
             @Override
@@ -125,18 +124,18 @@ public class ImageDownloader {
         });
     }
 
-    private void getImageUri(final Image image, final User user, final ImageData data){
-        firebaseInfo.getImagesSReference().child(image.getCompetitiveImageFileName()).getDownloadUrl()
-                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                data.addImageUri(uri);
-                Glide.with(context).load(uri).downloadOnly(image.getWidth(), image.getHeight());
-
-                getProfileUri(user, data);
-            }
-        });
-    }
+//    private void getImageUri(final Image image, final User user, final ImageData data){
+//        firebaseInfo.getImagesSReference().child(image.getCompetitiveImageFileName()).getDownloadUrl()
+//                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                data.addImageUri(uri);
+////                Glide.with(context).load(uri).downloadOnly(image.getWidth(), image.getHeight());
+//
+//
+//            }
+//        });
+//    }
 
     private void getProfileUri(User user, final ImageData data){
         firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl()

@@ -95,11 +95,11 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             Image image = mImage.get(position);
             User user = mUser.get(position);
             String imageId = mImageId.get(position);
-            Uri imageUri = mImageUris.get(position);
+            //Uri imageUri = mImageUris.get(position);
             Uri profileUri = mProfileUris.get(position);
 
             ViewHolder holder = (ViewHolder) h;
-            holder.bindView(image, user, imageId, imageUri, profileUri);
+            holder.bindView(image, user, imageId, null, profileUri);
 
         }else if (h instanceof LoadHolder){
 
@@ -152,13 +152,13 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             mImage = image;
             mUser = user;
             mImageId = imageId;
-            mImageUri = imageUri;
+            //mImageUri = imageUri;
             mProfileUri = profileUri;
 
             int currentHeight = (windowWidth * mImage.getHeight()) / mImage.getWidth();
             competitiveImageView.setMinimumHeight(currentHeight);
 
-            Glide.with(context).load(mImageUri).diskCacheStrategy(DiskCacheStrategy.SOURCE).fitCenter().dontAnimate().into(competitiveImageView);
+            Glide.with(context).load(mImage.getImageUri()).diskCacheStrategy(DiskCacheStrategy.SOURCE).fitCenter().dontAnimate().into(competitiveImageView);
 
             Glide.with(context).load(mProfileUri).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(profileImageButton);
 

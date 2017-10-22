@@ -7,6 +7,7 @@ package com.example.vital.myapplication;
 import android.app.Activity;
 import android.hardware.Camera;
 import android.content.Context;
+import android.media.ExifInterface;
 import android.os.Build;
 import android.util.Log;
 import android.view.Surface;
@@ -58,6 +59,10 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             parameters.setPreviewSize(width, height);
         }
         camera.setDisplayOrientation(cameraRotation);
+        parameters.setPictureSize(1080, 1080);
+        parameters.setJpegQuality(30);
+        int rotation = activity.getResources().getConfiguration().orientation;
+        Log.w("winRotation", String.valueOf(rotation));
         camera.setParameters(parameters);
         camera.startPreview();
     }
