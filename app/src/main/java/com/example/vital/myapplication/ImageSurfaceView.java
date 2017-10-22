@@ -60,7 +60,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                 }
             }
         };
-        orientationEventListener.enable();
+        orientationEventListener.enable();// artem zayebala
     }
 
     @Override
