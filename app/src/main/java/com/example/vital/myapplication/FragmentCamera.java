@@ -62,11 +62,11 @@ public class FragmentCamera extends Fragment{
         close = (ImageButton) rootView.findViewById(R.id.close);
         check = (ImageButton) rootView.findViewById(R.id.check);
         close.setEnabled(false);
-        //fdfsd
         check.setEnabled(false);
         final Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         parameters.setAutoWhiteBalanceLock(false);           //автоматический баланс белого хз работает ли
         camera.setParameters(parameters);
         gallery.setBackgroundColor(Color.TRANSPARENT);
@@ -100,12 +100,12 @@ public class FragmentCamera extends Fragment{
             }
         });
 
-        cameraPreviewLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                camera.autoFocus(autoFocusCallback);
-            }
-        });
+//        cameraPreviewLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                camera.autoFocus(autoFocusCallback);
+//            }
+//        });
 
         flash.setOnClickListener(new View.OnClickListener() {
             @Override
