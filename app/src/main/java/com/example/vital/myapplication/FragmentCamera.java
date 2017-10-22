@@ -6,11 +6,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -78,7 +80,7 @@ public class FragmentCamera extends Fragment{
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addConirmationButton();
+                addConfirmationButton();
                 camera.takePicture(null, null, pictureCallback);
             }
         });
@@ -163,7 +165,7 @@ public class FragmentCamera extends Fragment{
         return  rootView;
     }
 
-    private void addConirmationButton() {
+    private void addConfirmationButton() {
         tempButton.setEnabled(false);
         flash.setEnabled(false);
         gallery.setEnabled(false);

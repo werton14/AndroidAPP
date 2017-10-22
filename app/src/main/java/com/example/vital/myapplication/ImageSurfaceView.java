@@ -7,9 +7,11 @@ package com.example.vital.myapplication;
 import android.app.Activity;
 import android.hardware.Camera;
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.media.ExifInterface;
 import android.os.Build;
 import android.util.Log;
+import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -27,8 +29,10 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private int rotation;
     private Activity activity;
     private int cameraRotation;
+    private int imageRotation = -1;
+    private OrientationEventListener orientationEventListener;
 
-    public ImageSurfaceView(Context context, Camera camera, Activity activity) {
+    public ImageSurfaceView(Context context, final Camera camera, Activity activity) {
         super(context);
         this.camera = camera;
         this.surfaceHolder = getHolder();
@@ -36,6 +40,27 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         this.activity = activity;
         this.rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         this.cameraRotation = getCorrectCameraOrientation(getBackFacingCameraInfo(), camera);
+        orientationEventListener = new OrientationEventListener(getContext(), SensorManager.SENSOR_DELAY_UI) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                int angle = 0;
+                if(orientation > 325 || orientation < 25){
+                    angle += cameraRotation;
+                }else if(orientation < 115 && orientation > 65){
+                    angle = cameraRotation + 90;
+                }else if(orientation < 295 && orientation > 245){
+                    angle = cameraRotation - 90;
+                }else {
+                    angle += cameraRotation;
+                }if(angle != imageRotation){
+                        imageRotation = angle;
+                        Camera.Parameters parameters = camera.getParameters();
+                        parameters.setRotation(imageRotation);
+                        camera.setParameters(parameters);
+                }
+            }
+        };
+        orientationEventListener.enable();
     }
 
     @Override
@@ -61,8 +86,6 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         camera.setDisplayOrientation(cameraRotation);
         parameters.setPictureSize(1080, 1080);
         parameters.setJpegQuality(30);
-        int rotation = activity.getResources().getConfiguration().orientation;
-        Log.w("winRotation", String.valueOf(rotation));
         camera.setParameters(parameters);
         camera.startPreview();
     }
