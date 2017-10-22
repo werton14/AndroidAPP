@@ -7,16 +7,17 @@ package com.example.vital.myapplication;
 import android.app.Activity;
 import android.hardware.Camera;
 import android.content.Context;
+import android.hardware.SensorManager;
+import android.media.ExifInterface;
 import android.os.Build;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.List;
 
 import static android.content.ContentValues.TAG;
 import static android.os.Build.VERSION.SDK;
@@ -28,9 +29,10 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private int rotation;
     private Activity activity;
     private int cameraRotation;
-    float mDist = 0;
+    private int imageRotation = -1;
+    private OrientationEventListener orientationEventListener;
 
-    public ImageSurfaceView(Context context, Camera camera, Activity activity) {
+    public ImageSurfaceView(Context context, final Camera camera, Activity activity) {
         super(context);
         this.camera = camera;
         this.surfaceHolder = getHolder();
@@ -38,6 +40,27 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         this.activity = activity;
         this.rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         this.cameraRotation = getCorrectCameraOrientation(getBackFacingCameraInfo(), camera);
+        orientationEventListener = new OrientationEventListener(getContext(), SensorManager.SENSOR_DELAY_UI) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                int angle = 0;
+                if(orientation > 325 || orientation < 25){
+                    angle += cameraRotation;
+                }else if(orientation < 115 && orientation > 65){
+                    angle = cameraRotation + 90;
+                }else if(orientation < 295 && orientation > 245){
+                    angle = cameraRotation - 90;
+                }else {
+                    angle += cameraRotation;
+                }if(angle != imageRotation){
+                        imageRotation = angle;
+                        Camera.Parameters parameters = camera.getParameters();
+                        parameters.setRotation(imageRotation);
+                        camera.setParameters(parameters);
+                }
+            }
+        };
+        orientationEventListener.enable();// artem zayebala
     }
 
     @Override
@@ -61,6 +84,8 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             parameters.setPreviewSize(width, height);
         }
         camera.setDisplayOrientation(cameraRotation);
+        parameters.setPictureSize(1080, 1080);
+        parameters.setJpegQuality(30);
         camera.setParameters(parameters);
         camera.startPreview();
     }
@@ -70,52 +95,6 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         this.camera.stopPreview();
         this.camera.release();
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // Get the pointer ID
-        Camera.Parameters params = camera.getParameters();
-        int action = event.getAction();
-
-
-        if (event.getPointerCount() > 1) {
-            // handle multi-touch events
-            if (action == MotionEvent.ACTION_POINTER_DOWN) {
-                mDist = getFingerSpacing(event);
-            } else if (action == MotionEvent.ACTION_MOVE && params.isZoomSupported()) {
-                camera.cancelAutoFocus();
-                handleZoom(event, params);
-            }
-        }
-
-        return true;
-    }
-
-    private void handleZoom(MotionEvent event, Camera.Parameters params) {
-        int maxZoom = params.getMaxZoom();
-        int zoom = params.getZoom();
-        float newDist = getFingerSpacing(event);
-        if (newDist > mDist) {
-            // zoom in
-            if (zoom < maxZoom)
-                zoom++;
-        } else if (newDist < mDist) {
-            // zoom out
-            if (zoom > 0)
-                zoom--;
-        }
-        mDist = newDist;
-        params.setZoom(zoom);
-        camera.setParameters(params);
-    }
-
-    private float getFingerSpacing(MotionEvent event) {
-        // ...
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return (float)Math.sqrt(x * x + y * y);
-    }
-
 
     private Camera.CameraInfo getBackFacingCameraInfo() {
         Camera.CameraInfo cameraInfo = null;
