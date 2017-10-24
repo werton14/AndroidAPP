@@ -56,6 +56,7 @@ public class FragmentLeaders extends Fragment {
         layoutManager.generateDefaultLayoutParams();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(false);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, 3, false));
 //        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
 //            @Override
 //            public void onLoadMore(int page, int totalItemsCount) {
