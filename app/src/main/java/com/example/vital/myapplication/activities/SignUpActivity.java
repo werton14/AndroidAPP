@@ -85,6 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
         Intent intent = getIntent();
         nickname = intent.getStringExtra("nickname");
         profileImageUri = Uri.parse(intent.getStringExtra("profileImageUri"));
+        if(profileImageUri == null) Log.w("fukaka", "imageUri");
     }
 
     @Override
@@ -100,6 +101,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private UploadTask uploadPic(byte[] imageBA){
+        String profileImageFileName = UUID.randomUUID().toString() + ".webp";
+        profileImageSReference = FirebaseStorage.getInstance().getReference().child("profileImages").child(profileImageFileName);
+
         UploadTask uploadTask = profileImageSReference.putBytes(imageBA);
         return  uploadTask;
     }
@@ -114,8 +118,12 @@ public class SignUpActivity extends AppCompatActivity {
         return new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
-                updateUserData();
-                uploadPic(getImageBA(profileImageUri));
+                uploadPic(getImageBA(profileImageUri)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        updateUserData();
+                    }
+                });
             }
         };
     }
@@ -138,20 +146,24 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void updateUserData() {
-        String profileImageFileName = UUID.randomUUID().toString() + ".webp";
-        profileImageSReference = FirebaseStorage.getInstance().getReference().child("profileImages").child(profileImageFileName);
-
-        DatabaseReference userDbReference = FirebaseDatabase.getInstance().getReference().child("users");
-        User user = new User(nickname, profileImageFileName);
-        final String userId = firebaseAuth.getCurrentUser().getUid();
-        userDbReference.child(userId).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+        profileImageSReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                DatabaseReference nicknamesDbReference = FirebaseDatabase.getInstance().getReference().child("nicknames");
-                nicknamesDbReference.child(nickname).setValue(userId);
-                toChooseActivity();
+            public void onSuccess(Uri uri) {
+                DatabaseReference userDbReference = FirebaseDatabase.getInstance().getReference().child("users");
+                User user = new User(nickname, uri.toString(), " ");
+                final String userId = firebaseAuth.getCurrentUser().getUid();
+                userDbReference.child(userId).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        DatabaseReference nicknamesDbReference = FirebaseDatabase.getInstance().getReference().child("nicknames");
+
+                        nicknamesDbReference.child(nickname).setValue(userId);
+                        toChooseActivity();
+                    }
+                });
             }
         });
+
     }
 
     private void toChooseActivity(){

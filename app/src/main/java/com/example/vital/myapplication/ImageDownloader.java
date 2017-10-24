@@ -113,7 +113,11 @@ public class ImageDownloader {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 data.addUser(user);
-                getProfileUri(user, data);
+                unDownloadedData--;
+                if(unDownloadedData == 0){
+                    onDataDownloadedListener.onDataDownloaded(data);
+                }
+                //getProfileUri(user, data);
 //                getImageUri(image, user, data);
             }
 

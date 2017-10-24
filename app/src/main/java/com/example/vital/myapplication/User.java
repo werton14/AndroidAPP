@@ -8,7 +8,7 @@ public class User {
 
     private String nickname;
     private String profileImageFileName;
-        private String description;
+    private String description;
     private long taskNumber = 0;
 
     public User(){
@@ -17,9 +17,10 @@ public class User {
         description = null;
     }
 
-    public User(String nickname, String profileImageFileName){
+    public User(String nickname, String profileImageFileName, String description){
         this.nickname = nickname;
         this.profileImageFileName = profileImageFileName;
+        this.description = description;
 
     }
 
