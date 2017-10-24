@@ -146,7 +146,7 @@ public class FragmentCamera extends Fragment{
                 cameraPreviewLayout.removeAllViews();
                 camera = camera.open(currentCameraId);
                 mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), currentCameraId);
-                cameraPreviewLayout.addView(mImageSurfaceView);
+                cameraPreviewLayout.addView(mImageSurfaceView); // artem zyeballaaa
 
             }
         });
