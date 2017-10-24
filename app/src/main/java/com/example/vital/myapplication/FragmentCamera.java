@@ -74,7 +74,7 @@ public class FragmentCamera extends Fragment{
         check.setBackgroundColor(Color.TRANSPARENT);
         tempButton.setBackgroundResource(R.drawable.take_photo_button);
         tempButton.setBackgroundResource(R.drawable.circle_frame_background);
-        mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity());
+        mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), Camera.CameraInfo.CAMERA_FACING_BACK);
         cameraPreviewLayout.addView(mImageSurfaceView);
 
         tempButton.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +146,7 @@ public class FragmentCamera extends Fragment{
 
                 cameraPreviewLayout.removeAllViews();
                 camera = camera.open(currentCameraId);
-                mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity());
+                mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), currentCameraId);
                 cameraPreviewLayout.addView(mImageSurfaceView);
 
             }
@@ -179,19 +179,19 @@ public class FragmentCamera extends Fragment{
         check.setEnabled(true);
         close.setEnabled(true);
     }
-private void deleteConirmationButton() {
-    tempButton.setEnabled(true);
-    flash.setEnabled(true);
-    gallery.setEnabled(true);
-    switchCamera.setEnabled(true);
-    tempButton.setVisibility(View.VISIBLE);
-    gallery.setVisibility(View.VISIBLE);
-    switchCamera.setVisibility(View.VISIBLE);
-    flash.setVisibility(View.VISIBLE);
-    check.setVisibility(View.INVISIBLE);
-    close.setVisibility(View.INVISIBLE);
-    check.setEnabled(false);
-    close.setEnabled(false);
+    private void deleteConirmationButton() {
+        tempButton.setEnabled(true);
+        flash.setEnabled(true);
+        gallery.setEnabled(true);
+        switchCamera.setEnabled(true);
+        tempButton.setVisibility(View.VISIBLE);
+        gallery.setVisibility(View.VISIBLE);
+        switchCamera.setVisibility(View.VISIBLE);
+        flash.setVisibility(View.VISIBLE);
+        check.setVisibility(View.INVISIBLE);
+        close.setVisibility(View.INVISIBLE);
+        check.setEnabled(false);
+        close.setEnabled(false);
     }
 
     public static FragmentCamera newInstance(){
