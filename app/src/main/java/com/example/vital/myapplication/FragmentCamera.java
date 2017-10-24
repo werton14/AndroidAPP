@@ -16,9 +16,6 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -48,13 +45,8 @@ public class FragmentCamera extends Fragment{
     private ImageButton close;
     private ImageButton check;
     private ImageButton flash;
-    private float fromRotation = 0;
-    private float toRotation = 0;
-    private int angle = 0;
     private ImageButton switchCamera;
     private FrameLayout cameraPreviewLayout;
-    private OrientationEventListener orientationEventListener;
-    private int animRotation = -1;  // пока бесполезная переменная
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,7 +66,6 @@ public class FragmentCamera extends Fragment{
         final Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
-        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         parameters.setAutoWhiteBalanceLock(false);           //автоматический баланс белого хз работает ли
         camera.setParameters(parameters);
         gallery.setBackgroundColor(Color.TRANSPARENT);
@@ -82,8 +73,7 @@ public class FragmentCamera extends Fragment{
         check.setBackgroundColor(Color.TRANSPARENT);
         tempButton.setBackgroundResource(R.drawable.take_photo_button);
         tempButton.setBackgroundResource(R.drawable.circle_frame_background);
-
-        mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity());
+        mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), Camera.CameraInfo.CAMERA_FACING_BACK);
         cameraPreviewLayout.addView(mImageSurfaceView);
 
         tempButton.setOnClickListener(new View.OnClickListener() {
@@ -93,50 +83,6 @@ public class FragmentCamera extends Fragment{
                 camera.takePicture(null, null, pictureCallback);
             }
         });
-
-        orientationEventListener = new OrientationEventListener(getContext(), SensorManager.SENSOR_DELAY_UI) {
-            @Override
-            public void onOrientationChanged(int orientation) {
-
-                if(orientation > 335 || orientation < 25){
-                    angle = 0;
-                    Log.w("lol","0");
-                }else if(orientation < 115 && orientation > 65){
-                    angle = -90;
-                    Log.w("lol","90");
-                    if (fromRotation == 180){
-                        Log.w("lojl","lojl-180");
-                        fromRotation = -180;
-                    }
-                }else if(orientation < 295 && orientation > 245){
-                    angle = 90;
-                    Log.w("lol","-90");
-                    if (fromRotation == -180){
-                        Log.w("lojl","lojl180");
-                        fromRotation = 180;
-                    }
-                }else if(orientation < 205 && orientation > 155){
-                    if (fromRotation == 90) {
-                        angle = 180;
-                        Log.w("lol", "-180");
-                    }else if (fromRotation == -90){
-                        angle = -180;
-                    }
-
-                }if(angle != animRotation){
-                    animRotation = angle;
-                    toRotation = animRotation;
-                    final RotateAnimation rotateAnim = new RotateAnimation(fromRotation, toRotation,
-                            switchCamera.getWidth()/2, switchCamera.getHeight()/2);
-                        rotateAnim.setDuration(150);
-                        rotateAnim.setFillAfter(true);
-                        fromRotation = toRotation;
-                        Log.w("lojl", String.valueOf(fromRotation));
-                        gallery.startAnimation(rotateAnim);
-                }
-            }
-        };
-        orientationEventListener.enable();
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,8 +145,8 @@ public class FragmentCamera extends Fragment{
 
                 cameraPreviewLayout.removeAllViews();
                 camera = camera.open(currentCameraId);
-                mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity());
-                cameraPreviewLayout.addView(mImageSurfaceView);
+                mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), currentCameraId);
+                cameraPreviewLayout.addView(mImageSurfaceView); // artem zyeballaaa
 
             }
         });
@@ -232,19 +178,19 @@ public class FragmentCamera extends Fragment{
         check.setEnabled(true);
         close.setEnabled(true);
     }
-private void deleteConirmationButton() {
-    tempButton.setEnabled(true);
-    flash.setEnabled(true);
-    gallery.setEnabled(true);
-    switchCamera.setEnabled(true);
-    tempButton.setVisibility(View.VISIBLE);
-    gallery.setVisibility(View.VISIBLE);
-    switchCamera.setVisibility(View.VISIBLE);
-    flash.setVisibility(View.VISIBLE);
-    check.setVisibility(View.INVISIBLE);
-    close.setVisibility(View.INVISIBLE);
-    check.setEnabled(false);
-    close.setEnabled(false);
+    private void deleteConirmationButton() {
+        tempButton.setEnabled(true);
+        flash.setEnabled(true);
+        gallery.setEnabled(true);
+        switchCamera.setEnabled(true);
+        tempButton.setVisibility(View.VISIBLE);
+        gallery.setVisibility(View.VISIBLE);
+        switchCamera.setVisibility(View.VISIBLE);
+        flash.setVisibility(View.VISIBLE);
+        check.setVisibility(View.INVISIBLE);
+        close.setVisibility(View.INVISIBLE);
+        check.setEnabled(false);
+        close.setEnabled(false);
     }
 
     public static FragmentCamera newInstance(){
