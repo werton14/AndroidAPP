@@ -30,34 +30,54 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private Activity activity;
     private int cameraRotation;
     private int imageRotation = -1;
+    private Camera.CameraInfo cameraInfoBack;
+    private Camera.CameraInfo cameraInfoFront;
     private OrientationEventListener orientationEventListener;
+    private int cameraFacing;
 
-    public ImageSurfaceView(Context context, final Camera camera, Activity activity) {
+    public ImageSurfaceView(Context context, final Camera camera, final Activity activity, final int cameraFacing) {
         super(context);
         this.camera = camera;
         this.surfaceHolder = getHolder();
         this.surfaceHolder.addCallback(this);
+        this.cameraFacing = cameraFacing;
         this.activity = activity;
         this.rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-        this.cameraRotation = getCorrectCameraOrientation(getBackFacingCameraInfo(), camera);
+        this.cameraRotation = getCorrectCameraOrientation(getCameraInfo(cameraFacing), camera);
         orientationEventListener = new OrientationEventListener(getContext(), SensorManager.SENSOR_DELAY_UI) {
             @Override
             public void onOrientationChanged(int orientation) {
                 int angle = 0;
-                if(orientation > 325 || orientation < 25){
-                    angle += cameraRotation;
-                }else if(orientation < 115 && orientation > 65){
+                if(orientation > 335 || orientation < 25){
+                    Log.d(TAG, "onOrientationChanged: 1");
+                    if(cameraFacing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                        angle = cameraRotation;
+                    }else {
+                        angle = cameraRotation + 180;
+                    }
+
+                } else if(orientation < 115 && orientation > 65){
+                    Log.d(TAG, "onOrientationChanged: 2");
                     angle = cameraRotation + 90;
-                }else if(orientation < 295 && orientation > 245){
+                } else if(orientation < 295 && orientation > 245){
+                    Log.d(TAG, "onOrientationChanged: 3");
                     angle = cameraRotation - 90;
-                }else {
-                    angle += cameraRotation;
-                }if(angle != imageRotation){
+                } else if(orientation < 205 && orientation > 155) {
+                    Log.d(TAG, "onOrientationChanged: 4");
+                    angle = cameraRotation;
+                }
+                if(angle == 360) angle = 0;
+                if (angle > 360) angle = angle - 360;
+                if(angle < 0) angle = angle + 360;
+                Log.d(TAG, "onOrientationChanged: angle " + String.valueOf(angle));
+                Log.d(TAG, "onOrientationChanged: cameraRotation " + String.valueOf(cameraRotation));
+                if(angle != imageRotation){
                         imageRotation = angle;
                         Camera.Parameters parameters = camera.getParameters();
                         parameters.setRotation(imageRotation);
                         camera.setParameters(parameters);
                 }
+                Log.w("cameraRotation", String.valueOf(cameraRotation));
             }
         };
         orientationEventListener.enable();// artem zayebala
@@ -92,20 +112,20 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 //TODO faceDetection
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        orientationEventListener.disable();
         this.camera.stopPreview();
         this.camera.release();
     }
 
-    private Camera.CameraInfo getBackFacingCameraInfo() {
+    private Camera.CameraInfo getCameraInfo(int cameraFacing) {
         Camera.CameraInfo cameraInfo = null;
         // Search for the front facing camera
         int numberOfCameras = Camera.getNumberOfCameras();
         for (int i = 0; i < numberOfCameras; i++) {
             Camera.CameraInfo info = new Camera.CameraInfo();
             Camera.getCameraInfo(i, info);
-            if (info.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+            if (info.facing == cameraFacing) {
                 cameraInfo = info;
-                break;
             }
         }
         return cameraInfo;
