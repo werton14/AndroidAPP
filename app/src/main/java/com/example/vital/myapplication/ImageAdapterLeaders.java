@@ -1,6 +1,7 @@
 package com.example.vital.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.bumptech.glide.Glide;
+import com.example.vital.myapplication.activities.FullScreenPictureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,14 +82,23 @@ public class ImageAdapterLeaders extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class ViewHolderLeaders extends RecyclerView.ViewHolder{
         SquareImageView imageButton;
-
+        Uri imageUri;
 
         public ViewHolderLeaders(View view){
             super(view);
             imageButton = (SquareImageView) view.findViewById(R.id.imageButton1);
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, FullScreenPictureActivity.class);
+                    intent.putExtra("imageUri", imageUri.toString());
+                    context.startActivity(intent);
+                }
+            });
         }
 
         public void bindView(Uri imageUri){
+            this.imageUri = imageUri;
             Glide.with(context).load(imageUri).fitCenter().into(imageButton);
         }
 

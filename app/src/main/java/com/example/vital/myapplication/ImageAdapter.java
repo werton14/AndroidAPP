@@ -209,7 +209,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     intent.putExtra("orientation", orientation);
                     intent.putExtra("width", competitiveImageView.getWidth());
                     intent.putExtra("height", competitiveImageView.getHeight());
-                    intent.putExtra("imageUri", mImageUri.toString());
+                    intent.putExtra("imageUri", mImage.getImageUri());
                     intent.putExtra("imageId", imageId);
                     context.startActivity(intent);
                 }
