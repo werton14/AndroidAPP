@@ -80,7 +80,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                 Log.w("cameraRotation", String.valueOf(cameraRotation));
             }
         };
-        orientationEventListener.enable();// artem zayebalaaaaa
+        orientationEventListener.enable();// artem zayebalaaaaa yebala
     }
 
     @Override
