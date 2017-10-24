@@ -59,7 +59,7 @@ public class FragmentChoose extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 task = dataSnapshot.child("text").getValue(String.class);
                 taskNumber = dataSnapshot.child("number").getValue(int.class);
-                if(taskNumber == currentUser.getTaskNumber()){
+                if(currentUser != null && taskNumber == currentUser.getTaskNumber()){
                     taskIsCompleted = true;
                 }else{
                     taskIsCompleted = false;

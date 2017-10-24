@@ -96,10 +96,10 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             User user = mUser.get(position);
             String imageId = mImageId.get(position);
             //Uri imageUri = mImageUris.get(position);
-            Uri profileUri = mProfileUris.get(position);
+            //Uri profileUri = mProfileUris.get(position);
 
             ViewHolder holder = (ViewHolder) h;
-            holder.bindView(image, user, imageId, null, profileUri);
+            holder.bindView(image, user, imageId, null, null);
 
         }else if (h instanceof LoadHolder){
 
@@ -160,7 +160,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
             Glide.with(context).load(mImage.getImageUri()).diskCacheStrategy(DiskCacheStrategy.SOURCE).fitCenter().dontAnimate().into(competitiveImageView);
 
-            Glide.with(context).load(mProfileUri).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(profileImageButton);
+            Glide.with(context).load(mUser.getProfileImageFileName()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(profileImageButton);
 
             nicknameTextView.setText(mUser.getNickname());
 
@@ -209,7 +209,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     intent.putExtra("orientation", orientation);
                     intent.putExtra("width", competitiveImageView.getWidth());
                     intent.putExtra("height", competitiveImageView.getHeight());
-                    intent.putExtra("imageUri", mImageUri.toString());
+                    intent.putExtra("imageUri", mImage.getImageUri());
                     intent.putExtra("imageId", imageId);
                     context.startActivity(intent);
                 }

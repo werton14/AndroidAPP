@@ -59,12 +59,8 @@ public class FragmentPersonalDate extends Fragment {
     }
 
     private void downloadImage (User user){
-        firebaseInfo.getProfileImagesSReference().child(user.getProfileImageFileName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(getContext()).load(uri).resize(profileImageView.getWidth(), profileImageView.getHeight()).into(profileImageView);
-            }
-        });
+        Picasso.with(getContext()).load(user.getProfileImageFileName()).resize(profileImageView.getWidth(), profileImageView.getHeight()).into(profileImageView);
+
     }
 
 }

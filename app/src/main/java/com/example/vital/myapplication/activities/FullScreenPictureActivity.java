@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.util.LruCache;
+import com.example.vital.myapplication.OnSwipeTouchListener;
 import com.example.vital.myapplication.R;
 import com.example.vital.myapplication.ShadowLayout;
 import com.squareup.picasso.NetworkPolicy;
@@ -60,7 +61,14 @@ public class FullScreenPictureActivity extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         Uri imageUri = Uri.parse(bundle.getString("imageUri"));
+        Glide.with(getApplicationContext()).load(imageUri).into(mImageView);
 
-
+        mImageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
+            @Override
+            public void onSwipeRight() {
+                finish();
+                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+            }
+        });
     }
 }
