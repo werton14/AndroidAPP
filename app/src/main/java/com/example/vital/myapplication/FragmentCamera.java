@@ -2,14 +2,13 @@ package com.example.vital.myapplication;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.OrientationEventListener;
@@ -20,19 +19,15 @@ import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.vital.myapplication.activities.Image;
 import com.github.florent37.camerafragment.widgets.RecordButton;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class FragmentCamera extends Fragment{
@@ -44,7 +39,7 @@ public class FragmentCamera extends Fragment{
     private RecordButton tempButton;
     private ImageButton gallery;
     private ImageButton close;
-    private ImageButton check;
+    private ImageButton confirm;
     private ImageButton flash;
     private ImageButton switchCamera;
     private FrameLayout cameraPreviewLayout;
@@ -55,6 +50,7 @@ public class FragmentCamera extends Fragment{
     private float toRotation = 0;
     private int angle = 0;
     private int animRotation = -1;  // пока бесполезная переменная
+    private byte [] imageByteArray = null;
     private OrientationEventListener orientationEventListener;
 
     @Override
@@ -69,17 +65,17 @@ public class FragmentCamera extends Fragment{
         camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
         gallery = (ImageButton) rootView.findViewById(R.id.gallery);
         close = (ImageButton) rootView.findViewById(R.id.close);
-        check = (ImageButton) rootView.findViewById(R.id.check);
+        confirm = (ImageButton) rootView.findViewById(R.id.check);
         close.setEnabled(false);
-        check.setEnabled(false);
-        final Camera.Parameters parameters = camera.getParameters();
+        confirm.setEnabled(false);
+        Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
         parameters.setAutoWhiteBalanceLock(true);           //автоматический баланс белого хз работает ли
         camera.setParameters(parameters);
         gallery.setBackgroundColor(Color.TRANSPARENT);
         close.setBackgroundColor(Color.TRANSPARENT);
-        check.setBackgroundColor(Color.TRANSPARENT);
+        confirm.setBackgroundColor(Color.TRANSPARENT);
         tempButton.setBackgroundResource(R.drawable.take_photo_button);
         tempButton.setBackgroundResource(R.drawable.circle_frame_background);
         mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), Camera.CameraInfo.CAMERA_FACING_BACK);
@@ -122,12 +118,12 @@ public class FragmentCamera extends Fragment{
                 }
             }
         };
-        orientationEventListener.enable();
+        orientationEventListener.disable();
 
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addConfirmationButton();
+;
                 camera.takePicture(null, null, pictureCallback);
             }
         });
@@ -135,12 +131,12 @@ public class FragmentCamera extends Fragment{
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteConirmationButton();
+                deleteConfirmationButton();
                 camera.startPreview();
             }
         });
 
-        check.setOnClickListener(new View.OnClickListener() {
+        confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -208,6 +204,35 @@ public class FragmentCamera extends Fragment{
             tempButton.setLayoutParams(layoutParams);
         }
 
+        final ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.container);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final FirebaseInfo instance = FirebaseInfo.getInstance();
+                final String fileName = UUID.randomUUID().toString() + ".jpeg";
+                final StorageReference imageRef = instance.getImagesSReference().child(fileName);
+                imageRef.putBytes(imageByteArray).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Image image = new Image(fileName, instance.getCurrentUserId(), 1080, 1080);
+                                image.setImageUri(uri.toString());
+                                DatabaseReference push = instance.getImagesDbReference().push();
+                                push.setValue(image);
+                                instance.getViewsDbReference().child(push.getKey()).child("time").setValue(ServerValue.TIMESTAMP);
+                                instance.getViewsDbReference().child(push.getKey()).child("view").setValue(0l);
+                                imageByteArray = null;
+                                viewPager.setCurrentItem(1);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
         return  rootView;
     }
 
@@ -259,6 +284,7 @@ public class FragmentCamera extends Fragment{
         fromSwitchCamera = toSwitchCamera;
         Log.w("loh", String.valueOf(fromSwitchCamera));
 
+
     }
 
     private void addConfirmationButton() {
@@ -270,12 +296,12 @@ public class FragmentCamera extends Fragment{
         gallery.setVisibility(View.INVISIBLE);
         switchCamera.setVisibility(View.INVISIBLE);
         flash.setVisibility(View.INVISIBLE);
-        check.setVisibility(View.VISIBLE);
+        confirm.setVisibility(View.VISIBLE);
         close.setVisibility(View.VISIBLE);
-        check.setEnabled(true);
+        confirm.setEnabled(true);
         close.setEnabled(true);
     }
-    private void deleteConirmationButton() {
+    private void deleteConfirmationButton() {
         tempButton.setEnabled(true);
         flash.setEnabled(true);
         gallery.setEnabled(true);
@@ -284,9 +310,9 @@ public class FragmentCamera extends Fragment{
         gallery.setVisibility(View.VISIBLE);
         switchCamera.setVisibility(View.VISIBLE);
         flash.setVisibility(View.VISIBLE);
-        check.setVisibility(View.INVISIBLE);
+        confirm.setVisibility(View.INVISIBLE);
         close.setVisibility(View.INVISIBLE);
-        check.setEnabled(false);
+        confirm.setEnabled(false);
         close.setEnabled(false);
     }
 
@@ -318,27 +344,8 @@ public class FragmentCamera extends Fragment{
     Camera.PictureCallback pictureCallback = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            final FirebaseInfo instance = FirebaseInfo.getInstance();
-            final String fileName = UUID.randomUUID().toString() + ".jpeg";
-            final StorageReference imageRef = instance.getImagesSReference().child(fileName);
-            imageRef.putBytes(data).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Image image = new Image(fileName, instance.getCurrentUserId(), 1080, 1080);
-                            image.setImageUri(uri.toString());
-                            DatabaseReference push = instance.getImagesDbReference().push();
-                            push.setValue(image);
-                            instance.getViewsDbReference().child(push.getKey()).child("time").setValue(ServerValue.TIMESTAMP);
-                            instance.getViewsDbReference().child(push.getKey()).child("view").setValue(0l);
-                        }
-                    });
-                }
-            });
-
-
+            imageByteArray = data;
+            addConfirmationButton();
         }
     };
 
