@@ -49,7 +49,7 @@ public class FragmentCamera extends Fragment{
     private float fromRotation = 0;
     private float toRotation = 0;
     private int angle = 0;
-    private int animRotation = -1;  // пока бесполезная переменная
+    private int animRotation = -1;
     private byte [] imageByteArray = null;
     private OrientationEventListener orientationEventListener;
 
@@ -71,6 +71,7 @@ public class FragmentCamera extends Fragment{
         Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         parameters.setAutoWhiteBalanceLock(true);           //автоматический баланс белого хз работает ли
         camera.setParameters(parameters);
         gallery.setBackgroundColor(Color.TRANSPARENT);
@@ -118,7 +119,7 @@ public class FragmentCamera extends Fragment{
                 }
             }
         };
-        orientationEventListener.disable();
+        orientationEventListener.enable();
 
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,53 +239,22 @@ public class FragmentCamera extends Fragment{
 
     private void switchingCamera() {
 
-
         if (angle != checkChangeOfAngle){
-            Log.w("loh", String.valueOf(angle));
-            Log.w("loh", String.valueOf(checkChangeOfAngle));
             checkChangeOfAngle = angle;
-            toSwitchCamera = toSwitchCamera + checkChangeOfAngle;
-            Log.w("loh", String.valueOf(toSwitchCamera));
+            fromSwitchCamera = angle;
+            toSwitchCamera = angle - 180;
+        }else {
+            toSwitchCamera = toSwitchCamera - 180;
         }
-
-        // toSwitchCamera = toSwitchCamera + angle;
-//        Log.w("loh",String.valueOf(toSwitchCamera));
-        toSwitchCamera = toSwitchCamera - 180;
-        Log.w("loh",String.valueOf(toSwitchCamera));
-//        if(angle > 0){
-//            angle = angle * (-1);
-//        }
-//        toSwitchCamera += angle;
-//        toSwitchCamera += -180;
-
-//        toSwitchCamera = angle;
-//        Log.w("loh",String.valueOf(toSwitchCamera));
-//        if(toSwitchCamera >= 0){
-//            toSwitchCamera += -180;
-//        }else if(toSwitchCamera < 0){
-//            toSwitchCamera += 180;
-//        }
 
         final RotateAnimation switchCameraRotate = new RotateAnimation(fromSwitchCamera,toSwitchCamera,
                 switchCamera.getHeight()/2,switchCamera.getWidth()/2);
 
-        switchCameraRotate.setDuration(1500);
+        switchCameraRotate.setDuration(300);
         switchCameraRotate.setFillAfter(true);
         switchCamera.startAnimation(switchCameraRotate);
 
-//        if (toSwitchCamera >= -360){
-//            toSwitchCamera = toSwitchCamera + 360;//moment
-//        }else if(toSwitchCamera >= 360){
-//            toSwitchCamera = toSwitchCamera - 360;
-//        }
-
-//        if (toSwitchCamera <= 720){
-//            toSwitchCamera = toSwitchCamera - 720;
-//        }
         fromSwitchCamera = toSwitchCamera;
-        Log.w("loh", String.valueOf(fromSwitchCamera));
-
-
     }
 
     private void addConfirmationButton() {
