@@ -119,25 +119,25 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         this.camera.release();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // Get the pointer ID
-        Camera.Parameters params = camera.getParameters();
-        int action = event.getAction();
-
-
-        if (event.getPointerCount() > 1) {
-            // handle multi-touch events
-            if (action == MotionEvent.ACTION_POINTER_DOWN) {
-                mDist = getFingerSpacing(event);
-            } else if (action == MotionEvent.ACTION_MOVE && params.isZoomSupported()) {
-                camera.cancelAutoFocus();
-                handleZoom(event, params);
-            }
-        }
-
-        return true;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        // Get the pointer ID
+//        Camera.Parameters params = camera.getParameters();
+//        int action = event.getAction();
+//
+//
+//        if (event.getPointerCount() > 1) {
+//            // handle multi-touch events
+//            if (action == MotionEvent.ACTION_POINTER_DOWN) {
+//                mDist = getFingerSpacing(event);
+//            } else if (action == MotionEvent.ACTION_MOVE && params.isZoomSupported()) {
+//                camera.cancelAutoFocus();
+//                handleZoom(event, params);
+//            }
+//        }
+//
+//        return true;
+//    }
 
     private void handleZoom(MotionEvent event, Camera.Parameters params) {
         int maxZoom = params.getMaxZoom();

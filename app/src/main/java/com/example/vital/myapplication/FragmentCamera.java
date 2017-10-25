@@ -124,7 +124,6 @@ public class FragmentCamera extends Fragment{
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-;
                 camera.takePicture(null, null, pictureCallback);
             }
         });
@@ -137,17 +136,12 @@ public class FragmentCamera extends Fragment{
             }
         });
 
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         cameraPreviewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.w("loh","loh");
                 camera.autoFocus(autoFocusCallback);
+
             }
         });
 
@@ -238,7 +232,6 @@ public class FragmentCamera extends Fragment{
     }
 
     private void switchingCamera() {
-
         if (angle != checkChangeOfAngle){
             checkChangeOfAngle = angle;
             fromSwitchCamera = angle;
@@ -249,11 +242,9 @@ public class FragmentCamera extends Fragment{
 
         final RotateAnimation switchCameraRotate = new RotateAnimation(fromSwitchCamera,toSwitchCamera,
                 switchCamera.getHeight()/2,switchCamera.getWidth()/2);
-
         switchCameraRotate.setDuration(300);
         switchCameraRotate.setFillAfter(true);
         switchCamera.startAnimation(switchCameraRotate);
-
         fromSwitchCamera = toSwitchCamera;
     }
 
