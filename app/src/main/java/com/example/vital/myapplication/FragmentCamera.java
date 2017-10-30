@@ -43,6 +43,7 @@ public class FragmentCamera extends Fragment{
     private ImageButton flash;
     private ImageButton switchCamera;
     private FrameLayout cameraPreviewLayout;
+    private boolean tempButtonPressed = false;
     private float checkChangeOfAngle = -1;
     private float fromSwitchCamera = 0;
     private float toSwitchCamera = 0;
@@ -59,26 +60,26 @@ public class FragmentCamera extends Fragment{
         tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
         cameraPreviewLayout = (FrameLayout) rootView.findViewById(R.id.cp2);
         flash = (ImageButton) rootView.findViewById(R.id.flashButton);
-        flash.setBackgroundColor(Color.TRANSPARENT);
         switchCamera = (ImageButton) rootView.findViewById(R.id.switchCamera);
-        switchCamera.setBackgroundColor(Color.TRANSPARENT);
-        camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
         gallery = (ImageButton) rootView.findViewById(R.id.gallery);
         close = (ImageButton) rootView.findViewById(R.id.close);
         confirm = (ImageButton) rootView.findViewById(R.id.check);
-        close.setEnabled(false);
-        confirm.setEnabled(false);
-        Camera.Parameters parameters = camera.getParameters();
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
-        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        parameters.setAutoWhiteBalanceLock(true);           //автоматический баланс белого хз работает ли
-        camera.setParameters(parameters);
+        flash.setBackgroundColor(Color.TRANSPARENT);
+        switchCamera.setBackgroundColor(Color.TRANSPARENT);
         gallery.setBackgroundColor(Color.TRANSPARENT);
         close.setBackgroundColor(Color.TRANSPARENT);
         confirm.setBackgroundColor(Color.TRANSPARENT);
         tempButton.setBackgroundResource(R.drawable.take_photo_button);
         tempButton.setBackgroundResource(R.drawable.circle_frame_background);
+        close.setEnabled(false);
+        confirm.setEnabled(false);
+        Camera.Parameters parameters = camera.getParameters();
+        camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
+        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+        parameters.setAutoWhiteBalanceLock(true);           //автоматический баланс белого хз работает ли
+        camera.setParameters(parameters);
         mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), Camera.CameraInfo.CAMERA_FACING_BACK);
         cameraPreviewLayout.addView(mImageSurfaceView);
 
@@ -105,7 +106,7 @@ public class FragmentCamera extends Fragment{
                         angle = -180;
                     }
 
-                }if(angle != animRotation){
+                }if(angle != animRotation && !tempButtonPressed){
                     animRotation = angle;
                     toRotation = animRotation;
                     final RotateAnimation rotateAnim = new RotateAnimation(fromRotation, toRotation,
@@ -124,6 +125,9 @@ public class FragmentCamera extends Fragment{
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gallery.clearAnimation();
+                flash.clearAnimation();
+                switchCamera.clearAnimation();
                 camera.takePicture(null, null, pictureCallback);
             }
         });
@@ -148,20 +152,17 @@ public class FragmentCamera extends Fragment{
         flash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 switch (checkFlashState){
                     case 0 :
                         setFlash(Camera.Parameters.FLASH_MODE_OFF);
                         changeFlashMode();
                         flash.setImageResource(R.mipmap.ic_flash_off);
                         break;
-
                     case 1:
                         setFlash(Camera.Parameters.FLASH_MODE_ON);
                         changeFlashMode();
                         flash.setImageResource(R.mipmap.ic_flash_on);
                         break;
-
                     case 2 :
                         setFlash(Camera.Parameters.FLASH_MODE_AUTO);
                         changeFlashMode();
@@ -249,6 +250,7 @@ public class FragmentCamera extends Fragment{
     }
 
     private void addConfirmationButton() {
+        tempButtonPressed = true;
         tempButton.setEnabled(false);
         flash.setEnabled(false);
         gallery.setEnabled(false);
@@ -263,6 +265,7 @@ public class FragmentCamera extends Fragment{
         close.setEnabled(true);
     }
     private void deleteConfirmationButton() {
+        tempButtonPressed = false;
         tempButton.setEnabled(true);
         flash.setEnabled(true);
         gallery.setEnabled(true);
