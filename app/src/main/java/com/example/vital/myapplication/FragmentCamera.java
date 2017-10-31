@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.hardware.Camera;
 import android.hardware.SensorManager;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -29,7 +30,12 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.UUID;
+
+import static android.app.Activity.RESULT_OK;
 
 public class FragmentCamera extends Fragment{
 
@@ -54,6 +60,7 @@ public class FragmentCamera extends Fragment{
     private int angle = 0;
     private int animRotation = -1;
     private byte [] imageByteArray = null;
+    private byte [] imageByte = null;
     private OrientationEventListener orientationEventListener;
 
     @Override
@@ -243,6 +250,30 @@ public class FragmentCamera extends Fragment{
         });
 
         return  rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+       if(requestCode == PHOTO_FROM_GALLERY_REQUEST && resultCode == RESULT_OK){
+           Uri uri = data.getData();
+           imageByte = getImageBA(uri);
+       }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private byte[] getImageBA(Uri selectedImage){
+        Bitmap img = null;
+        try {
+            img = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.WEBP, 30, baos);
+        return baos.toByteArray();
     }
 
     private void switchingCamera() {
