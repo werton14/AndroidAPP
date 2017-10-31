@@ -1,5 +1,6 @@
 package com.example.vital.myapplication;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -43,6 +44,7 @@ public class FragmentCamera extends Fragment{
     private ImageButton flash;
     private ImageButton switchCamera;
     private FrameLayout cameraPreviewLayout;
+    final private int PHOTO_FROM_GALLERY_REQUEST = 233;
     private boolean tempButtonPressed = false;
     private float checkChangeOfAngle = -1;
     private float fromSwitchCamera = 0;
@@ -78,7 +80,9 @@ public class FragmentCamera extends Fragment{
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        parameters.setAutoWhiteBalanceLock(true);           //автоматический баланс белого хз работает ли
+        parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
+        parameters.setAntibanding(Camera.Parameters.ANTIBANDING_AUTO);
+//        parameters.setAutoWhiteBalanceLock(true);
         camera.setParameters(parameters);
         mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), Camera.CameraInfo.CAMERA_FACING_BACK);
         cameraPreviewLayout.addView(mImageSurfaceView);
@@ -137,6 +141,15 @@ public class FragmentCamera extends Fragment{
             public void onClick(View v) {
                 deleteConfirmationButton();
                 camera.startPreview();
+            }
+        });
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent,PHOTO_FROM_GALLERY_REQUEST);
             }
         });
 
