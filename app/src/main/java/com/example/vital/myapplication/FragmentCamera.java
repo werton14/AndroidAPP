@@ -75,8 +75,8 @@ public class FragmentCamera extends Fragment{
         tempButton.setBackgroundResource(R.drawable.circle_frame_background);
         close.setEnabled(false);
         confirm.setEnabled(false);
-        Camera.Parameters parameters = camera.getParameters();
         camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
+        Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
