@@ -4,24 +4,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by qwert on 11.02.2017.
  */
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+    List<Fragment> fragments = new ArrayList<>();
+
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
+        fragments.add(FragmentScroll.newInstance());
+        fragments.add(FragmentChoose.newInstance());
+        fragments.add(FragmentCamera.newInstance());
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
-            case 0 :  return FragmentScroll.newInstance();
-            case 1 :  return FragmentChoose.newInstance();
-            case 2 :  return FragmentCamera.newInstance();
-        }
-        return null;
+        return fragments.get(position);
     }
 
     @Override

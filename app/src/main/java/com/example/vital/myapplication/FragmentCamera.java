@@ -1,6 +1,9 @@
 package com.example.vital.myapplication;
 
+import android.*;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,8 +11,11 @@ import android.hardware.Camera;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.vital.myapplication.activities.Image;
@@ -36,6 +43,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class FragmentCamera extends Fragment{
 
@@ -62,10 +70,30 @@ public class FragmentCamera extends Fragment{
     private byte [] imageByteArray = null;
     private byte [] imageByte = null;
     private OrientationEventListener orientationEventListener;
+    private View rootView;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragmentcamerap2, container, false);
+        rootView = inflater.inflate(R.layout.fragmentcamerap2, container, false);
+
+        if(ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.CAMERA)) {
+
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.CAMERA},
+                        2);
+            }
+        }else {
+            configureFragment();
+        }
+
+        return  rootView;
+    }
+
+    void configureFragment(){
         tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
         cameraPreviewLayout = (FrameLayout) rootView.findViewById(R.id.cp2);
         flash = (ImageButton) rootView.findViewById(R.id.flashButton);
@@ -248,14 +276,16 @@ public class FragmentCamera extends Fragment{
                 });
             }
         });
-
-        return  rootView;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
        if(requestCode == PHOTO_FROM_GALLERY_REQUEST && resultCode == RESULT_OK){
+           cameraPreviewLayout.removeAllViews();
+           ImageView imageView = new ImageView(getContext());
+           cameraPreviewLayout.addView(imageView);
            Uri uri = data.getData();
+           imageView.setImageURI(uri);
            imageByte = getImageBA(uri);
        }
         super.onActivityResult(requestCode, resultCode, data);
@@ -331,15 +361,15 @@ public class FragmentCamera extends Fragment{
 
     private Camera checkDeviceCamera(int id){
         Camera mCamera = null;
-
-            try {
-                mCamera = Camera.open(id);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            mCamera = Camera.open(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return mCamera;
     }
+
 
     private Camera.AutoFocusCallback autoFocusCallback = new Camera.AutoFocusCallback() {
 
@@ -376,6 +406,5 @@ public class FragmentCamera extends Fragment{
         parameters.setFlashMode(value);
         camera.setParameters(parameters);
     }
-
 }
 
