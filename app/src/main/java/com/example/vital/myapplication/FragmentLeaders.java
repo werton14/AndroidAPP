@@ -3,7 +3,7 @@ package com.example.vital.myapplication;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.UiThread;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;

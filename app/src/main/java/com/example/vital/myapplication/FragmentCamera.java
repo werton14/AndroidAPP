@@ -12,8 +12,9 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v13.app.FragmentCompat;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -28,6 +29,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.vital.myapplication.activities.Image;
 import com.github.florent37.camerafragment.widgets.RecordButton;
@@ -82,7 +84,7 @@ public class FragmentCamera extends Fragment{
                     Manifest.permission.CAMERA)) {
 
             } else {
-                ActivityCompat.requestPermissions(getActivity(),
+                FragmentCompat.requestPermissions(this,
                         new String[]{Manifest.permission.CAMERA},
                         2);
             }
@@ -91,6 +93,19 @@ public class FragmentCamera extends Fragment{
         }
 
         return  rootView;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.w("denied", "denied");
+
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            configureFragment();
+        } else {
+            Toast.makeText(getContext(), "Access for camera denied, please allow access for camera!",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     void configureFragment(){
