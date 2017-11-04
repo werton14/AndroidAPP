@@ -1,6 +1,5 @@
 package com.example.vital.myapplication;
 
-import android.*;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -45,7 +44,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_OK;
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class FragmentCamera extends Fragment{
 
@@ -78,7 +76,7 @@ public class FragmentCamera extends Fragment{
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragmentcamerap2, container, false);
 
-        if(ContextCompat.checkSelfPermission(getContext(),
+        if(ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.CAMERA)) {
@@ -132,12 +130,14 @@ public class FragmentCamera extends Fragment{
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
         parameters.setAntibanding(Camera.Parameters.ANTIBANDING_AUTO);
-//        parameters.setAutoWhiteBalanceLock(true);
+//        parameters.setAutoWhiteBalanceLock(true); /// heraborationalitisamarilolatirewenekorp
         camera.setParameters(parameters);
-        mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), Camera.CameraInfo.CAMERA_FACING_BACK);
+        mImageSurfaceView = new ImageSurfaceView(getActivity().getApplicationContext(),
+                camera, getActivity(), Camera.CameraInfo.CAMERA_FACING_BACK);
         cameraPreviewLayout.addView(mImageSurfaceView);
 
-        orientationEventListener = new OrientationEventListener(getContext(), SensorManager.SENSOR_DELAY_UI) {
+        orientationEventListener = new OrientationEventListener(getActivity().getApplicationContext(),
+                SensorManager.SENSOR_DELAY_UI) {
             @Override
             public void onOrientationChanged(int orientation) {
 
@@ -247,13 +247,15 @@ public class FragmentCamera extends Fragment{
                 }
                 cameraPreviewLayout.removeAllViews();
                 camera = camera.open(currentCameraId);
-                mImageSurfaceView = new ImageSurfaceView(getContext(), camera, getActivity(), currentCameraId);
+                mImageSurfaceView = new ImageSurfaceView(getActivity().getApplicationContext(),
+                        camera, getActivity(), currentCameraId);
                 cameraPreviewLayout.addView(mImageSurfaceView); // artem zyeballaaa
 
             }
         });
 
-        boolean nav = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
+        boolean nav = ViewConfiguration.get(getActivity().getApplicationContext())
+                .hasPermanentMenuKey();
         if(!nav){
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) tempButton.getLayoutParams();
             Resources resources = getContext().getResources();

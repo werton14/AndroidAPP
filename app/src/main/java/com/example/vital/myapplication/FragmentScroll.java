@@ -44,7 +44,7 @@ public class FragmentScroll extends Fragment {
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.contentContainer, FragmentScrollView.newInstace()).commit();
-        boolean nav = ViewConfiguration.get(getContext()).hasPermanentMenuKey();
+        boolean nav = ViewConfiguration.get(getActivity().getApplicationContext()).hasPermanentMenuKey();
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) bottomBar.getLayoutParams();
         if(!nav){
             Resources resources = getContext().getResources();
