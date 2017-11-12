@@ -2,18 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/dark"
     android:theme="@style/CameraPage">
 
     <FrameLayout
         android:id="@+id/cp2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="match_parent">
 
     </FrameLayout>
 
@@ -21,17 +20,17 @@
         android:id="@+id/record_button"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/cp2"
         android:layout_centerInParent="true"
         android:layout_marginBottom="5dp" />
 
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="75dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:gravity="center_horizontal"-->
-        <!--android:textSize="30sp" />-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textSize="30sp" />
 
     <ImageButton
         android:id="@+id/flashButton"
@@ -109,5 +108,14 @@
             android:scaleType="fitCenter"
             app:srcCompat="@mipmap/ic_reverse_camera" />
     </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/galleryLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:background="@color/dark"
+        android:layout_alignParentBottom="true"></LinearLayout>
 
 </RelativeLayout>

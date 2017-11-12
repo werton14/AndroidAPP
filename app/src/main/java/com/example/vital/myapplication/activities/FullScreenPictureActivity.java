@@ -39,25 +39,13 @@ public class FullScreenPictureActivity extends Activity {
     private static final TimeInterpolator sAccelerator = new AccelerateInterpolator();
     private static final int ANIM_DURATION = 500;
 
-    private BitmapDrawable mBitmapDrawable;
-    private ColorMatrix colorizerMatrix = new ColorMatrix();
-    ColorDrawable mBackground;
-    int mLeftDelta;
-    int mTopDelta;
-    float mWidthScale;
-    float mHeightScale;
-    private ImageView mImageView;
-    private FrameLayout mTopLevelLayout;
-    private ShadowLayout mShadowLayout;
-    private int mOriginalOrientation;
 
+    private ImageView mImageView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_picture);
         mImageView = (ImageView) findViewById(R.id.imageView);
-        mTopLevelLayout = (FrameLayout) findViewById(R.id.topLevelLayout);
-        mShadowLayout = (ShadowLayout) findViewById(R.id.shadowLayout);
 
         Bundle bundle = getIntent().getExtras();
         Uri imageUri = Uri.parse(bundle.getString("imageUri"));
@@ -67,7 +55,11 @@ public class FullScreenPictureActivity extends Activity {
             @Override
             public void onSwipeRight() {
                 finish();
-                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
             }
         });
     }
