@@ -471,5 +471,6 @@ public class FragmentCamera extends Fragment{
         final Camera.Parameters parameters = camera.getParameters();
         parameters.setFlashMode(value);
         camera.setParameters(parameters);
+        //
     }
 }
