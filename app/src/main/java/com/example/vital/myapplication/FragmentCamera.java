@@ -140,7 +140,7 @@ public class FragmentCamera extends Fragment{
         close.setEnabled(false);
         confirm.setEnabled(false);
         camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
-        final Camera.Parameters parameters = camera.getParameters();
+        Camera.Parameters parameters = camera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
@@ -292,6 +292,7 @@ public class FragmentCamera extends Fragment{
                 mImageSurfaceView = new ImageSurfaceView(getActivity().getApplicationContext(),
                         camera, getActivity(), currentCameraId);
                 cameraPreviewLayout.addView(mImageSurfaceView); // artem zyeballaaa
+
             }
         });
 
@@ -471,6 +472,6 @@ public class FragmentCamera extends Fragment{
         final Camera.Parameters parameters = camera.getParameters();
         parameters.setFlashMode(value);
         camera.setParameters(parameters);
-        //
     }
 }
+

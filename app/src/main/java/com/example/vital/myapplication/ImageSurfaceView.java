@@ -108,7 +108,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         camera.setDisplayOrientation(cameraRotation);
         parameters.setPictureSize(1080, 1080);
         parameters.setJpegQuality(30);
-        camera.setParameters(parameters);
+//        camera.setParameters(parameters);
         camera.startPreview();
     }
 //TODO faceDetection
@@ -131,13 +131,25 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 //            if (action == MotionEvent.ACTION_POINTER_DOWN) {
 //                mDist = getFingerSpacing(event);
 //            } else if (action == MotionEvent.ACTION_MOVE && params.isZoomSupported()) {
-//                camera.cancelAutoFocus();
+////                camera.cancelAutoFocus();
 //                handleZoom(event, params);
 //            }
 //        }
 //
+//        if(event.getPointerCount() == 1){
+//            camera.autoFocus(autoFocusCallback);
+//        }
+//
 //        return true;
 //    }
+//
+//    private Camera.AutoFocusCallback autoFocusCallback = new Camera.AutoFocusCallback() {
+//
+//        @Override
+//        public void onAutoFocus(boolean success, Camera camera) {
+//            camera.autoFocus(null);
+//        }
+//    };
 
     private void handleZoom(MotionEvent event, Camera.Parameters params) {
         int maxZoom = params.getMaxZoom();

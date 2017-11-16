@@ -10,6 +10,7 @@ import android.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,9 +21,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import static android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+
 public class FragmentScroll extends Fragment {
 
-    private FrameLayout frameToolbar;
+    private RelativeLayout frameToolbar;
     private View view;
     private MyBottomNavigationView bottomBar;
     private UserPageAdapter userPageAdapter;
@@ -35,7 +38,7 @@ public class FragmentScroll extends Fragment {
 
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.activityscroll2, container, false);
-        frameToolbar = (FrameLayout) view.findViewById(R.id.frameToolbar);
+        frameToolbar = (RelativeLayout) view.findViewById(R.id.frameToolbar);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
@@ -46,7 +49,9 @@ public class FragmentScroll extends Fragment {
                 .replace(R.id.contentContainer, FragmentScrollView.newInstace()).commit();
         boolean nav = ViewConfiguration.get(getActivity().getApplicationContext()).hasPermanentMenuKey();
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) bottomBar.getLayoutParams();
-        if(!nav){
+
+        Log.w("loh", String.valueOf(nav));
+        if(nav){
             Resources resources = getContext().getResources();
             int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
             int height = resources.getDimensionPixelSize(resourceId);

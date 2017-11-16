@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.vital.myapplication.activities.ForeignPersonalData;
 import com.example.vital.myapplication.activities.FullScreenPictureActivity;
 import com.example.vital.myapplication.activities.Image;
 import com.google.firebase.database.DataSnapshot;
@@ -133,6 +134,12 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             super(itemView);
 
             profileImageButton = (CircleImageView) itemView.findViewById(R.id.profile_image_button);
+            profileImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    toPersonalData();
+                }
+            });
             optionImageButton = (ImageButton) itemView.findViewById(R.id.option_image_button);
             likeImageButton = (ImageButton) itemView.findViewById(R.id.like_image_button);
             likeImageButton.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +150,12 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             });
             competitiveImageView = (ImageButton) itemView.findViewById(R.id.competitive_image_view);
             nicknameTextView = (TextView) itemView.findViewById(R.id.nickname_text_view);
+            nicknameTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    toPersonalData();
+                }
+            });
             likeTextView = (TextView) itemView.findViewById(R.id.like_text_view);
             viewsCountTextView = (TextView) itemView.findViewById(R.id.views_count_text_view);
 
@@ -267,6 +280,11 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }
             });
         }
+    }
+
+    private void toPersonalData() {
+        Intent intent = new Intent(context, ForeignPersonalData.class);
+        context.startActivity(intent);
     }
 
     private class LoadHolder extends RecyclerView.ViewHolder {

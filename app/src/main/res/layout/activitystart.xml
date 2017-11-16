@@ -14,7 +14,6 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_gradient"
         android:paddingTop="350dp">
 
         <Button
@@ -24,6 +23,7 @@
             android:background="@drawable/button_background"
             android:onClick="onToSignInButtonClick"
             android:text="@string/action_sign_in"
+            android:textAlignment="center"
             android:textColor="@android:color/background_light" />
     </FrameLayout>
 

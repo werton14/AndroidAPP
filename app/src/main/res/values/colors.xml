@@ -9,11 +9,11 @@
     <color name="photo_page">#e91e63</color>
     <color name="dark">#000000</color>
     <color name="prototypebackround">#c6c5c5</color>
-    <color name="forview">#d6d8e1</color>                   <!--для полоски View-->
+    <!--<color name="forview">#d6d8e1</color>-->                   <!--для полоски View-->
     <color name="fornewbackground">#f3f5f9</color>          <!--background для лбого экрана-->
     <color name="foredittext_default">#F5F5F5</color>
     <color name="backgroungforpicture">#e0e0e0</color>
-    <color name="clr_normal_left">#303F9F</color>
-    <color name="clr_normal_right">#5C6BC0</color>
-    <color name="clr_normal">#3949AB</color>
+    <color name="clr_normal_left">#1a2980</color>      <!--#303F9F-->
+    <color name="clr_normal_right">#26d0ce</color>      <!--#5C6BC0 мое#26d0ce #96c93d #3f5efb-->
+    <color name="clr_normal">#1a2980</color>     <!--#3949AB мое#1a2980 #00b09b #fc466b-->
 </resources>

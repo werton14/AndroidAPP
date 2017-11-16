@@ -22,16 +22,15 @@
 
     </LinearLayout>
 
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_marginTop="20dp"
-            android:id="@+id/choose_image_from_gallery"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_below="@id/linearLayoutNickname"
-            android:layout_centerHorizontal="true"
-            android:onClick="onChooseProfileImageButtonClick"
-            android:src="@drawable/ic_man" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/choose_image_from_gallery"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@id/linearLayoutNickname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:onClick="onChooseProfileImageButtonClick"
+        android:src="@drawable/ic_man" />
 
     <LinearLayout
         android:layout_width="match_parent"
