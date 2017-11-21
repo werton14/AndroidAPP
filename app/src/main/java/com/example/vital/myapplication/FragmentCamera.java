@@ -122,7 +122,7 @@ public class FragmentCamera extends Fragment{
     }
 
     void configureFragment(){
-        rootLayout = (RelativeLayout) rootView.findViewById(R.id.fragment);
+        rootLayout = (RelativeLayout) rootView.findViewById(R.id.fragmentt);
         tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
         cameraPreviewLayout = (FrameLayout) rootView.findViewById(R.id.cp2);
         flash = (ImageButton) rootView.findViewById(R.id.flashButton);
