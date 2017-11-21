@@ -336,12 +336,12 @@ public class FragmentCamera extends Fragment{
             }
         });
 
-        LayoutTransition layoutTransition = new LayoutTransition();
-        rootLayout.setLayoutTransition(layoutTransition);
-        layoutTransition.setDuration(2000);
-        layoutTransition.enableTransitionType(LayoutTransition.CHANGE_APPEARING);
-        layoutTransition.enableTransitionType(LayoutTransition.APPEARING);
-        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
+//        LayoutTransition layoutTransition = new LayoutTransition();
+//        rootLayout.setLayoutTransition(layoutTransition);
+//        layoutTransition.setDuration(2000);
+//        layoutTransition.enableTransitionType(LayoutTransition.CHANGE_APPEARING);
+//        layoutTransition.enableTransitionType(LayoutTransition.APPEARING);
+//        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
 
     }
 
