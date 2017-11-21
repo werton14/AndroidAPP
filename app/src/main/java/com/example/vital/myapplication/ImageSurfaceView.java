@@ -108,10 +108,11 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         camera.setDisplayOrientation(cameraRotation);
         parameters.setPictureSize(1080, 1080);
         parameters.setJpegQuality(30);
-//        camera.setParameters(parameters);
+        camera.setParameters(parameters);
         camera.startPreview();
     }
-//TODO faceDetection
+
+    //TODO faceDetection
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         orientationEventListener.disable();

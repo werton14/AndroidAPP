@@ -280,11 +280,16 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }
             });
         }
-    }
 
-    private void toPersonalData() {
-        Intent intent = new Intent(context, ForeignPersonalData.class);
-        context.startActivity(intent);
+        private void toPersonalData() {
+            if(mUser != null) {
+                Intent intent = new Intent(context, ForeignPersonalData.class);
+                intent.putExtra("description", mUser.getDescription());
+                intent.putExtra("nickname", mUser.getNickname());
+                intent.putExtra("userProfileImageUri", mUser.getProfileImageFileName());
+                context.startActivity(intent);
+            }
+        }
     }
 
     private class LoadHolder extends RecyclerView.ViewHolder {

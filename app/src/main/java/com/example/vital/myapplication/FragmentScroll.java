@@ -51,7 +51,7 @@ public class FragmentScroll extends Fragment {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) bottomBar.getLayoutParams();
 
         Log.w("loh", String.valueOf(nav));
-        if(nav){
+        if(!nav){
             Resources resources = getContext().getResources();
             int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
             int height = resources.getDimensionPixelSize(resourceId);

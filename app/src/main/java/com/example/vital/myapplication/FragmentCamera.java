@@ -217,7 +217,7 @@ public class FragmentCamera extends Fragment{
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.galleryLayout);
+                LinearLayout layout = null;
                 if(!galaryIsShowed) {
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                             RelativeLayout.LayoutParams.MATCH_PARENT,
