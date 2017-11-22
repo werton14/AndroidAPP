@@ -24,7 +24,7 @@
             android:onClick="onToSignInButtonClick"
             android:text="@string/action_sign_in"
             android:textAlignment="center"
-            />
+            android:textColor="@android:color/background_light" />
     </FrameLayout>
 
     <FrameLayout
@@ -44,7 +44,7 @@
             android:background="@drawable/button_background"
             android:onClick="onToSignUpButtonClick"
             android:text="@string/action_sign_up"
-             />
+            android:textColor="@android:color/background_light" />
 
     </FrameLayout>
 

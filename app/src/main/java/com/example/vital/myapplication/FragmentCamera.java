@@ -145,7 +145,7 @@ public class FragmentCamera extends Fragment{
         confirm.setEnabled(false);
         camera = checkDeviceCamera(Camera.CameraInfo.CAMERA_FACING_BACK);
         Camera.Parameters parameters = camera.getParameters();
-        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO); //Я тута изменила ес че сюды идти
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_RED_EYE);
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);

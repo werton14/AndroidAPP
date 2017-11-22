@@ -6,7 +6,7 @@
     </style>
 
     <style name="AppTheme.New" parent="Theme.AppCompat">
-        <item name="colorPrimaryDark">@color/BasicColor</item>
+        <item name="colorPrimaryDark">@color/gradient_color_left</item>
         <item name="android:windowBackground">@color/White</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowTranslucentNavigation">true</item>

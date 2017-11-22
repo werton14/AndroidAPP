@@ -13,7 +13,7 @@
     <color name="fornewbackground">#f3f5f9</color>          <!--background для лбого экрана-->
     <color name="foredittext_default">#F5F5F5</color>
     <color name="backgroungforpicture">#e0e0e0</color>
-    <color name="clr_normal_left">#1a2980</color>      <!--#303F9F-->
-    <color name="clr_normal_right">#26d0ce</color>      <!--#5C6BC0 мое#26d0ce #96c93d #3f5efb-->
-    <color name="clr_normal">#1a2980</color>     <!--#3949AB мое#1a2980 #00b09b #fc466b-->
+    <!--<color name="clr_normal_left">#1a2980</color>      &lt;!&ndash;#303F9F&ndash;&gt;-->
+    <color name="gradient_color_right">#26d0ce</color>      <!--#5C6BC0 мое#26d0ce #96c93d #3f5efb-->
+    <color name="gradient_color_left">#1a2980</color>     <!--#3949AB мое#1a2980 #00b09b #fc466b-->
 </resources>

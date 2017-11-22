@@ -4,27 +4,19 @@
         <shape
             android:shape="rectangle">
             <gradient
-                android:startColor="@color/clr_normal_right"
-                android:endColor="@color/clr_normal_left">
+                android:startColor="@color/gradient_color_right"
+                android:endColor="@color/gradient_color_left">
             </gradient>
             <corners android:radius="4dp">
             </corners>
         </shape>
     </item>
-    <!--<item  android:state_selected="true" >
-        <shape
-            android:shape="rectangle">
-            <gradient
-                android:startColor="#5C6BC0"
-                android:endColor="#303F9F"></gradient>
-            <corners android:radius="3dp"></corners></shape>                  &lt;!&ndash;#5C6BC0 либо так startcolor либо #303F9F&ndash;&gt;
-    </item>-->
     <item>
        <shape
            android:shape="rectangle">
            <gradient
-               android:startColor="@color/clr_normal_left"
-               android:endColor="@color/clr_normal_right">
+               android:startColor="@color/gradient_color_left"
+               android:endColor="@color/gradient_color_right">
            </gradient>
            <corners android:radius="4dp">
            </corners>
