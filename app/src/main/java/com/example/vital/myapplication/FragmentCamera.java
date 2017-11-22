@@ -39,6 +39,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -72,6 +74,7 @@ public class FragmentCamera extends Fragment{
     private ImageButton flash;
     private ImageButton switchCamera;
     private FrameLayout cameraPreviewLayout;
+    private ProgressBar imageUploadProgressBar;
     final private int PHOTO_FROM_GALLERY_REQUEST = 233;
     private boolean tempButtonPressed = false;
     private float checkChangeOfAngle = -1;
@@ -130,6 +133,7 @@ public class FragmentCamera extends Fragment{
         gallery = (ImageButton) rootView.findViewById(R.id.gallery);
         close = (ImageButton) rootView.findViewById(R.id.close);
         confirm = (ImageButton) rootView.findViewById(R.id.check);
+        imageUploadProgressBar = (ProgressBar) rootView.findViewById(R.id.image_upload_progress_bar);
         flash.setBackgroundColor(Color.TRANSPARENT);
         switchCamera.setBackgroundColor(Color.TRANSPARENT);
         gallery.setBackgroundColor(Color.TRANSPARENT);
@@ -312,6 +316,9 @@ public class FragmentCamera extends Fragment{
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                imageUploadProgressBar.setVisibility(View.VISIBLE);
+                imageUploadProgressBar.setProgress(50);
                 final FirebaseInfo instance = FirebaseInfo.getInstance();
                 final String fileName = UUID.randomUUID().toString() + ".jpeg";
                 final StorageReference imageRef = instance.getImagesSReference().child(fileName);
@@ -331,6 +338,12 @@ public class FragmentCamera extends Fragment{
                                 viewPager.setCurrentItem(1);
                             }
                         });
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        imageUploadProgressBar.setProgress(100);
                     }
                 });
             }
