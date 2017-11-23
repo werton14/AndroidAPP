@@ -317,6 +317,12 @@ public class FragmentCamera extends Fragment{
             @Override
             public void onClick(View v) {
 
+                flash.setVisibility(View.INVISIBLE);
+                confirm.setVisibility(View.INVISIBLE);
+                close.setVisibility(View.INVISIBLE);
+                flash.setEnabled(false);
+                confirm.setEnabled(false);
+                close.setEnabled(false);
                 imageUploadProgressBar.setVisibility(View.VISIBLE);
                 imageUploadProgressBar.setProgress(50);
                 final FirebaseInfo instance = FirebaseInfo.getInstance();

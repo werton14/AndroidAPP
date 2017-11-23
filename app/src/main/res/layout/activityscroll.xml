@@ -50,7 +50,7 @@
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
             android:layout_height="47dp"
-            app:itemBackground="@color/White"
+            app:itemBackground="@android:color/white"
             app:itemIconTint="@drawable/item_bar_selector"
             app:menu="@menu/bottom_navigation_view">
 

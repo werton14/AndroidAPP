@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/White"
+    android:background="@android:color/white"
     tools:context="com.example.vital.myapplication.activities.ChooseActivity">
     <!--TODO написать ContentDescription-->
     <LinearLayout
         android:id="@+id/Parentlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/White"
+        android:background="@android:color/white"
         android:orientation="vertical"
         android:paddingTop="10dp"
         android:layout_alignParentTop="true"
@@ -40,17 +40,17 @@
                 android:paddingEnd="7dp"
                 android:paddingStart="7dp"
                 android:textAllCaps="false"
-                android:textColor="@color/BasicColor"
+                android:textColor="@color/gradient_color_left"
                 android:textSize="14sp"
                 android:typeface="serif"
                 tools:text="default" />                     <!--просит android studio-->
-
+            <!--в textColor был раньше BasicColor-->
             <ImageButton
                 android:id="@+id/option_image_button"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_gravity="center_vertical"
-                android:background="@color/White"
+                android:background="@android:color/white"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_more_horiz" />
 
@@ -85,7 +85,7 @@
                 android:id="@+id/like_image_button"
                 android:layout_width="27dp"
                 android:layout_height="27dp"
-                android:background="@color/White"
+                android:background="@android:color/white"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_favorite_grey" />
 
@@ -97,18 +97,18 @@
                 android:layout_weight="1"
                 android:paddingEnd="7dp"
                 android:paddingStart="7dp"
-                android:textColor="@color/BasicColor"
+                android:textColor="@color/gradient_color_left"
                 android:textSize="14sp"
                 android:typeface="serif"
                 tools:text="322" />
-
+            <!--в textColor был раньше BasicColor-->
             <ImageButton
                 android:id="@+id/download_image_button"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@color/White"
+                android:background="@android:color/white"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_visibiluty_standart" />
 

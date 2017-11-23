@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.vital.myapplication.activities.SignUpActivity"
-    android:background="@color/White">
+    android:background="@android:color/white">
 
     <LinearLayout
         android:id="@+id/linearLayoutSignUp"
@@ -44,7 +44,7 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
-            android:textColor="@color/dark"
+            android:textColor="@android:color/black"
             android:textColorHint="#bbbbbb" />
 
         <EditText
@@ -57,7 +57,7 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:padding="10dp"
-            android:textColor="@color/dark"
+            android:textColor="@android:color/black"
             android:textColorHint="#bbbbbb"
             android:textSize="18sp" />
 
