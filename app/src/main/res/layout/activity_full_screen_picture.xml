@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme"
     android:id="@+id/topLevelLayout">
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/bb_darkBackgroundColor"
+        android:scaleType="fitCenter"
+        app:srcCompat="@mipmap/ic_arrow_back" />
 
     <view
         class="com.example.vital.myapplication.ShadowLayout"
@@ -13,14 +23,6 @@
         android:layout_height="match_parent"
         android:id="@+id/shadowLayout"
         android:visibility="visible" >
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/bb_darkBackgroundColor"
-            android:scaleType="fitCenter"
-            app:srcCompat="@mipmap/ic_arrow_back" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -33,4 +35,4 @@
 
 
 
-</FrameLayout>
+</RelativeLayout>
