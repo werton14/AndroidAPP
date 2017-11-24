@@ -125,6 +125,14 @@ public class FragmentCamera extends Fragment{
     }
 
     void configureFragment(){
+        final View.OnClickListener autoFocusListner = (new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.w("loh","loh");
+                camera.autoFocus(autoFocusCallback);
+
+            }
+        });
         rootLayout = (RelativeLayout) rootView.findViewById(R.id.fragmentt);
         tempButton = (RecordButton) rootView.findViewById(R.id.record_button);
         cameraPreviewLayout = (FrameLayout) rootView.findViewById(R.id.cp2);
@@ -203,6 +211,7 @@ public class FragmentCamera extends Fragment{
                 flash.clearAnimation();
                 switchCamera.clearAnimation();
                 camera.takePicture(null, null, pictureCallback);
+                cameraPreviewLayout.setOnClickListener(null);
             }
         });
 
@@ -211,6 +220,7 @@ public class FragmentCamera extends Fragment{
             public void onClick(View v) {
                 deleteConfirmationButton();
                 camera.startPreview();
+                cameraPreviewLayout.setOnClickListener(autoFocusListner);
             }
         });
 
@@ -249,14 +259,7 @@ public class FragmentCamera extends Fragment{
             }
         });
 
-        cameraPreviewLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.w("loh","loh");
-                camera.autoFocus(autoFocusCallback);
-
-            }
-        });
+        cameraPreviewLayout.setOnClickListener(autoFocusListner);
 
         flash.setOnClickListener(new View.OnClickListener() {
             @Override
