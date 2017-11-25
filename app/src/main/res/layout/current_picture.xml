@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/current_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@color/backgroungforpicture" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/current_imageView"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/like_image_view"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:background="@android:color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_favorite_red" />
+
+        <TextView
+            android:id="@+id/like_text_view_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingEnd="7dp"
+            android:paddingStart="7dp"
+            android:textColor="@color/gradient_color_left"
+            android:textSize="14sp"
+            android:typeface="serif"
+            tools:text="322" />
+        <!--в textColor был раньше BasicColor-->
+        <ImageView
+            android:id="@+id/download_image_view_current"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_visibiluty_standart" />
+
+        <TextView
+            android:id="@+id/views_count_text_view_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:textColor="@color/bb_inActiveBottomBarItemColor"
+            tools:text="322" />
+
+    </LinearLayout>
+
+</RelativeLayout>
