@@ -46,9 +46,12 @@ import android.widget.Toast;
 import com.example.vital.myapplication.activities.Image;
 import com.github.florent37.camerafragment.widgets.RecordButton;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -344,7 +347,7 @@ public class FragmentCamera extends Fragment{
                                 instance.getViewsDbReference().child(push.getKey()).child("time").setValue(ServerValue.TIMESTAMP);
                                 instance.getViewsDbReference().child(push.getKey()).child("view").setValue(0l);
                                 imageByteArray = null;
-                                viewPager.setCurrentItem(1);
+                                updateCurrentCompetitiveImageInfo(push.getKey());
                             }
                         });
                     }
@@ -393,6 +396,23 @@ public class FragmentCamera extends Fragment{
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.WEBP, 30, baos);
         return baos.toByteArray();
+    }
+
+    private void updateCurrentCompetitiveImageInfo(final String competitiveImageId){
+        FirebaseInfo.getInstance().getCurrentUserDbReference()
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        user.setCurrentCompetitiveImageId(competitiveImageId);
+                        FirebaseInfo.getInstance().getCurrentUserDbReference().setValue(user);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void switchingCamera() {

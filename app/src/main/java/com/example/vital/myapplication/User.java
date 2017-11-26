@@ -9,12 +9,14 @@ public class User {
     private String nickname;
     private String profileImageFileName;
     private String description;
+    private String currentCompetitiveImageId;
     private long taskNumber = 0;
 
     public User(){
         nickname = null;
         profileImageFileName = null;
         description = null;
+        currentCompetitiveImageId = null;
     }
 
     public User(String nickname, String profileImageFileName, String description){
@@ -55,4 +57,13 @@ public class User {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getCurrentCompetitiveImageId() {
+        return currentCompetitiveImageId;
+    }
+
+    public void setCurrentCompetitiveImageId(String currentCompetitiveImageId) {
+        this.currentCompetitiveImageId = currentCompetitiveImageId;
+    }
+
 }

@@ -210,5 +210,4 @@ public class ImageDownloader {
     public interface OnDataDownloadedListener{
         public void onDataDownloaded(ImageData data);
     }
-
 }
