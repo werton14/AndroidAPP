@@ -3,8 +3,6 @@ package com.example.vital.myapplication;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        fragments.add(FragmentScrollView.newInstace());
+        fragments.add(FragmentScrollView.newInstance());
         fragments.add(FragmentLeaders.newInstance());
         fragments.add(FragmentPersonalDate.newInstance());
     }

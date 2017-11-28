@@ -1,8 +1,10 @@
 package com.example.vital.myapplication;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,6 +32,7 @@ public class FragmentScrollView extends Fragment {
     private List<String> mImageIds;
     private List<Uri> mImageUris;
     private List<Uri> mProfileUris;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -51,6 +54,38 @@ public class FragmentScrollView extends Fragment {
         linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        mSwipeRefreshLayout = view.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mImages.clear();
+                mUsers.clear();
+                mImageIds.clear();
+                mImageUris.clear();
+                mProfileUris.clear();
+                newImageDownloader();
+                imageDownloader.findImage();
+            }
+        });
+
+
+        newImageDownloader();
+        imageDownloader.findImage();
+
+        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                imageDownloader.findImage();
+            }
+        });
+
+
+
+        return view;
+    }
+
+    private void newImageDownloader(){
         imageDownloader = new ImageDownloader(getActivity().getApplicationContext());
         imageDownloader.setOnDataDownloadedListener(new ImageDownloader.OnDataDownloadedListener() {
             @Override
@@ -62,22 +97,13 @@ public class FragmentScrollView extends Fragment {
                 mImageUris.addAll(data.getImageUris());
                 mProfileUris.addAll(data.getProfileUris());
                 imageAdapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
                 //imageAdapter.notifyItemRangeInserted(currentItemCount, data.getImages().size()-1);
             }
         });
-        imageDownloader.findImage();
-
-        recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                imageDownloader.findImage();
-            }
-        });
-
-        return view;
     }
 
-    public static FragmentScrollView newInstace(){
+    public static FragmentScrollView newInstance(){
         return new FragmentScrollView();
     }
 

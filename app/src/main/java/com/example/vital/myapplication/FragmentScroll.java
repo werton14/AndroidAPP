@@ -60,7 +60,6 @@ public class FragmentScroll extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 bottomBar.getMenu().getItem(position).setChecked(true);
-                re
             }
 
             @Override

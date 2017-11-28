@@ -18,7 +18,7 @@ public class UserPageAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0 : return  FragmentScrollView.newInstace();
+            case 0 : return  FragmentScrollView.newInstance();
             case 1 : return  FragmentLeaders.newInstance();
             case 2 : return  FragmentPersonalDate.newInstance();
         }

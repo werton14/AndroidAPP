@@ -203,6 +203,12 @@ public class ImageDownloader {
         return firebaseInfo.getImagesDbReference().child(str);
     }
 
+    public void resetImages(){
+        unDownloadedData = 0;
+        unUpdatedViews = 0;
+        imageIds.clear();
+    }
+
     public void setOnDataDownloadedListener(OnDataDownloadedListener onDataDownloadedListener) {
         this.onDataDownloadedListener = onDataDownloadedListener;
     }
