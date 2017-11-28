@@ -14,6 +14,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class FragmentScroll extends Fragment {
     private MyBottomNavigationView bottomBar;
     private UserPageAdapter userPageAdapter;
     private ViewPager.OnPageChangeListener onPageChangeListener;
-
+    private CustomViewPager viewPager;
 
     @Nullable
     @Override
@@ -45,8 +46,31 @@ public class FragmentScroll extends Fragment {
 
         bottomBar = (MyBottomNavigationView) view.findViewById(R.id.bottomBar);
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.contentContainer, FragmentScrollView.newInstace()).commit();
+        viewPager = (CustomViewPager) view.findViewById(R.id.contentContainer);
+        final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(2);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                bottomBar.getMenu().getItem(position).setChecked(true);
+                re
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+
         boolean nav = ViewConfiguration.get(getActivity().getApplicationContext()).hasPermanentMenuKey();
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) bottomBar.getLayoutParams();
 
@@ -65,7 +89,17 @@ public class FragmentScroll extends Fragment {
         bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                changeFragment(item.getItemId());
+                switch (item.getItemId()){
+                    case R.id.home:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case R.id.leaders:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case  R.id.data:
+                        viewPager.setCurrentItem(2);
+                        break;
+                }
                 item.setChecked(true);
                 return false;
             }
@@ -81,21 +115,7 @@ public class FragmentScroll extends Fragment {
         return view;
     }
 
-    private void changeFragment(int id) {
-        Fragment fragment = null;
-        switch (id){
-            case R.id.home:
-                fragment = FragmentScrollView.newInstace();
-                break;
-            case R.id.leaders:
-                fragment = FragmentLeaders.newInstance();
-                break;
-            case  R.id.data:
-                fragment = FragmentPersonalDate.newInstance();
-                break;
-        }
-        getFragmentManager().beginTransaction().replace(R.id.contentContainer, fragment).commit();
-    }
+
     public static FragmentScroll newInstance(){
         return new FragmentScroll();
     }

@@ -59,7 +59,7 @@ public class FragmentPersonalDate extends Fragment {
     }
 
     private void downloadImage (User user){
-        Picasso.with(getContext()).load(user.getProfileImageFileName()).into(profileImageView);
+        Picasso.with(getActivity().getApplicationContext()).load(user.getProfileImageFileName()).into(profileImageView);
 
     }
 
