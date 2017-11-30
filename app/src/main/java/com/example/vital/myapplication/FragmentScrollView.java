@@ -107,6 +107,7 @@ public class FragmentScrollView extends Fragment {
         return new FragmentScrollView();
     }
 
-
-
+    public void scrollToTop(){
+        recyclerView.smoothScrollToPosition(0);
+    }
 }

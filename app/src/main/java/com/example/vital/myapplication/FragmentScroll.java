@@ -89,7 +89,14 @@ public class FragmentScroll extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.home:
-                        viewPager.setCurrentItem(0);
+                        if(viewPager.getCurrentItem() == 0) {
+                            FragmentScrollView fragmentScrollView =
+                                    (FragmentScrollView)viewPagerAdapter.getItem(0);
+                            fragmentScrollView.scrollToTop();
+                        } else {
+                            viewPager.setCurrentItem(0);
+                        }
+
                         break;
                     case R.id.leaders:
                         viewPager.setCurrentItem(1);
