@@ -45,7 +45,6 @@ public class FragmentScroll extends Fragment {
         activity.setSupportActionBar(toolbar);
 
         bottomBar = (MyBottomNavigationView) view.findViewById(R.id.bottomBar);
-
         viewPager = (CustomViewPager) view.findViewById(R.id.contentContainer);
         final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
