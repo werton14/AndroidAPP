@@ -101,16 +101,13 @@
 
         <!--</android.support.v7.widget.RecyclerView>-->
 
-        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:columnCount="10"
-        android:orientation="horizontal">
-
-        <ImageView app:srcCompat="@mipmap/ic_cake" />
-
-        </GridLayout>
+        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/profile_grid_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:numColumns="4"
+            android:stretchMode="columnWidth"/>
 
     </LinearLayout>
 

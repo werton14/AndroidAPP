@@ -99,7 +99,13 @@ public class FragmentScroll extends Fragment {
 
                         break;
                     case R.id.leaders:
-                        viewPager.setCurrentItem(1);
+                        if(viewPager.getCurrentItem() == 1) {
+                            FragmentLeaders fragmentLeaders =
+                                    (FragmentLeaders) viewPagerAdapter.getItem(1);
+                            fragmentLeaders.scrollToTop();
+                        } else {
+                            viewPager.setCurrentItem(1);
+                        }
                         break;
                     case  R.id.data:
                         viewPager.setCurrentItem(2);

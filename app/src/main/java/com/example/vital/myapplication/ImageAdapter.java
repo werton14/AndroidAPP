@@ -210,7 +210,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 }
             });
 
-            competitiveImageView.setOnClickListener(new View.OnClickListener() {
+/*            competitiveImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, FullScreenPictureActivity.class);
@@ -226,7 +226,7 @@ public class ImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     intent.putExtra("imageId", imageId);
                     context.startActivity(intent);
                 }
-            });
+            });*/
         }
 
         private void makeLike(){

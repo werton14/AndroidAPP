@@ -1,9 +1,11 @@
 package com.example.vital.myapplication;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.UiThread;
 import android.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,6 +37,7 @@ public class FragmentLeaders extends Fragment {
     private ImageAdapterLeaders imageAdapterLeaders;
     private List<Uri> mImageUriList;
     private FirebaseInfo firebaseInfo;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private int unDownloadedImage = 0;
     private int currentItemCount;
     private int lastItem = 0;
@@ -64,10 +67,18 @@ public class FragmentLeaders extends Fragment {
 //                downLoadNewImage();
 //            }
 //        });
-        currentItemCount = imageAdapterLeaders.getItemCount() + 1;
+        //currentItemCount = imageAdapterLeaders.getItemCount() + 1;
         downLoadNewImage();
-
-
+        swipeRefreshLayout = view.findViewById(R.id.fragment_leaders_swipe_refresh_layout);
+        swipeRefreshLayout.setColorSchemeColors(Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                unDownloadedImage = 0;
+                mImageUriList.clear();
+                downLoadNewImage();
+            }
+        });
 
         return view;
     }
@@ -113,6 +124,7 @@ public class FragmentLeaders extends Fragment {
                                     if(unDownloadedImage == 0) {
                                         Log.w("wtf", "All right!");
                                         imageAdapterLeaders.notifyDataSetChanged();
+                                        swipeRefreshLayout.setRefreshing(false);
                                         //notifyAdapter();
                                     }
                                 }
@@ -147,8 +159,9 @@ public class FragmentLeaders extends Fragment {
 
     }
 
-    @UiThread
-    private void notifyAdapter(){
-        imageAdapterLeaders.notifyItemRangeInserted(currentItemCount, 1);
+    public void scrollToTop(){
+        recyclerView.smoothScrollToPosition(0);
     }
+
+
 }

@@ -80,8 +80,11 @@ public class ChooseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        moveTaskToBack(true);
+        if(mViewPager.getCurrentItem() == 0 || mViewPager.getCurrentItem() == 2){
+            mViewPager.setCurrentItem(1);
+        }else {
+            moveTaskToBack(true);
+        }
     }
 
     private ViewPager.OnPageChangeListener getOnPageListener() {
@@ -182,4 +185,5 @@ public class ChooseActivity extends AppCompatActivity {
         return new File(mediaStorageDir.getPath() + File.separator +
                 "IMG_"+ timeStamp + ".jpg");
     }
+
 }
