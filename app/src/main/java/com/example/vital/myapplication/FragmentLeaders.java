@@ -70,7 +70,7 @@ public class FragmentLeaders extends Fragment {
         //currentItemCount = imageAdapterLeaders.getItemCount() + 1;
         downLoadNewImage();
         swipeRefreshLayout = view.findViewById(R.id.fragment_leaders_swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE);
+        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.RED, Color.GRAY, Color.BLACK);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

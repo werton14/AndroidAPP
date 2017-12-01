@@ -77,6 +77,9 @@ public class ForeignPersonalData extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         gridView = findViewById(R.id.profile_grid_layout);
         gridView.setAdapter(new ImageAdapterGridView(getApplicationContext()));
     }

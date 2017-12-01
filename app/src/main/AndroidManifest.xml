@@ -76,12 +76,18 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".activities.FullScreenPictureActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Transparent"
-            />
+            android:label="@string/space"
+            android:theme="@style/Transparent">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.ChooseActivity" />
+            </activity>
         <activity android:name=".activities.ForeignPersonalData"
             android:label="@string/space"
             android:theme="@style/AppTheme.New">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.ChooseActivity" />
         </activity>
     </application>
 

@@ -55,7 +55,7 @@ public class FragmentScrollView extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         mSwipeRefreshLayout = view.findViewById(R.id.activity_main_swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorSchemeColors(Color.GREEN, Color.RED, Color.YELLOW, Color.BLUE);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.RED, Color.GRAY, Color.BLACK);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

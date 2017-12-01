@@ -9,7 +9,7 @@
         <item name="colorPrimaryDark">@color/gradient_color_left</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="windowActionBar">false</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
@@ -25,9 +25,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Transparent">
+    <style name="Transparent" parent="Theme.AppCompat">
+        <item name="colorPrimaryDark">@android:color/black</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/black</item>
     </style>
 

@@ -62,7 +62,8 @@ public class SignInActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         TextView textView = (TextView)toolbar.findViewById(R.id.mytext);
         textView.setVisibility(View.INVISIBLE);
 

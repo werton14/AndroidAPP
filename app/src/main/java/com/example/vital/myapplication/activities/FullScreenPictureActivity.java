@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -39,7 +41,7 @@ import java.io.IOException;
  * Created by werton on 24.06.17.
  */
 
-public class FullScreenPictureActivity extends Activity {
+public class FullScreenPictureActivity extends AppCompatActivity {
 
     private static final TimeInterpolator sDecelerator = new DecelerateInterpolator();
     private static final TimeInterpolator sAccelerator = new AccelerateInterpolator();
@@ -52,22 +54,33 @@ public class FullScreenPictureActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_picture);
         mImageView = (ImageView) findViewById(R.id.imageView);
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.topLevelLayout);
-        ImageButton button = new ImageButton(this);
-        button.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-        button.setBackgroundResource(R.mipmap.ic_arrow_back);
-        button.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        relativeLayout.addView(button);
+//        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.topLevelLayout);
+//        ImageButton button = new ImageButton(this);
+//        button.setLayoutParams(new RelativeLayout.LayoutParams(65, 65));
+//        button.setImageResource(R.mipmap.ic_arrow_back);
+//        button.setBackgroundColor(android.R.color.black);
+//        button.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+//        relativeLayout.addView(button);
         Bundle bundle = getIntent().getExtras();
         Uri imageUri = Uri.parse(bundle.getString("imageUri"));
         Glide.with(getApplicationContext()).load(imageUri).into(mImageView);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        TextView textView = (TextView)toolbar.findViewById(R.id.mytext);
+        textView.setVisibility(View.INVISIBLE);
+        toolbar.setBackgroundColor(getResources().getColor(android.R.color.black));
+
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                onBackPressed();
+//            }
+//        });
 
         mImageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
             @Override
