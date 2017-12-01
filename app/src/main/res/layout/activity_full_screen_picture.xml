@@ -4,25 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme"
+    android:theme="@style/Transparent"
     android:id="@+id/topLevelLayout">
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/shadowLayout"
-        android:layout_alignLeft="@id/shadowLayout"
         android:background="@color/bb_darkBackgroundColor"
         android:scaleType="fitCenter"
         app:srcCompat="@mipmap/ic_arrow_back" />
 
-    <view
-        class="com.example.vital.myapplication.ShadowLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/shadowLayout"
-        android:visibility="visible" >
+    <!--<view-->
+        <!--class="com.example.vital.myapplication.ShadowLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/shadowLayout"-->
+        <!--android:visibility="visible" >-->
 
         <ImageView
             android:id="@+id/imageView"
@@ -31,7 +29,7 @@
             android:layout_centerInParent="true"
             android:scaleType="centerInside" />
 
-    </view>
+    <!--</view>-->
 
 
 

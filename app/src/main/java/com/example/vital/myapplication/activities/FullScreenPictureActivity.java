@@ -10,11 +10,17 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.WrapperListAdapter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
@@ -46,10 +52,22 @@ public class FullScreenPictureActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_picture);
         mImageView = (ImageView) findViewById(R.id.imageView);
-
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.topLevelLayout);
+        ImageButton button = new ImageButton(this);
+        button.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+        button.setBackgroundResource(R.mipmap.ic_arrow_back);
+        button.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        relativeLayout.addView(button);
         Bundle bundle = getIntent().getExtras();
         Uri imageUri = Uri.parse(bundle.getString("imageUri"));
         Glide.with(getApplicationContext()).load(imageUri).into(mImageView);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         mImageView.setOnTouchListener(new OnSwipeTouchListener(getApplicationContext()){
             @Override
