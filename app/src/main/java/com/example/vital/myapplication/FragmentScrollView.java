@@ -69,7 +69,6 @@ public class FragmentScrollView extends Fragment {
             }
         });
 
-
         newImageDownloader();
         imageDownloader.findImage();
 

@@ -1,6 +1,5 @@
 package com.example.vital.myapplication.activities;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,14 +8,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.vital.myapplication.FirebaseInfo;
-import com.example.vital.myapplication.OnSwipeTouchListener;
+import com.example.vital.myapplication.ImageAdapterGridView;
 import com.example.vital.myapplication.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -32,6 +30,7 @@ public class ForeignPersonalData extends AppCompatActivity {
     private TextView descriptionTextView;
     private TextView nicknameTextView;
     private CircleImageView profileImageView;
+    private GridView gridView;
 
     private String nickname;
     private String description;
@@ -77,5 +76,8 @@ public class ForeignPersonalData extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        gridView = findViewById(R.id.profile_grid_layout);
+        gridView.setAdapter(new ImageAdapterGridView(getApplicationContext()));
     }
 }

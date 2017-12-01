@@ -116,7 +116,7 @@ public class ImageSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         orientationEventListener.disable();
-        this.camera.stopPreview();
+        //this.camera.stopPreview();
         this.camera.release();
     }
 

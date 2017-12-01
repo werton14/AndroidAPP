@@ -1,20 +1,13 @@
 package com.example.vital.myapplication;
 
-import android.content.Context;
-import android.net.Uri;
 import android.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -28,7 +21,7 @@ public class FragmentPersonalDate extends Fragment {
     private CircleImageView profileImageView;
     private TextView nicknameTextView;
     private TextView descriptionTextView;
-    private GridView gridLayout;
+    private GridView gridView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,8 +31,8 @@ public class FragmentPersonalDate extends Fragment {
         profileImageView = (CircleImageView) view.findViewById(R.id.personal_profile_image);
         nicknameTextView = (TextView) view.findViewById(R.id.nickname);
         descriptionTextView = (TextView) view.findViewById(R.id.description);
-        gridLayout = view.findViewById(R.id.profile_grid_layout);
-        gridLayout.setAdapter(new ImageAdapterGridView(getActivity().getApplicationContext()));
+        gridView = view.findViewById(R.id.profile_grid_layout);
+        gridView.setAdapter(new ImageAdapterGridView(getActivity().getApplicationContext()));
         getUser();
         return view;
     }
@@ -69,41 +62,6 @@ public class FragmentPersonalDate extends Fragment {
     private void downloadImage (User user){
         Picasso.with(getActivity().getApplicationContext()).load(user.getProfileImageFileName()).into(profileImageView);
 
-    }
-
-    public class ImageAdapterGridView extends BaseAdapter {
-        private Context mContext;
-
-        public ImageAdapterGridView(Context c) {
-            mContext = c;
-        }
-
-        public int getCount() {
-            return 40; // count of rows
-        }
-
-        public Object getItem(int position) {
-            return null;
-        }
-
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView mImageView;
-
-            if (convertView == null) {
-                mImageView = new ImageView(mContext);
-                mImageView.setLayoutParams(new GridView.LayoutParams(130, 130));
-                mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                mImageView.setPadding(10, 10, 10, 10);
-            } else {
-                mImageView = (ImageView) convertView;
-            }
-            mImageView.setImageResource(R.mipmap.ic_cake);
-            return mImageView;
-        }
     }
 
 }

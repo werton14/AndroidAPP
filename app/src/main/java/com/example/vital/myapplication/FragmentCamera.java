@@ -127,6 +127,7 @@ public class FragmentCamera extends Fragment{
         }
     }
 
+
     void configureFragment(){
         final View.OnClickListener autoFocusListner = (new View.OnClickListener() {
             @Override
@@ -161,7 +162,6 @@ public class FragmentCamera extends Fragment{
         parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
         parameters.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
         parameters.setAntibanding(Camera.Parameters.ANTIBANDING_AUTO);
-//        parameters.setAutoWhiteBalanceLock(true); /// heraborationalitisamarilolatirewenekorp
         camera.setParameters(parameters);
         mImageSurfaceView = new ImageSurfaceView(getActivity().getApplicationContext(),
                 camera, getActivity(), Camera.CameraInfo.CAMERA_FACING_BACK);
