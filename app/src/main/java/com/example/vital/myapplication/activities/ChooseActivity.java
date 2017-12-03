@@ -54,12 +54,13 @@ public class ChooseActivity extends AppCompatActivity {
 
         firebaseInfo = FirebaseInfo.getInstance();
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setOffscreenPageLimit(2);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager(), mViewPager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(2);
         mViewPager.setCurrentItem(1);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

@@ -83,4 +83,10 @@ public class ForeignPersonalData extends AppCompatActivity {
         gridView = findViewById(R.id.profile_grid_layout);
         gridView.setAdapter(new ImageAdapterGridView(getApplicationContext()));
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

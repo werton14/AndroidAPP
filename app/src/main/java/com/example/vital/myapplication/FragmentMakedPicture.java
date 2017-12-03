@@ -15,7 +15,7 @@ public class FragmentMakedPicture extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.current_picture, container);
+        View view = inflater.inflate(R.layout.current_picture, container, false);
 
         return view;
     }
