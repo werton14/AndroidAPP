@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -32,8 +34,10 @@ public class FragmentPersonalDate extends Fragment {
         nicknameTextView = (TextView) view.findViewById(R.id.nickname);
         descriptionTextView = (TextView) view.findViewById(R.id.description);
         gridView = view.findViewById(R.id.profile_grid_layout);
+        gridView.setAlpha(0.3f);
         gridView.setAdapter(new ImageAdapterGridView(getActivity().getApplicationContext()));
         getUser();
+
         return view;
     }
 

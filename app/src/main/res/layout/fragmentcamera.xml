@@ -28,6 +28,6 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="center_vertical|right"
         android:padding="20dp"
-        android:src="@drawable/ic_settings" />
+        android:src="@mipmap/ic_setting" />
 
 </RelativeLayout>

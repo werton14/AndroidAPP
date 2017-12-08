@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@android:color/black">
 
     <ImageView
         android:id="@+id/current_imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         app:srcCompat="@color/backgroungforpicture" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/current_imageView"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -25,7 +27,7 @@
             android:id="@+id/like_image_view"
             android:layout_width="27dp"
             android:layout_height="27dp"
-            android:background="@android:color/white"
+            android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_favorite_red" />
 
@@ -48,7 +50,7 @@
             android:layout_height="18dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:background="@android:color/white"
+            android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_visibiluty_standart" />
 

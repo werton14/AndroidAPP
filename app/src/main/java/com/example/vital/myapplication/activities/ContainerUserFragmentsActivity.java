@@ -49,14 +49,14 @@ public class ContainerUserFragmentsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.button_settings, menu);
+//        getMenuInflater().inflate(R.menu.button_settings, menu);
 
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        final MenuItem item = menu.findItem(R.id.action_settings);
+//        final MenuItem item = menu.findItem(R.id.action_settings);
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
 
         boolean nav = ViewConfiguration.get(getApplicationContext()).hasPermanentMenuKey();
