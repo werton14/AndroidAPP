@@ -11,6 +11,22 @@
     android:background="@color/fornewbackground">
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="16dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_settings">
+        </ImageButton>
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/linearLayoutDataa"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -53,10 +69,8 @@
                 android:id="@+id/nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="casual"
                 android:paddingEnd="7dp"
                 android:paddingStart="7dp"
-                android:paddingTop="10dp"
                 android:textColor="@color/gradient_color_left"
                 tools:text="@string/nickname" />
             <!--в textColor был раньше BasicColor-->
@@ -65,7 +79,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/fornewbackground"
-                android:fontFamily="casual"
                 android:hint="@string/about_you"
                 android:paddingBottom="5dp"
                 android:paddingEnd="7dp"

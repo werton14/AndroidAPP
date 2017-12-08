@@ -13,14 +13,18 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import static android.view.View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 
@@ -32,6 +36,13 @@ public class FragmentScroll extends Fragment {
     private UserPageAdapter userPageAdapter;
     private ViewPager.OnPageChangeListener onPageChangeListener;
     private CustomViewPager viewPager;
+    private ImageButton imageButton;
+
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setHasOptionsMenu(true);
+//    }
 
     @Nullable
     @Override
@@ -41,9 +52,9 @@ public class FragmentScroll extends Fragment {
         view = inflater.inflate(R.layout.activityscroll2, container, false);
         frameToolbar = (RelativeLayout) view.findViewById(R.id.frameToolbar);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+//        imageButton = (ImageButton) getActivity().findViewById(R.id.settings);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
-
         bottomBar = (MyBottomNavigationView) view.findViewById(R.id.bottomBar);
         viewPager = (CustomViewPager) view.findViewById(R.id.contentContainer);
         final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
@@ -59,6 +70,19 @@ public class FragmentScroll extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 bottomBar.getMenu().getItem(position).setChecked(true);
+//                switch (position){
+//                    case 0:
+//
+//                        break;
+//
+//                    case 1:
+//
+//                        break;
+//
+//                    case 2:
+//
+////                        imageButton.setVisibility(View.VISIBLE);
+//                }
             }
 
             @Override
@@ -66,7 +90,6 @@ public class FragmentScroll extends Fragment {
 
             }
         });
-
 
 
         boolean nav = ViewConfiguration.get(getActivity().getApplicationContext()).hasPermanentMenuKey();
@@ -119,13 +142,18 @@ public class FragmentScroll extends Fragment {
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    72);   //можно на один пониить
             frameToolbar.setLayoutParams(params);
         }
 
         return view;
     }
 
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.button_settings, menu);
+//    }
 
     public static FragmentScroll newInstance(){
         return new FragmentScroll();

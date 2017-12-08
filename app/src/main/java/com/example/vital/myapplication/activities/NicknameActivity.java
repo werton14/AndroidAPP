@@ -59,7 +59,7 @@ public class NicknameActivity extends AppCompatActivity {
         } else {
             linearLayout = (LinearLayout) findViewById(R.id.linearLayoutNickname);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    72);
             linearLayout.setLayoutParams(params);
         }
 

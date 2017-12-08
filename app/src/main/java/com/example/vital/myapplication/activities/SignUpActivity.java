@@ -65,7 +65,8 @@ public class SignUpActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         } else{
             linearLayout = (LinearLayout) findViewById(R.id.linearLayoutSignUp);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                    72);
             linearLayout.setLayoutParams(params);
         }
 
