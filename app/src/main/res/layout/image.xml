@@ -46,7 +46,6 @@
                 tools:text="default" />                     <!--просит android studio-->
             <!--в textColor был раньше BasicColor-->
             <ImageButton
-                android:id="@+id/option_image_button"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_gravity="center_vertical"
